@@ -16,8 +16,8 @@ Thumbs.db
 *.sublime-workspace
 
 # Local configuration
-#/app/config/local/*
-#/app/config/prod_server/*#
+/app/config/local/*
+/app/config/prod_server/*#
 
 # Environment
 ENVIRONMENT
