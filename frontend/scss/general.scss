@@ -145,6 +145,9 @@ body {
 /*
  * Form control shadow modification
  */
+.form-control {
+  border-radius: 1px;
+}
 .form-control:focus {
   border-color: $form-control-border;
 
@@ -193,3 +196,26 @@ fieldset[disabled] .form-control {
 .form-control:-moz-placeholder { color: #bbb; }
 .form-control::-moz-placeholder { color: #bbb; }
 .form-control:-ms-input-placeholder { color: #bbb; }
+
+
+.clasification {
+  margin-top: 10px;
+}
+
+
+.section-divider {
+  height: 0;
+  border-top: 1px solid #DDD;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  span {
+    display: inline-block;
+    position: relative;
+    padding: 0 17px;
+    top: -11px;
+    font-size: 15px;
+    background-color: #F9F9F9;
+  }
+}

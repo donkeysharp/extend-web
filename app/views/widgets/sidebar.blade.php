@@ -8,16 +8,16 @@
       <a href="{{url('dashboard')}}">Dashboard</a>
     </li>
     <li>
-      <a href="{{url('news')}}">Administrar Noticias</a>
+      <a href="{{url('dashboard/news')}}">Administrar Noticias</a>
     </li>
     <li>
-      <a href="{{url('clients')}}">Administrar Clientes</a>
+      <a href="{{url('dashboard/clients')}}">Administrar Clientes</a>
     </li>
     <li>
-      <a href="{{url('media')}}">Administrar Medios</a>
+      <a href="{{url('dashboard/media')}}">Administrar Medios</a>
     </li>
     <li>
-      <a href="{{url('topics')}}">Administrar Temas</a>
+      <a href="{{url('dashboard/topics')}}">Administrar Temas</a>
     </li>
   </ul>
 </div>
