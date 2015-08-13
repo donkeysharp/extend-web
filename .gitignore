@@ -21,3 +21,8 @@ Thumbs.db
 
 # Environment
 ENVIRONMENT
+
+# Browserify stuff
+/frontend/.dest
+/public/assets/js/
+/public/assets/css/
