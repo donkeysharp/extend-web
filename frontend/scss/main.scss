@@ -1,9 +1,6 @@
-@import 'foobar';
-
-.cosas {
-    color: #f000ff;
-
-    .otras_cosas {
-        width: 91%;
-    }
-}
+@import 'buttons';
+@import 'dropdowns';
+@import 'general';
+@import 'navbars';
+@import 'panel';
+@import 'profile';

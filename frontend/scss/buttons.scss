@@ -1,0 +1,50 @@
+@import '_base';
+
+$btnLightBackground: #167AAE;
+$btnLightBorder: #fff;
+
+.btn-light {
+  color: $white;
+  background-color: $btnLightBackground;
+  border-color: $btnLightBorder;
+}
+
+.btn-light:hover,
+.btn-light:focus,
+.btn-light:active,
+.btn-light.active,
+.open .dropdown-toggle.btn-light {
+  color: $white;
+  background-color: $btnLightBackground;
+  border-color: $btnLightBorder;
+}
+
+.btn-light:active,
+.btn-light.active,
+.open .dropdown-toggle.btn-light {
+  background-image: none;
+}
+
+.btn-light.disabled,
+.btn-light[disabled],
+fieldset[disabled] .btn-light,
+.btn-light.disabled:hover,
+.btn-light[disabled]:hover,
+fieldset[disabled] .btn-light:hover,
+.btn-light.disabled:focus,
+.btn-light[disabled]:focus,
+fieldset[disabled] .btn-light:focus,
+.btn-light.disabled:active,
+.btn-light[disabled]:active,
+fieldset[disabled] .btn-light:active,
+.btn-light.disabled.active,
+.btn-light[disabled].active,
+fieldset[disabled] .btn-light.active {
+  background-color: $btnLightBackground;
+  border-color: $btnLightBorder;
+}
+
+.btn-light .badge {
+  color: $green-haze;
+  background-color: $white;
+}

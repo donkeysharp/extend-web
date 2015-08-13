@@ -1,0 +1,132 @@
+@import '_base';
+
+$bgDefault      : #1B2626;
+$bgHighlight    : $bgDefault;
+$colDefault     : #DACA05;
+$colHighlight   : $light_gray;
+$navbarLinkBorder: #EAD800;
+$bgNavbarInputForm: #fff;
+
+.navbar-beehive {
+  background-color: $bgDefault;
+  border: 0;
+  border-bottom: 2px solid #167AAE;
+  min-height: auto;
+  -webkit-box-shadow: 0px 3px 6px 0px rgba(50, 50, 50, 0.36);
+  -moz-box-shadow:    0px 3px 6px 0px rgba(50, 50, 50, 0.36);
+  box-shadow:         0px 3px 6px 0px rgba(50, 50, 50, 0.36);
+
+  .navbar-brand-head {
+    margin-top: 10px;
+  }
+  .navbar-brand {
+    color: $colDefault;
+
+    &:hover, &:focus {
+      color: $colHighlight;
+    }
+  }
+  .navbar-text {
+    color: $colDefault;
+  }
+  .navbar-form {
+    line-height: 75px;
+    height: 75px;
+
+    input[type=text] {
+      background-color: $bgNavbarInputForm;
+    }
+  }
+  .navbar-nav {
+    > li {
+      > a {
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $colDefault;
+        line-height: 80px;
+        height: 80px;
+        padding-top: 0;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding: 0 30px 0 30px;
+        @include box-sizing();
+        -webkit-transition: border-bottom 0.3s;
+            transition: border-bottom 0.3s;
+
+        &:hover,  &:focus {
+          color: $colHighlight;
+          background-color: $bgHighlight;
+          border-bottom: 4px $navbarLinkBorder solid;
+        }
+      }
+    }
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight;
+      }
+    }
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: $colHighlight;
+        background-color: $bgHighlight;
+      }
+    }
+  }
+  .navbar-toggle {
+    border-color: $bgHighlight;
+
+    &:hover, &:focus {
+      background-color: $bgHighlight;
+    }
+    .icon-bar {
+      background-color: $colDefault;
+    }
+  }
+  .navbar-collapse,
+  .navbar-form {
+    border-color: $colDefault;
+  }
+  .navbar-link {
+    color: $colDefault;
+    &:hover {
+      color: $colHighlight;
+    }
+  }
+}
+@media (max-width: 767px) {
+  .navbar-beehive {
+    .navbar-brand-head {
+      width: 40px;
+      height: 40px;
+      margin-left: 10px;
+      margin-top: 0;
+    }
+    .navbar-nav {
+      > li > a {
+        line-height: 30px;
+        height: 30px;
+        padding: 0;
+
+        &:hover, &:focus {
+          border-bottom: 0 transparent solid;
+        }
+      }
+      .open .dropdown-menu {
+        > li > a {
+          color: $colDefault;
+          &:hover, &:focus {
+            color: $colHighlight;
+          }
+        }
+        > .active {
+          > a, > a:hover, > a:focus, {
+            color: $colHighlight;
+            background-color: $bgHighlight;
+          }
+        }
+      }
+    }
+  }
+}
