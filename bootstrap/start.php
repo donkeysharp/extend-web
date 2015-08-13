@@ -24,12 +24,17 @@ $app = new Illuminate\Foundation\Application;
 |
 */
 
-$env = $app->detectEnvironment(array(
+$env = $app->detectEnvironment(function() {
+    // print_r($filename);
+    $filename = dirname(dirname(__FILE__)) . '/ENVIRONMENT';
+    if (file_exists($filename)) {
+        $environment = file_get_contents($filename);
+        $environment = trim($environment);
 
-	'local' => array('homestead'),
-
-));
-
+        return $environment;
+    }
+    return 'production';
+});
 /*
 |--------------------------------------------------------------------------
 | Bind Paths

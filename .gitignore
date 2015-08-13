@@ -7,6 +7,17 @@ composer.lock
 .DS_Store
 Thumbs.db
 
+# Node modules
+/node_modules
+/.sass-cache
+
+# Sublime Text Stuff
 *.sublime-project
 *.sublime-workspace
 
+# Local configuration
+#/app/config/local/*
+#/app/config/prod_server/*#
+
+# Environment
+ENVIRONMENT
