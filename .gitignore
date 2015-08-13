@@ -11,6 +11,12 @@ Thumbs.db
 /node_modules
 /.sass-cache
 
+# Browserify stuff
+/frontend/.dest
+/public/assets/js/
+/public/assets/css/
+
+
 # Sublime Text Stuff
 *.sublime-project
 *.sublime-workspace
@@ -21,8 +27,3 @@ Thumbs.db
 
 # Environment
 ENVIRONMENT
-
-# Browserify stuff
-/frontend/.dest
-/public/assets/js/
-/public/assets/css/

@@ -1,6 +1,6 @@
 'use strict';
 var Papu = function() {
-  this.papu = 'papu';
+  this.papu = 'papu!!!!';
   console.log(this.papu);
 };
 
