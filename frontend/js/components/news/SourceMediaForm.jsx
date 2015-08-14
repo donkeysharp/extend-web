@@ -1,6 +1,19 @@
 'use strict';
 
 var SourceMediaForm = React.createClass({
+  getData: function() {
+    var data = {};
+    data.media_id = this.refs.media.getDOMNode().value;
+    data.source = this.refs.source.getDOMNode().value;
+    data.alias = this.refs.alias.getDOMNode().value;
+    data.topic_id = this.refs.topic.getDOMNode().value;
+    data.measure = this.refs.measure.getDOMNode().value;
+    data.cost = this.refs.cost.getDOMNode().value;
+    data.tendency = 0;
+    data.description = this.refs.description.getDOMNode().value;
+
+    return data;
+  },
   render: function() {
     var media = this.props.media.map(function(item) {
       if(item.type === '5')
@@ -15,7 +28,7 @@ var SourceMediaForm = React.createClass({
           <div className="section-divider"><span>FUENTE</span></div>
           <div className="row">
             <div className="col-md-10">
-              <select className="form-control">
+              <select ref="media" className="form-control">
                 <option value="0">--- Seleccione Medio ---</option>
                 {media}
               </select>
@@ -32,7 +45,7 @@ var SourceMediaForm = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-user"></i>
                 </div>
-                <input type="text" className="form-control" placeholder="Fuente" />
+                <input type="text" ref="source" className="form-control" placeholder="Fuente" />
               </div>
             </div>
             <div className="col-md-7">
@@ -40,13 +53,13 @@ var SourceMediaForm = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-user"></i>
                 </div>
-                <input type="text" className="form-control" placeholder="Alias" />
+                <input type="text" ref="alias" className="form-control" placeholder="Alias" />
               </div>
             </div>
           </div><br />
           <div className="row">
             <div className="col-md-5">
-              <select className="form-control">
+              <select ref="topic" className="form-control">
                 <option value="0">--- Seleccione Tema ---</option>
                 {topics}
               </select>
@@ -62,7 +75,7 @@ var SourceMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-sliders"></i>
                   </div>
-                  <input type="text" className="form-control" placeholder="Medida" />
+                  <input type="text" ref="measure" className="form-control" placeholder="Medida" />
                 </div>
               </div>
             </div>
@@ -72,7 +85,7 @@ var SourceMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-money"></i>
                   </div>
-                  <input type="text" className="form-control" placeholder="Costo" />
+                  <input type="text" ref="cost" className="form-control" placeholder="Costo" />
                 </div>
               </div>
             </div>
@@ -82,17 +95,17 @@ var SourceMediaForm = React.createClass({
               <div className="clasification">
                 Tendencia&nbsp;&nbsp;&nbsp;
                 <label>
-                  <input type="radio" name="tendency" value="A" checked />
+                  <input type="radio" name="tendency" value="1" checked />
                   Positiva
                 </label>
                 &nbsp;&nbsp;
                 <label>
-                  <input type="radio" name="tendency" value="B" />
+                  <input type="radio" name="tendency" value="2" />
                   Negativa
                 </label>
                 &nbsp;&nbsp;
                 <label>
-                  <input type="radio" name="tendency" value="C" />
+                  <input type="radio" name="tendency" value="3" />
                   Neutra
                 </label>
               </div>
@@ -101,7 +114,7 @@ var SourceMediaForm = React.createClass({
           <br />
           <div className="row">
             <div className="col-md-12">
-              <textarea className="form-control" placeholder="Descripción" rows="5"></textarea>
+              <textarea ref="description" className="form-control" placeholder="Descripción" rows="5"></textarea>
             </div>
           </div>
         </div>

@@ -8,6 +8,28 @@ var RadioMediaForm = require('./RadioMediaForm.jsx');
 var TvMediaForm = require('./TvMediaForm.jsx');
 var SourceMediaForm = require('./SourceMediaForm.jsx');
 
+function getMediaFormsData() {
+  var mediaType = this.state.type;
+  var data = {printed: null, digital: null, radio: null, tv: null, source: null};
+  if (mediaType.printed) {
+    data.printed = this.refs.printedMedia.getData();
+  }
+  if (mediaType.digital) {
+    data.digital = this.refs.digitalMedia.getData()
+  }
+  if (mediaType.radio) {
+    data.radio = this.refs.radioMedia.getData();
+  }
+  if (mediaType.tv) {
+    data.tv = this.refs.tvMedia.getData();
+  }
+  if (mediaType['source']) {
+    data['source'] = this.refs.sourceMedia.getData();
+  }
+
+  return data;
+}
+
 function onSaveClick(e) {
   var data = {};
     data.date = this.refs.date.getDOMNode().value;
@@ -17,13 +39,12 @@ function onSaveClick(e) {
     data.clasification = this.state.clasification;
     data.code = this.refs.code.getDOMNode().value;
 
-  if(this.state.mode === 'create') {
+  if(this.props.mode === 'create') {
     $http.post('/news', data).then(function(res) {
       window.location = '/dashboard/news/' + res.id + '/edit';
     }.bind(this))
   } else {
-    // TODO: get data from selected media forms
-    // and send them to the server
+    console.log(getMediaFormsData.call(this));
   }
 }
 
@@ -42,19 +63,19 @@ function getMediaForms() {
   var mediaType = this.state.type;
   var result = [];
   if(mediaType.printed) {
-    result.push(<PrintedMediaForm media={this.state.media} topics={this.state.topics} />);
+    result.push(<PrintedMediaForm ref="printedMedia" media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.digital) {
-    result.push(<DigitalMediaForm media={this.state.media} topics={this.state.topics} />);
+    result.push(<DigitalMediaForm ref="digitalMedia" media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.radio) {
-    result.push(<RadioMediaForm media={this.state.media} topics={this.state.topics} />);
+    result.push(<RadioMediaForm ref="radioMedia" media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.tv) {
-    result.push(<TvMediaForm media={this.state.media} topics={this.state.topics} />);
+    result.push(<TvMediaForm ref="tvMedia" media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType['source']) {
-    result.push(<SourceMediaForm media={this.state.media} topics={this.state.topics} />);
+    result.push(<SourceMediaForm ref="sourceMedia" media={this.state.media} topics={this.state.topics} />);
   }
 
   return result;
