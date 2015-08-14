@@ -2,13 +2,10 @@
 var GeneralFieldsEditor = require('./GeneralFieldsEditor.jsx');
 
 var NewsEditor = React.createClass({
-  getInitialState: function () {
-    return {
-      mode: 'create', // create, edit
-    };
-  },
   render: function() {
-    var title = this.state.mode === 'create' ? 'Nueva Noticia' : 'Edición de Noticia';
+    var newsId = this.props.id;
+    var title = !newsId ? 'Nueva Noticia' : 'Edición de Noticia';
+    var mode = newsId ? 'edit' : 'create';
 
     return (
       <div className="row">
@@ -16,7 +13,7 @@ var NewsEditor = React.createClass({
           <div className="panel panel-dark">
             <div className="panel-heading"><b>{title}</b></div>
             <div className="panel-body">
-              <GeneralFieldsEditor />
+              <GeneralFieldsEditor mode={mode} id={newsId} />
             </div>
           </div>
         </div>

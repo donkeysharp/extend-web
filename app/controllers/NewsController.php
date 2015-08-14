@@ -17,9 +17,39 @@ class NewsController extends BaseController
             ->with('news', $paginator);
     }
 
+    public function show($id)
+    {
+        $news = News::findOrFail($id);
+
+        return Response::json($news, 200);
+    }
+
+    public function extra()
+    {
+        $clients = [];
+        $topics = [];
+        $media = [];
+        if (Input::get('clients')) {
+            $clients = Client::all();
+        }
+        if (Input::get('topics')) {
+            $topis = Topic::all();
+        }
+        if (Input::get('media')) {
+            $media = Media::all();
+        }
+
+        return Response::json([
+            'clients' => $clients,
+            'topics' => $topics,
+            'media' => $media,
+        ], 200);
+    }
+
     public function create()
     {
-        return View::make('news.edit');
+        return View::make('news.edit')
+            ->with('id', null);
     }
 
     public function store()
@@ -37,4 +67,11 @@ class NewsController extends BaseController
         return Response::json($news, 200);
     }
 
+    public function edit($id)
+    {
+        $news = News::findOrFail($id);
+
+        return View::make('news.edit')
+            ->with('id', $news->id);
+    }
 }

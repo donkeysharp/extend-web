@@ -11,7 +11,7 @@ var SourceMediaForm = require('./SourceMediaForm.jsx');
 function onSaveClick(e) {
   var data = {};
     data.date = this.refs.date.getDOMNode().value;
-    data.client_id = 1;
+    data.client_id = this.refs.client.getDOMNode().value;
     data.press_note = this.refs.pressNote.getDOMNode().value;
     data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.clasification = this.state.clasification;
@@ -19,7 +19,7 @@ function onSaveClick(e) {
 
   if(this.state.mode === 'create') {
     $http.post('/news', data).then(function(res) {
-      console.log(JSON.stringify(res))
+      window.location = '/dashboard/news/' + res.id + '/edit';
     }.bind(this))
   } else {
     // TODO: get data from selected media forms
@@ -60,6 +60,64 @@ function getMediaForms() {
   return result;
 }
 
+function getExtraFields() {
+  var mediaForms = getMediaForms.call(this);
+  if(this.props.mode === 'create') return null;
+
+  return (
+    <div>
+      <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
+        <div className="row">
+          <div className="col-md-6">
+            TODO: upload files
+            <br />
+            <a href="javascript:void(0)">Ver Archivos</a>
+          </div>
+          <div className="col-md-6">
+            <div className="input-group">
+              <input type="text" className="form-control" placeholder="Adicionar URL" />
+              <span className="input-group-btn">
+                <button className="btn btn-light" type="button">
+                  <i className="fa fa-plus"></i>
+                </button>
+              </span>
+            </div>
+            <a href="javascript:void(0)">Ver URLS</a>
+          </div>
+        </div>
+        <br />
+        <MediaType onChange={onMediaTypeChanged.bind(this)} />
+        {mediaForms}
+    </div>
+  );
+}
+
+function initControls(data) {
+  this.refs.date.getDOMNode().value = data.date;
+  this.refs.pressNote.getDOMNode().value = data.press_note;
+  this.refs.subtitle.getDOMNode().value = data.subtitle;
+  this.refs.code.getDOMNode().value = data.code;
+  this.setState({model: data, clasification: data.clasification});
+}
+
+function getExtraData() {
+  var toGet = {clients: true};
+  if(this.props.mode === 'edit') {
+    toGet.topics = true; toGet.media = true;
+  }
+  $http.get('/news/extra',toGet).then(function(data) {
+    this.setState({clients: data.clients, topics: data.topics, media: data.media });
+  }.bind(this), function(err){})
+}
+
+function onClientChage(e) {
+  if(e.currentTarget.value === '0') return;
+
+  var model = this.state.model;
+  model.client_id = e.currentTarget.value;
+  this.setState({model: model});
+}
+
 var GeneralFieldsEditor = React.createClass({
   getInitialState: function () {
     return {
@@ -72,12 +130,27 @@ var GeneralFieldsEditor = React.createClass({
         'radio': false,
         'tv': false,
         'source': false,
-      }
+      },
+      model: {},
+      clients: [],
+      topics: [],
+      media: [],
     };
   },
+  componentDidMount: function() {
+    getExtraData.call(this);
+
+    if(!this.props.id) return;
+    $http.get('/news/' + this.props.id).then(function(data) {
+      initControls.call(this, data);
+    }.bind(this), function(err) {})
+  },
   render: function() {
-    var buttonDisplay = this.state.mode === 'create' ? 'Continuar' : 'Guardar Noticia';
-    var mediaForms = getMediaForms.call(this);
+    var buttonDisplay = this.props.mode === 'create' ? 'Continuar' : 'Guardar Noticia';
+    var extraFields = getExtraFields.call(this);
+    var clients = this.state.clients.map(function(item) {
+      return (<option value={item.id}>{item.name}</option>);
+    });
     return (
       <div>
         <div className="section-divider"><span>DATOS GENERALES</span></div>
@@ -93,10 +166,11 @@ var GeneralFieldsEditor = React.createClass({
             </div>
           </div>
           <div className="col-md-5">
-            <select className="form-control" ref="client">
-              <option id="123">--- Seleccione Cliente ---</option>
-              <option id="123">meg bar </option>
-              <option id="123">meg bar </option>
+            <select className="form-control"
+              value={this.state.model.client_id} ref="client"
+              onChange={onClientChage.bind(this)}>
+              <option value="0">--- Seleccione Cliente ---</option>
+              {clients}
             </select>
           </div>
           <div className="col-md-1">
@@ -169,29 +243,7 @@ var GeneralFieldsEditor = React.createClass({
             </div>
           </div>
         </div>
-        <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
-        <div className="row">
-          <div className="col-md-6">
-            TODO: upload files
-            <br />
-            <a href="javascript:void(0)">Ver Archivos</a>
-          </div>
-          <div className="col-md-6">
-            <div className="input-group">
-              <input type="text" className="form-control" placeholder="Adicionar URL" />
-              <span className="input-group-btn">
-                <button className="btn btn-light" type="button">
-                  <i className="fa fa-plus"></i>
-                </button>
-              </span>
-            </div>
-            <a href="javascript:void(0)">Ver URLS</a>
-          </div>
-        </div>
-        <br />
-        <MediaType onChange={onMediaTypeChanged.bind(this)} />
-        {mediaForms}
-        <br />
+        {extraFields}
         <div className="row">
           <div className="col-md-4 col-md-offset-8">
             <button className="btn btn-light btn-block" onClick={onSaveClick.bind(this)}>

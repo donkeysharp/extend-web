@@ -1,6 +1,7 @@
 @extends('master')
 
 @section('content')
+<input type="hidden" value="{{$id}}" id="__newsId" />
 <div id="news-edit-form"></div>
 @stop
 
@@ -10,7 +11,12 @@
 <script type="text/javascript">
 $(document).ready(function() {
   var el = document.getElementById('news-edit-form');
-  React.render(React.createElement(MyApp.NewsEditor, null), el);
+  var params = null, newsId;
+  if(newsId = document.getElementById('__newsId').value) {
+    params = { id: newsId };
+  }
+
+  React.render(React.createElement(MyApp.NewsEditor, params), el);
 });
 </script>
 @stop
