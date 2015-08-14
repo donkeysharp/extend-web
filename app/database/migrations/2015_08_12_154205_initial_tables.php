@@ -58,8 +58,8 @@ class InitialTables extends Migration {
 			$t->string('subtitle');
 			$t->string('press_note');
 			$t->string('code')->nullable();
-			$t->string('rate');
-			$t->string('date');
+			$t->string('clasification');
+			$t->date('date');
 			$t->integer('client_id')->unsigned()->nullable();
 			$t->timestamps();
 

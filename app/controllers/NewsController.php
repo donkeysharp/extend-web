@@ -22,4 +22,19 @@ class NewsController extends BaseController
         return View::make('news.edit');
     }
 
+    public function store()
+    {
+        $data = Input::all();
+        $news = new News();
+        $news->client_id = $data['client_id'];
+        $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
+        $news->press_note = $data['press_note'];
+        $news->subtitle = $data['subtitle'];
+        $news->clasification = $data['clasification'];
+        $news->code = $data['code'];
+        $news->save();
+
+        return Response::json($news, 200);
+    }
+
 }
