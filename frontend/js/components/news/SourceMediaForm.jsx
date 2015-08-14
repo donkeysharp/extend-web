@@ -2,6 +2,13 @@
 
 var SourceMediaForm = React.createClass({
   render: function() {
+    var media = this.props.media.map(function(item) {
+      if(item.type === '5')
+        return <option value={item.id}>{item.name}</option>
+    });
+    var topics = this.props.topics.map(function(item) {
+      return <option value={item.id}>{item.name}</option>;
+    });
     return (
       <div className="row">
         <div className="col-md-12">
@@ -9,9 +16,8 @@ var SourceMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-10">
               <select className="form-control">
-                <option id="123">--- Seleccione Medio ---</option>
-                <option id="123">meg bar </option>
-                <option id="123">meg bar </option>
+                <option value="0">--- Seleccione Medio ---</option>
+                {media}
               </select>
             </div>
             <div className="col-md-1">
@@ -41,9 +47,8 @@ var SourceMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select className="form-control">
-                <option id="123">--- Seleccione Tema ---</option>
-                <option id="123">meg bar </option>
-                <option id="123">meg bar </option>
+                <option value="0">--- Seleccione Tema ---</option>
+                {topics}
               </select>
             </div>
             <div className="col-md-1">

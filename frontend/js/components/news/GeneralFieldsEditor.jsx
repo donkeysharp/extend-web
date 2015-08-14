@@ -42,19 +42,19 @@ function getMediaForms() {
   var mediaType = this.state.type;
   var result = [];
   if(mediaType.printed) {
-    result.push(<PrintedMediaForm />);
+    result.push(<PrintedMediaForm media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.digital) {
-    result.push(<DigitalMediaForm />);
+    result.push(<DigitalMediaForm media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.radio) {
-    result.push(<RadioMediaForm />);
+    result.push(<RadioMediaForm media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.tv) {
-    result.push(<TvMediaForm />);
+    result.push(<TvMediaForm media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType['source']) {
-    result.push(<SourceMediaForm />);
+    result.push(<SourceMediaForm media={this.state.media} topics={this.state.topics} />);
   }
 
   return result;

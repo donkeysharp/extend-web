@@ -1,7 +1,22 @@
 'use strict';
 
 var PrintedMediaForm = React.createClass({
+  getInitialState: function () {
+    return {
+      media: 0
+    };
+  },
+  componentDidMount: function () {
+
+  },
   render: function() {
+    var media = this.props.media.map(function(item) {
+      if(item.type == 1)
+        return <option value={item.id}>{item.name}</option>
+    });
+    var topics = this.props.topics.map(function(item) {
+      return <option value={item.id}>{item.name}</option>;
+    });
     return (
       <div className="row">
         <div className="col-md-12">
@@ -9,9 +24,8 @@ var PrintedMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select className="form-control">
-                <option id="123">--- Seleccion Medio ---</option>
-                <option id="123">meg bar </option>
-                <option id="123">meg bar </option>
+                <option value="0">--- Seleccion Medio ---</option>
+                {media}
               </select>
             </div>
             <div className="col-md-1">
@@ -63,9 +77,8 @@ var PrintedMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select className="form-control">
-                <option id="123">--- Seleccione Tema ---</option>
-                <option id="123">meg bar </option>
-                <option id="123">meg bar </option>
+                <option value="0">--- Seleccione Tema ---</option>
+                {topics}
               </select>
             </div>
             <div className="col-md-1">
