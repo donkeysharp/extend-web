@@ -44,7 +44,11 @@ function onSaveClick(e) {
       window.location = '/dashboard/news/' + res.id + '/edit';
     }.bind(this))
   } else {
-    console.log(getMediaFormsData.call(this));
+    data.media = getMediaFormsData.call(this);
+    var url = '/news/' + this.props.id;
+    $http.put(url, data).then(function(res) {
+      // window.location = '/dashboard/news'
+    }, function(err) {});
   }
 }
 

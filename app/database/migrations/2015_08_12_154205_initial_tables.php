@@ -100,6 +100,8 @@ class InitialTables extends Migration {
 			$t->string('web')->nullable();
 			$t->string('source')->nullable();
 			$t->string('alias')->nullable();
+			$t->integer('measure')->nullable();
+			$t->integer('cost')->nullable();
 			$t->string('communication_risk')->nullable();
 			$t->string('show')->nullable();
 			$t->integer('news_id')->unsigned();
