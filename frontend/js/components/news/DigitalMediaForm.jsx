@@ -1,7 +1,17 @@
 'use strict';
 var React = window.React;
 
+function onTendencyChange(e) {
+  this.setState({tendency: e.currentTarget.value});
+  e.currentTarget.checked = true;
+}
+
 var DigitalMediaForm = React.createClass({
+  getInitialState: function () {
+    return {
+      tendency: '1'
+    };
+  },
   getData: function() {
     var data = {};
     data.media_id = this.refs.media.getDOMNode().value;
@@ -13,7 +23,7 @@ var DigitalMediaForm = React.createClass({
     data.topic_id = this.refs.topic.getDOMNode().value;
     data.measure = this.refs.measure.getDOMNode().value;
     data.cost = this.refs.cost.getDOMNode().value;
-    data.tendency = 0;
+    data.tendency = this.state.tendency;
     data.description = this.refs.description.getDOMNode().value;
 
     return data;
@@ -134,17 +144,23 @@ var DigitalMediaForm = React.createClass({
               <div className="clasification">
                 Tendencia&nbsp;&nbsp;&nbsp;
                 <label>
-                  <input type="radio" name="tendency" value="1" checked />
+                  <input type="radio" name="tendency_digital" value="1"
+                    onChange={onTendencyChange.bind(this)}
+                    checked={this.state.tendency === '1'} />
                   Positiva
                 </label>
                 &nbsp;&nbsp;
                 <label>
-                  <input type="radio" name="tendency" value="2" />
+                  <input type="radio" name="tendency_digital" value="2"
+                    onChange={onTendencyChange.bind(this)}
+                    checked={this.state.tendency === '2'} />
                   Negativa
                 </label>
                 &nbsp;&nbsp;
                 <label>
-                  <input type="radio" name="tendency" value="3" />
+                  <input type="radio" name="tendency_digital" value="3"
+                    onChange={onTendencyChange.bind(this)}
+                    checked={this.state.tendency === '3'} />
                   Neutra
                 </label>
               </div>

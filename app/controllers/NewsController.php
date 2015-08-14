@@ -33,7 +33,7 @@ class NewsController extends BaseController
             $clients = Client::all();
         }
         if (Input::get('topics')) {
-            $topis = Topic::all();
+            $topics = Topic::all();
         }
         if (Input::get('media')) {
             $media = Media::all();
