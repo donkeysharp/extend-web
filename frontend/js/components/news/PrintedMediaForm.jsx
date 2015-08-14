@@ -5,6 +5,21 @@ function onTendencyChange(e) {
   e.currentTarget.checked = true;
 }
 
+function initControls() {
+  if (!this.props.model) return;
+
+  this.refs.media.getDOMNode().value = this.props.model.media_id;
+  this.refs.section.getDOMNode().value = this.props.model.section;
+  this.refs.page.getDOMNode().value = this.props.model.page;
+  this.refs.title.getDOMNode().value = this.props.model.title;
+  this.refs.gender.getDOMNode().value = this.props.model.gender;
+  this.refs.topic.getDOMNode().value = this.props.model.topic_id;
+  this.refs.measure.getDOMNode().value = this.props.model.measure;
+  this.refs.cost.getDOMNode().value = this.props.model.cost;
+  this.refs.description.getDOMNode().value = this.props.model.description;
+  this.setState({tendency: this.props.model.tendency});
+}
+
 var PrintedMediaForm = React.createClass({
   getInitialState: function () {
     return {
@@ -12,7 +27,7 @@ var PrintedMediaForm = React.createClass({
     };
   },
   componentDidMount: function () {
-
+    initControls.call(this);
   },
   getData: function() {
     var data = {};

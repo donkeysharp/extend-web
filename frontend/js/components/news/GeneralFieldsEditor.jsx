@@ -63,23 +63,50 @@ function onMediaTypeChanged(data) {
   this.setState({type: mediaType});
 }
 
+function parseNewsDetails(data) {
+  var res = {printed: null, digital: null, radio: null, tv: null, source: null};
+  if(!data.details) return res;
+
+  var details = data.details;
+  for(var i = 0; i < details.length; ++i) {
+    if (details[i].type === '1') {
+      res.printed = details[i];
+    } else if (details[i].type === '2') {
+      res.digital = details[i];
+    } else if (details[i].type === '3') {
+      res.radio = details[i];
+    } else if (details[i].type === '4') {
+      res.tv = details[i];
+    } else if (details[i].type === '5') {
+      res.source = details[i];
+    }
+  }
+  return res;
+}
+
 function getMediaForms() {
   var mediaType = this.state.type;
+  var details = parseNewsDetails.call(this, this.state.model);
   var result = [];
   if(mediaType.printed) {
-    result.push(<PrintedMediaForm ref="printedMedia" media={this.state.media} topics={this.state.topics} />);
+    var model = details.printed;
+    result.push(<PrintedMediaForm ref="printedMedia" model={model} media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.digital) {
-    result.push(<DigitalMediaForm ref="digitalMedia" media={this.state.media} topics={this.state.topics} />);
+    var model = details.digital;
+    result.push(<DigitalMediaForm ref="digitalMedia" model={model} media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.radio) {
-    result.push(<RadioMediaForm ref="radioMedia" media={this.state.media} topics={this.state.topics} />);
+    var model = details.radio;
+    result.push(<RadioMediaForm ref="radioMedia" model={model} media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType.tv) {
-    result.push(<TvMediaForm ref="tvMedia" media={this.state.media} topics={this.state.topics} />);
+    var model = details.tv;
+    result.push(<TvMediaForm ref="tvMedia" model={model} media={this.state.media} topics={this.state.topics} />);
   }
   if (mediaType['source']) {
-    result.push(<SourceMediaForm ref="sourceMedia" media={this.state.media} topics={this.state.topics} />);
+    var model = details.source;
+    result.push(<SourceMediaForm ref="sourceMedia" model={model} media={this.state.media} topics={this.state.topics} />);
   }
 
   return result;
@@ -111,7 +138,7 @@ function getExtraFields() {
           </div>
         </div>
         <br />
-        <MediaType onChange={onMediaTypeChanged.bind(this)} />
+        <MediaType ref="mediaTypeControl" onChange={onMediaTypeChanged.bind(this)} />
         {mediaForms}
     </div>
   );
@@ -122,7 +149,17 @@ function initControls(data) {
   this.refs.pressNote.getDOMNode().value = data.press_note;
   this.refs.subtitle.getDOMNode().value = data.subtitle;
   this.refs.code.getDOMNode().value = data.code;
-  this.setState({model: data, clasification: data.clasification});
+
+   var details = parseNewsDetails(data);
+   var mediaType = this.state.type;
+   mediaType.printed = details.printed ? true : false;
+   mediaType.digital = details.digital ? true : false;
+   mediaType.radio = details.radio ? true : false;
+   mediaType.tv = details.tv ? true : false;
+   mediaType.source = details.source ? true : false;
+
+  this.setState({model: data, clasification: data.clasification, type: mediaType});
+  this.refs.mediaTypeControl.changeStatus(this.state.type);
 }
 
 function getExtraData() {

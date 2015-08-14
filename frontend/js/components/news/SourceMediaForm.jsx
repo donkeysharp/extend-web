@@ -5,11 +5,27 @@ function onTendencyChange(e) {
   e.currentTarget.checked = true;
 }
 
+function initControls() {
+  if (!this.props.model) return;
+
+  this.refs.media.getDOMNode().value = this.props.model.media_id;
+  this.refs.source.getDOMNode().value = this.props.model.source;
+  this.refs.alias.getDOMNode().value = this.props.model.alias;
+  this.refs.topic.getDOMNode().value = this.props.model.topic_id;
+  this.refs.measure.getDOMNode().value = this.props.model.measure;
+  this.refs.cost.getDOMNode().value = this.props.model.cost;
+  this.refs.description.getDOMNode().value = this.props.model.description;
+  this.setState({tendency: this.props.model.tendency});
+}
+
 var SourceMediaForm = React.createClass({
   getInitialState: function () {
     return {
       tendency: '1'
     };
+  },
+  componentDidMount: function () {
+    initControls.call(this);
   },
   getData: function() {
     var data = {};

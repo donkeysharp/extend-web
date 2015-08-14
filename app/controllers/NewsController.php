@@ -19,7 +19,7 @@ class NewsController extends BaseController
 
     public function show($id)
     {
-        $news = News::findOrFail($id);
+        $news = News::with('details')->findOrFail($id);
 
         return Response::json($news, 200);
     }
