@@ -1,16 +1,17 @@
 @import '_base';
 
-$bgDefault      : #1B2626;
+$bgDefault      : #008AAB;
 $bgHighlight    : $bgDefault;
 $colDefault     : #DACA05;
 $colHighlight   : $light_gray;
 $navbarLinkBorder: #EAD800;
 $bgNavbarInputForm: #fff;
+$navbarBottomBorder: #2B3E3E;
 
 .navbar-beehive {
   background-color: $bgDefault;
   border: 0;
-  border-bottom: 2px solid #167AAE;
+  border-bottom: 2px solid $navbarBottomBorder;
   min-height: auto;
   -webkit-box-shadow: 0px 3px 6px 0px rgba(50, 50, 50, 0.36);
   -moz-box-shadow:    0px 3px 6px 0px rgba(50, 50, 50, 0.36);

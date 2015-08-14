@@ -1,0 +1,28 @@
+
+.clasification {
+  margin-top: 10px;
+}
+
+.message-log {
+  position:fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.section-divider {
+  height: 0;
+  border-top: 1px solid #AAA;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  span {
+    display: inline-block;
+    position: relative;
+    padding: 0 17px;
+    top: -11px;
+    font-size: 15px;
+    color: #3782EB;
+    background-color: #F9F9F9;
+  }
+}

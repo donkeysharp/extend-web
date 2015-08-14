@@ -1,0 +1,63 @@
+@import '_base';
+
+$sidebarUserColor: #eee;
+$sidebarUserBackground: #2B3E3E;
+$sidebarItemColor: #eee;
+$sidebarItemBorderColor: #434343;
+
+/**
+ * For the user profile on sidebar
+ */
+.sidebar-user {
+  width: 100%; color: $sidebarUserColor;
+  background-color: $sidebarUserBackground;
+  padding: 15px
+}
+
+/**
+ * Sidebar Styles
+ */
+.sidebar-nav {
+  width: 250px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    text-indent: 20px;
+    line-height: 40px;
+    border-bottom: 1px solid $sidebarItemBorderColor;
+
+    a {
+      display: block;
+      text-decoration: none;
+      color: $sidebarItemColor;
+
+      &:hover {
+        text-decoration: none;
+        color: #fff;
+        background: rgba(255,255,255,0.2);
+      }
+    }
+  }
+
+  > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+
+    a {
+      color: #999999;
+
+      &:hover {
+        color: #fff;
+        background: none;
+      }
+    }
+  }
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+}

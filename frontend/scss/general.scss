@@ -2,7 +2,6 @@
 
 body {
   background-color: #EDEDED;
-  background-image: url('/assets/img/noisy_net.png');
 }
 .picture-chart {
   width: 471px;
@@ -35,7 +34,7 @@ body {
   margin-left: -250px;
   overflow-y: auto;
   border-right: 1px solid #000;
-  background: #3E5050;
+  background: #545759;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -55,56 +54,6 @@ body {
 #wrapper.toggled #page-content-wrapper {
   position: absolute;
   margin-right: -250px;
-}
-
-/**
- * Sidebar Styles
- */
-.sidebar-nav {
-  // position: absolute;
-  // top: 0;
-  width: 250px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.sidebar-nav li {
-  text-indent: 20px;
-  line-height: 40px;
-  border-bottom: 1px solid #626464;
-}
-
-.sidebar-nav li a {
-  display: block;
-  text-decoration: none;
-  color: $light-gray;
-}
-
-.sidebar-nav li a:hover {
-  text-decoration: none;
-  color: #fff;
-  background: rgba(255,255,255,0.2);
-}
-
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus {
-  text-decoration: none;
-}
-
-.sidebar-nav > .sidebar-brand {
-  height: 65px;
-  font-size: 18px;
-  line-height: 60px;
-}
-
-.sidebar-nav > .sidebar-brand a {
-  color: #999999;
-}
-
-.sidebar-nav > .sidebar-brand a:hover {
-  color: #fff;
-  background: none;
 }
 
 @media(min-width:768px) {
@@ -133,13 +82,6 @@ body {
     position: relative;
     margin-right: 0;
   }
-}
-
-
-.message-log {
-  position:fixed;
-  bottom: 0;
-  right: 0;
 }
 
 /*
@@ -196,41 +138,3 @@ fieldset[disabled] .form-control {
 .form-control:-moz-placeholder { color: #bbb; }
 .form-control::-moz-placeholder { color: #bbb; }
 .form-control:-ms-input-placeholder { color: #bbb; }
-
-
-.clasification {
-  margin-top: 10px;
-}
-
-
-.section-divider {
-  height: 0;
-  border-top: 1px solid #AAA;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 30px;
-
-  span {
-    display: inline-block;
-    position: relative;
-    padding: 0 17px;
-    top: -11px;
-    font-size: 15px;
-    color: #3782EB;
-    background-color: #F9F9F9;
-  }
-}
-
-.btn-light {
-  &.btn-add {
-    margin-left: -20px;
-  }
-}
-
-@media (max-width: 767px) {
-  .btn-light {
-    &.btn-client-add {
-      margin-left: 0;
-    }
-  }
-}

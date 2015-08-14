@@ -48,3 +48,18 @@ fieldset[disabled] .btn-light.active {
   color: $green-haze;
   background-color: $white;
 }
+
+
+.btn-light {
+  &.btn-add {
+    margin-left: -20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .btn-light {
+    &.btn-client-add {
+      margin-left: 0;
+    }
+  }
+}
