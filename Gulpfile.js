@@ -28,7 +28,7 @@ gulp.task('build_js', function(){
   })
   .bundle()
   .pipe(source(path.MINIFIED_OUT))
-  .pipe(gulp.dest(path.DEST_SRC));
+  .pipe(gulp.dest(path.DEST_BUILD));
 
 });
 

@@ -7,9 +7,11 @@
 
 @section('scripts')
 <script src="{{asset('assets/vendors/js/react.min.js')}}"></script>
+<script src="{{asset('assets/vendors/js/dropzone.min.js')}}"></script>
 <script src="{{asset('assets/js/build.min.js')}}"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+  Dropzone.autoDiscover = false;
   var el = document.getElementById('news-edit-form');
   var params = null, newsId;
   if(newsId = document.getElementById('__newsId').value) {
@@ -21,3 +23,6 @@ $(document).ready(function() {
 </script>
 @stop
 
+@section('styles')
+<link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/dropzone.min.css')}}">
+@stop

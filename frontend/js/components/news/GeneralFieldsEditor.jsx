@@ -121,7 +121,7 @@ function getExtraFields() {
       <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
         <div className="row">
           <div className="col-md-6">
-            TODO: upload files
+            <div className="dropzone" ref="uploader"></div>
             <br />
             <a href="javascript:void(0)">Ver Archivos</a>
           </div>
@@ -206,6 +206,8 @@ var GeneralFieldsEditor = React.createClass({
     $http.get('/news/' + this.props.id).then(function(data) {
       initControls.call(this, data);
     }.bind(this), function(err) {})
+
+    new Dropzone(this.refs.uploader.getDOMNode(), {url: 'foobar'});
   },
   render: function() {
     var buttonDisplay = this.props.mode === 'create' ? 'Continuar' : 'Guardar Noticia';
