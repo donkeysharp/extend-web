@@ -104,8 +104,8 @@ class NewsController extends BaseController
             }
         });
         DB::commit();
-
-        return Response::json($newsDetails, 200);
+        $news->details = $newsDetails;
+        return Response::json($news, 200);
     }
 
     public function destroy($id)

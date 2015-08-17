@@ -13,5 +13,14 @@ class News extends Eloquent {
     {
         return $this->belongsTo('Client');
     }
+
+    public function getDateAttribute($value)
+    {
+        if(gettype($value) === 'string') {
+            $date = new DateTime($value);
+            return $date->format('d/m/Y');
+        }
+        return $value;
+    }
 }
 

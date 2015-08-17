@@ -5,7 +5,7 @@ class HomeController extends BaseController
 	public function index()
 	{
 		if (Auth::check()) {
-			return Redirect::to('dashboard');
+			return Redirect::to('dashboard/news');
 		}
 		return Redirect::to('login');
 	}
