@@ -7,6 +7,8 @@ composer.lock
 .DS_Store
 Thumbs.db
 
+/public/uploads/*
+
 # Node modules
 /node_modules
 /.sass-cache
