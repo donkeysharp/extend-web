@@ -28,16 +28,13 @@
           </a>
         </li>
       @else
-        <li>
-          <a href="#">API Docs</a>
-        </li>
         <li class="dropdown">
         <a href="" class="dropdown-toggle" data-toggle="dropdown">
-          <img id="navbar-profile" src="" width="35px" height="35px" class='img-circle'>
+          <img id="navbar-profile" src="{{asset('assets/img/user.png')}}" width="35px" height="35px" class='img-circle'>
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="/profile">Profile</a></li>
+          <li><a href="#">Profile</a></li>
           <li class="divider"></li>
           <li>
             <a href="javascript:document.getElementById('logout').submit()" title="">

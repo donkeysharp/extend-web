@@ -25,4 +25,5 @@ $(document).ready(function() {
 
 @section('styles')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/dropzone.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/basic.min.css')}}">
 @stop

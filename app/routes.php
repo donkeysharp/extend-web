@@ -21,6 +21,7 @@ Route::group(['before' => 'auth'], function(){
     Route::post('/news', ['uses' => 'NewsController@store']);
     Route::put('/news/{id}', ['uses' => 'NewsController@update']);
     Route::delete('/news/{id}', ['uses' => 'NewsController@destroy']);
+    Route::post('/upload/{id}', ['uses' => 'NewsController@upload']);
 });
 
 Route::group(['before' => 'auth'], function() {

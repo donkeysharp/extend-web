@@ -7,6 +7,7 @@ var DigitalMediaForm = require('./DigitalMediaForm.jsx');
 var RadioMediaForm = require('./RadioMediaForm.jsx');
 var TvMediaForm = require('./TvMediaForm.jsx');
 var SourceMediaForm = require('./SourceMediaForm.jsx');
+var Dropzone = require('../DropZoneReact.jsx');
 
 function onDeleteClick(e){
   if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
@@ -138,6 +139,10 @@ function getMediaForms() {
   return result;
 }
 
+function onAddedFile(file) {
+  alert('added');
+}
+
 function getExtraFields() {
   var mediaForms = getMediaForms.call(this);
   if(this.props.mode === 'create') return null;
@@ -147,7 +152,10 @@ function getExtraFields() {
       <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
         <div className="row">
           <div className="col-md-6">
-            <div className="dropzone" ref="uploader"></div>
+            <Dropzone ref="uploader" url={'/upload/' + this.props.id}
+              acceptedFiles="image/*,application/pdf"
+              onAddedFile={onAddedFile.bind(this)}
+            />
             <br />
             <a href="javascript:void(0)">Ver Archivos</a>
           </div>
