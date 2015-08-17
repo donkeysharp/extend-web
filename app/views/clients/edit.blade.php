@@ -88,6 +88,74 @@
           </div>
         </div>
       {{Form::close()}}
+    @if($model->id)
+      <div class="section-divider"><span>CONTACTOS</span></div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-user"></i>
+              </div>
+              <input type="text" id="name" class="form-control" placeholder="Nombre de Contacto" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-user"></i>
+              </div>
+              <input type="text" id="position" class="form-control" placeholder="Cargo" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-user"></i>
+              </div>
+              <input type="text" id="email" class="form-control" placeholder="Email" />
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <div class="input-group">
+              <div class="input-group-addon">
+                <i class="fa fa-user"></i>
+              </div>
+              <input type="text" id="phone" class="form-control" placeholder="Celular" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-info">
+            <i class="fa fa-plus"></i>&nbsp;
+            Agregar Contacto
+          </button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <th class="col-md-3">Nombre</th>
+              <th class="col-md-2">Cargo</th>
+              <th class="col-md-2">Email</th>
+              <th class="col-md-2">Celular</th>
+              <th class="col-md-1"></th>
+            </thead>
+          </table>
+        </div>
+      </div>
+    @endif
       </div>
     </div>
   </div>
