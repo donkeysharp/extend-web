@@ -34,7 +34,7 @@
           <b class="caret"></b>
         </a>
         <ul class="dropdown-menu">
-          <li><a href="#">Profile</a></li>
+          <li><a href="#">Perfil</a></li>
           <li class="divider"></li>
           <li>
             <a href="javascript:document.getElementById('logout').submit()" title="">

@@ -79,6 +79,17 @@ Form::macro('mediaType', function($type) {
     return $type;
 });
 
+Form::macro('tendency', function($type) {
+    if ($type == 1) {
+        return 'Positiva';
+    } else if($type == 2) {
+        return 'Negativa';
+    } else if($type == 3) {
+        return 'Neutra';
+    }
+    return $type;
+});
+
 Form::macro('paginator', function(
     Illuminate\Pagination\Paginator $paginator,
     $url,

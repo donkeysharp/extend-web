@@ -64,7 +64,9 @@ var PrintedMediaForm = React.createClass({
               </select>
             </div>
             <div className="col-md-1">
-              <button className="btn btn-light btn-add"><i className="fa fa-plus"></i></button>
+              <a className="btn btn-light btn-add" href="/dashboard/media/create">
+                <i className="fa fa-plus"></i>
+              </a>
             </div>
             <div className="col-md-3">
               <div className="form-group">
@@ -117,9 +119,9 @@ var PrintedMediaForm = React.createClass({
               </select>
             </div>
             <div className="col-md-1">
-              <button className="btn btn-light btn-add" title="Adicionar Tema">
+              <a className="btn btn-light btn-add" href="/dashboard/topics/create">
                 <i className="fa fa-plus"></i>
-              </button>
+              </a>
             </div>
             <div className="col-md-3">
               <div className="form-group">

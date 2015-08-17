@@ -279,9 +279,9 @@ var GeneralFieldsEditor = React.createClass({
             </select>
           </div>
           <div className="col-md-1">
-            <button className="btn btn-light btn-add">
+            <a className="btn btn-light btn-add" href="/dashboard/clients/create">
               <i className="fa fa-plus"></i>
-            </button>
+            </a>
           </div>
         </div>
         <div className="row">
@@ -358,6 +358,7 @@ var GeneralFieldsEditor = React.createClass({
             </button>
             &nbsp;
             {deleteButton}
+            &nbsp;
             <a href="/dashboard/news">Volver</a>
           </div>
         </div>

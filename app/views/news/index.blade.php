@@ -38,7 +38,7 @@
               <td>{{$item->press_note}}</td>
               <td>
                 @if(count($item->details)>0)
-                  {{$item->details[0]->tendency}}
+                  {{Form::tendency($item->details[0]->tendency)}}
                 @endif
               </td>
               <td>
