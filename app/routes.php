@@ -54,6 +54,11 @@ Route::group(['before' => 'auth'], function() {
     Route::delete('/topics/{id}', ['uses' => 'TopicController@destroy']);
 });
 
+Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/export', ['uses' => 'ExportController@index']);
+    Route::post('dashboard/export', ['uses' => 'ExportController@export']);
+});
+
 Route::get('foo', function() {
     return public_path();
 });

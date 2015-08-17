@@ -28,5 +28,11 @@
         Administrar Temas
       </a>
     </li>
+    <li>
+      <a href="{{url('dashboard/export')}}">
+        <i class="fa fa-cloud-download"></i>&nbsp;
+        Exportar Datos
+      </a>
+    </li>
   </ul>
 </div>
