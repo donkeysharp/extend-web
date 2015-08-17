@@ -2,9 +2,9 @@
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a id="menu-toggle" href="javascript:void(0)" style="display:inline-block;width:25px;margin-top: 13px; margin-left:9px ;font-size: 18px">
-        <img src="{{asset('assets/img/beehive_logo.png')}}" class="navbar-brand-head hidden-sm hidden-xs">
-        <img src="{{asset('assets/img/beehive_bee.png')}}" class="navbar-brand-head visible-sm visible-xs">
+      <a id="menu-toggle" href="javascript:void(0)" >
+        <img src="{{asset('assets/img/logo.png')}}" class="navbar-brand-head hidden-sm hidden-xs">
+        <img src="{{asset('assets/img/logo.png')}}" class="navbar-brand-head visible-sm visible-xs">
       </a>
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
