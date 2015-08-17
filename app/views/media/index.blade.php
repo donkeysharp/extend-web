@@ -22,7 +22,6 @@
             <th class="col-md-3">Ciudad</th>
             <th class="col-md-2">Tipo</th>
             <th class="col-md-1"></th>
-            <th class="col-md-1"></th>
           </thead>
           <tbody>
           <?php $i = 1; ?>
@@ -31,15 +30,10 @@
               <td>{{$i}}</td>
               <td>{{$item->name}}</td>
               <td>{{$item->city}}</td>
-              <td>{{$item->type}}</td>
+              <td>{{Form::mediaType($item->type)}}</td>
               <td>
                 <a href="{{url('dashboard/media/' . $item->id . '/edit')}}" class="btn btn-light">
                   <i class="fa fa-pencil"></i>
-                </a>
-              </td>
-              <td>
-                <a class="btn btn-danger">
-                  <i class="fa fa-trash"></i>
                 </a>
               </td>
             </tr>
