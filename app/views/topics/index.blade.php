@@ -19,8 +19,7 @@
           <thead>
             <th class="col-md-1">#</th>
             <th class="col-md-6">Nombre</th>
-            <th class="col-md-3">Descripción</th>
-            <th class="col-md-1"></th>
+            <th class="col-md-4">Descripción</th>
             <th class="col-md-1"></th>
           </thead>
           <tbody>
@@ -33,11 +32,6 @@
               <td>
                 <a href="{{url('dashboard/topics/' . $topic->id . '/edit')}}" class="btn btn-light">
                   <i class="fa fa-pencil"></i>
-                </a>
-              </td>
-              <td>
-                <a class="btn btn-danger">
-                  <i class="fa fa-trash"></i>
                 </a>
               </td>
             </tr>

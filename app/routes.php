@@ -43,6 +43,12 @@ Route::group(['before' => 'auth'], function() {
 
 Route::group(['before' => 'auth'], function() {
     Route::get('dashboard/topics', ['uses' => 'TopicController@index']);
+    Route::get('dashboard/topics/create', ['uses' => 'TopicController@create']);
+    Route::get('dashboard/topics/{id}/edit', ['uses' => 'TopicController@edit']);
+
+    Route::post('/topics', ['uses' => 'TopicController@store']);
+    Route::put('/topics/{id}', ['uses' => 'TopicController@update']);
+    Route::delete('/topics/{id}', ['uses' => 'TopicController@destroy']);
 });
 
 Route::get('foo', function() {

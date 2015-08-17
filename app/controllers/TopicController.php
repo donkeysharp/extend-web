@@ -15,4 +15,52 @@ class TopicController extends BaseController
         return View::make('topics.index')
             ->with('topics', $paginator);
     }
+
+    public function create()
+    {
+        $model = new Topic();
+        return View::make('topics.edit')
+            ->with('model', $model);
+    }
+
+    public function edit($id)
+    {
+        $topic = Topic::findOrFail($id);
+        return View::make('topics.edit')
+            ->with('model', $topic);
+    }
+
+    public function store()
+    {
+        $data = Input::all();
+        $topic = new Topic();
+        $topic->name = $data['name'];
+        $topic->description = $data['description'];
+        $topic->save();
+
+        return Redirect::to('dashboard/topics/'. $topic->id .'/edit')
+            ->with('message', 'Tema creado exitosamente');
+    }
+
+    public function update($id)
+    {
+        $data = Input::all();
+        $topic = Topic::findOrFail($id);
+        $topic->name = $data['name'];
+        $topic->description = $data['description'];
+        $topic->save();
+
+        return Redirect::to('dashboard/topics/' . $topic->id . '/edit')
+            ->with('message', 'Tema actualizado exitosamente');
+    }
+
+    public function destroy($id)
+    {
+        $topic = Topic::findOrFail($id);
+        $topic->delete();
+
+        return Response::json([
+            'status' => 'ok'
+        ], 200);
+    }
 }
