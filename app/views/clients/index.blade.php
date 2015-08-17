@@ -41,6 +41,9 @@
           @endforeach
           </tbody>
         </table>
+        <center>
+          {{Form::paginator($clients, '/dashboard/clients')}}
+        </center>
       </div>
     </div>
   </div>

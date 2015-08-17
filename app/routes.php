@@ -71,3 +71,51 @@ Form::macro('mediaType', function($type) {
     }
     return $type;
 });
+
+Form::macro('paginator', function(
+    Illuminate\Pagination\Paginator $paginator,
+    $url,
+    $query=false)
+{
+    $page = $paginator->getCurrentPage();
+    $total = $paginator->getTotal();
+    $limit = $paginator->getPerPage();
+    $items = $paginator->getItems();
+    $lastPage = $paginator->getLastPage();
+
+    $template = '';
+    $template .= '<ul class="pagination">';
+    $template .= '<li ';
+    if ($page === 1) {
+        $template .= 'class="disabled"';
+    }
+    if (!$query) {
+        $template .= "><a href=\"$url?page=1\">&laquo;</a></li>";
+    } else {
+        $template .= "><a href=\"$url&page=1\">&laquo;</a></li>";
+    }
+
+    for($i = 1; $i <= $lastPage; $i++) {
+        $template .= "<li ";
+        if ($i === $page) {
+            $template .= 'class="active"';
+        }
+        if (!$query) {
+            $template .= "><a href=\"$url?page=$i\">$i</a></li>";
+        } else {
+            $template .= "><a href=\"$url&page=$i\">$i</a></li>";
+        }
+    }
+    $template .= "<li ";
+    if ($page == $lastPage) {
+        $template .= 'class="disabled"';
+    }
+    if (!$query){
+        $template .= "><a href=\"$url?page=$lastPage\">»</a></li>";
+    } else {
+        $template .= "><a href=\"$url&page=$lastPage\">»</a></li>";
+    }
+    $template .= "</ul>";
+
+    return $template;
+});
