@@ -21,6 +21,24 @@ Route::group(['before' => 'auth'], function(){
     Route::get('/news/{id}', ['uses' => 'NewsController@show']);
 });
 
+Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/clients', ['uses' => 'ClientController@index']);
+    Route::get('dashboard/clients/create', ['uses' => 'ClientController@create']);
+    Route::get('dashboard/clients/{id}/edit', ['uses' => 'ClientController@edit']);
+
+    Route::post('/clients', ['uses' => 'ClientController@store']);
+    Route::put('/clients/{id}', ['uses' => 'ClientController@update']);
+    Route::delete('/clients/{id}', ['uses' => 'ClientController@destroy']);
+});
+
+Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/media', ['uses' => 'MediaController@index']);
+});
+
+Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/topics', ['uses' => 'TopicController@index']);
+});
+
 Route::get('foo', function() {
     $d = '03/01/1990';
     var_dump( DateTime::createFromFormat('d/m/Y', $d) );

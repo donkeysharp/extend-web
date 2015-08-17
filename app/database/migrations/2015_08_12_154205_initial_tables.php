@@ -32,10 +32,11 @@ class InitialTables extends Migration {
 		Schema::create('clients', function($t) {
 			$t->increments('id');
 			$t->string('name');
+			$t->string('phone');
 			$t->string('description')->nullable();
+			$t->string('address')->nullable();
 			$t->string('city');
 			$t->string('website');
-			$t->string('phone');
 			$t->timestamps();
 		});
 
