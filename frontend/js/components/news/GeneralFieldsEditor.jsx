@@ -8,6 +8,23 @@ var RadioMediaForm = require('./RadioMediaForm.jsx');
 var TvMediaForm = require('./TvMediaForm.jsx');
 var SourceMediaForm = require('./SourceMediaForm.jsx');
 
+function onDeleteClick(e){
+  if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
+
+  $http.remove('/news/' + this.props.id).then(function(res) {
+    var messages = document.getElementById('messages');
+      messages.innerHTML =  '<div class="alert alert-info alert-dismissable">'+
+      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+      '&times;'+
+      '</button>'+
+      'Noticia eliminada exitosamente.'+
+      '</div>';
+      setTimeout(function() {
+        window.location = '/dashboard/news/';
+      }, 500);
+  }, function(err) {})
+}
+
 function getMediaFormsData() {
   var mediaType = this.state.type;
   var data = {printed: null, digital: null, radio: null, tv: null, source: null};
@@ -47,7 +64,16 @@ function onSaveClick(e) {
     data.media = getMediaFormsData.call(this);
     var url = '/news/' + this.props.id;
     $http.put(url, data).then(function(res) {
-      // window.location = '/dashboard/news'
+      var messages = document.getElementById('messages');
+      messages.innerHTML =  '<div class="alert alert-success alert-dismissable">'+
+      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+      '&times;'+
+      '</button>'+
+      'Noticia creada exitosamente.'+
+      '</div>';
+      setTimeout(function() {
+        window.location = '/dashboard/news/' + res.id + '/edit';
+      }, 500);
     }, function(err) {});
   }
 }
@@ -215,6 +241,13 @@ var GeneralFieldsEditor = React.createClass({
     var clients = this.state.clients.map(function(item) {
       return (<option value={item.id}>{item.name}</option>);
     });
+    var deleteButton = '';
+    if(this.props.mode === 'edit') {
+      deleteButton = <button className="btn btn-danger" onClick={onDeleteClick.bind(this)}>
+              <i className="fa fa-trash"></i>&nbsp;&nbsp;
+              Eliminar Noticia
+            </button>;
+    }
     return (
       <div>
         <div className="section-divider"><span>DATOS GENERALES</span></div>
@@ -308,13 +341,16 @@ var GeneralFieldsEditor = React.createClass({
           </div>
         </div>
         {extraFields}
+        <br />
         <div className="row">
-          <div className="col-md-4 col-md-offset-8">
-            <button className="btn btn-light btn-block" onClick={onSaveClick.bind(this)}>
-              <i className="fa fa-spinner fa-spin"></i>
+          <div className="col-md-12">
+            <button className="btn btn-light" onClick={onSaveClick.bind(this)}>
               <i className="fa fa-save"></i>&nbsp;&nbsp;
               {buttonDisplay}
             </button>
+            &nbsp;
+            {deleteButton}
+            <a href="/dashboard/news">Volver</a>
           </div>
         </div>
       </div>

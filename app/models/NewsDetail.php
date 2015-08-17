@@ -10,6 +10,11 @@ class NewsDetail extends Eloquent
     const TV = 4;
     const SOURCE = 5;
 
+    public function media()
+    {
+        return $this->belongsTo('Media');
+    }
+
     public static function createInstance($type, $data, $newsId)
     {
         if ($type == NewsDetail::PRINTED) {

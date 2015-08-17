@@ -6,7 +6,14 @@ class NewsController extends BaseController
     {
         $limit = 10; $page = Input::get('page', 1);
 
-        $news = News::orderBy('id')
+        $news = News::with('client')
+            ->with('details')
+            ->with([
+                'details' => function($q) {
+                    $q->with('media');
+                }
+            ])
+            ->orderBy('id')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();
@@ -99,6 +106,35 @@ class NewsController extends BaseController
         DB::commit();
 
         return Response::json($newsDetails, 200);
+    }
+
+    public function destroy($id)
+    {
+        $news = News::findOrFail($id);
+        $news->delete();
+        return Response::json([
+            'status' => 'ok'
+        ], 200);
+    }
+
+    public function upload($id)
+    {
+        $news = News::findOrFail($id);
+
+        $file = Input::file('file');
+        $extension = File::extension($file->getClientOriginalName());
+        $directory = public_path() . '/uploads';
+        $filename =  $file->getClientOriginalName();
+
+        $upload_success = Input::file('file')->move($directory, $filename);
+
+        $upload = new NewsUpload();
+        $upload->type = File::extension($file->getClientOriginalName());;
+        $upload->news_id = $id;
+        $upload->file_name = $filename;
+        $upload->save();
+
+        return Response::json($upload, 200);
     }
 
     private function getNewsDetailInstances($data, $newsId)

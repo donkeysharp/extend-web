@@ -8,4 +8,10 @@ class News extends Eloquent {
     {
         return $this->hasMany('NewsDetail');
     }
+
+    public function client()
+    {
+        return $this->belongsTo('Client');
+    }
 }
+

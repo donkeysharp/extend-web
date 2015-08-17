@@ -14,11 +14,13 @@ Route::group(['before' => 'auth'], function() {
 Route::group(['before' => 'auth'], function(){
     Route::get('dashboard/news', ['uses' => 'NewsController@index']);
     Route::get('dashboard/news/create', ['uses' => 'NewsController@create']);
-    Route::post('/news', ['uses' => 'NewsController@store']);
-    Route::put('/news/{id}', ['uses' => 'NewsController@update']);
     Route::get('dashboard/news/{id}/edit', ['uses' => 'NewsController@edit']);
     Route::get('/news/extra', ['uses' => 'NewsController@extra']);
     Route::get('/news/{id}', ['uses' => 'NewsController@show']);
+
+    Route::post('/news', ['uses' => 'NewsController@store']);
+    Route::put('/news/{id}', ['uses' => 'NewsController@update']);
+    Route::delete('/news/{id}', ['uses' => 'NewsController@destroy']);
 });
 
 Route::group(['before' => 'auth'], function() {
@@ -52,8 +54,7 @@ Route::group(['before' => 'auth'], function() {
 });
 
 Route::get('foo', function() {
-    $d = '03/01/1990';
-    var_dump( DateTime::createFromFormat('d/m/Y', $d) );
+    return public_path();
 });
 
 
