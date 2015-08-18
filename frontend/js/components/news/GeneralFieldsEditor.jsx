@@ -234,6 +234,12 @@ var GeneralFieldsEditor = React.createClass({
     };
   },
   componentDidMount: function() {
+    $(this.refs.date.getDOMNode()).datepicker({
+      format: 'dd/mm/yyyy',
+      language: 'es',
+      orientation: "top right",
+      autoclose: true
+    });
     getExtraData.call(this);
 
     if(!this.props.id) return;

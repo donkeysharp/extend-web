@@ -29,7 +29,11 @@
           @foreach($news->getItems() as $item)
             <tr>
               <td>{{$i}}</td>
-              <td>{{$item->client->name}}</td>
+              <td>
+              @if(isset($item->client))
+              {{$item->client->name}}
+              @endif
+              </td>
               <td>
               @if(count($item->details)>0)
                 {{$item->details[0]->media->name}}
