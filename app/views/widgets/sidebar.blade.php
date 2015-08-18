@@ -34,5 +34,11 @@
         Exportar Datos
       </a>
     </li>
+    <li>
+      <a href="{{url('dashboard/users')}}">
+        <i class="fa fa-users"></i>&nbsp;
+        Administrar Usuarios
+      </a>
+    </li>
   </ul>
 </div>

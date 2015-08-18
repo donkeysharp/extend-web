@@ -59,8 +59,18 @@ Route::group(['before' => 'auth'], function() {
     Route::post('dashboard/export', ['uses' => 'ExportController@export']);
 });
 
+Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/users', ['uses' => 'UserController@index']);
+    Route::get('dashboard/users/create', ['uses' => 'UserController@create']);
+    Route::get('dashboard/users/{id}/edit', ['uses' => 'UserController@edit']);
+
+    Route::post('/users', ['uses' => 'UserController@store']);
+    Route::put('/users/{id}', ['uses' => 'UserController@update']);
+    Route::delete('/users/{id}', ['uses' => 'UserController@destroy']);
+});
+
 Route::get('foo', function() {
-    return public_path();
+    return Hash::make(Input::get('q'));
 });
 
 
