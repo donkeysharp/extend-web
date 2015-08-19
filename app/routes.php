@@ -36,6 +36,7 @@ Route::group(['before' => 'auth'], function() {
     Route::post('/clients', ['uses' => 'ClientController@store']);
     Route::put('/clients/{id}', ['uses' => 'ClientController@update']);
     Route::delete('/clients/{id}', ['uses' => 'ClientController@destroy']);
+    Route::post('/clients/{id}/contacts', ['uses' => 'ClientController@storeContact']);
 });
 
 Route::group(['before' => 'auth'], function() {

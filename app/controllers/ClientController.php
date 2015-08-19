@@ -50,7 +50,7 @@ class ClientController extends BaseController
             'Sucre' => 'Sucre',
             'Tarija' => 'Tarija'
         ];
-        $model = Client::findOrFail($id);
+        $model = Client::with('contacts')->findOrFail($id);
         return View::make('clients.edit')
             ->with('model', $model)
             ->with('cities', $cities);
@@ -96,6 +96,22 @@ class ClientController extends BaseController
         return Response::json([
             'status' => 'ok'
         ], 200);
+    }
+
+    public function storeContact($id)
+    {
+        $data = Input::all();
+        $client = Client::findOrFail($id);
+        $contact = new Contact();
+        $contact->name = $data['name'];
+        $contact->email = $data['email'];
+        $contact->position = $data['position'];
+        $contact->phone = $data['phone'];
+        $contact->client_id = $id;
+        $contact->save();
+
+        return Redirect::to('/dashboard/clients/' . $client->id . '/edit')
+            ->with('message', 'Contacto adicionado exitosamente.');
     }
 
 }

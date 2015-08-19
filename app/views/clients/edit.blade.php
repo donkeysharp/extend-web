@@ -90,6 +90,7 @@
       {{Form::close()}}
     @if($model->id)
       <div class="section-divider"><span>CONTACTOS</span></div>
+      {{Form::open(['url' => '/clients/' . $model->id . '/contacts'])}}
       <div class="row">
         <div class="col-md-6">
           <div class="form-group">
@@ -97,7 +98,7 @@
               <div class="input-group-addon">
                 <i class="fa fa-user"></i>
               </div>
-              <input type="text" id="name" class="form-control" placeholder="Nombre de Contacto" />
+              <input type="text" name="name" class="form-control" placeholder="Nombre de Contacto" />
             </div>
           </div>
         </div>
@@ -107,7 +108,7 @@
               <div class="input-group-addon">
                 <i class="fa fa-user"></i>
               </div>
-              <input type="text" id="position" class="form-control" placeholder="Cargo" />
+              <input type="text" name="position" class="form-control" placeholder="Cargo" />
             </div>
           </div>
         </div>
@@ -119,7 +120,7 @@
               <div class="input-group-addon">
                 <i class="fa fa-user"></i>
               </div>
-              <input type="text" id="email" class="form-control" placeholder="Email" />
+              <input type="text" name="email" class="form-control" placeholder="Email" />
             </div>
           </div>
         </div>
@@ -129,29 +130,39 @@
               <div class="input-group-addon">
                 <i class="fa fa-user"></i>
               </div>
-              <input type="text" id="phone" class="form-control" placeholder="Celular" />
+              <input type="text" name="phone" class="form-control" placeholder="Celular" />
             </div>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
-          <button class="btn btn-info">
+          <button type="submit" class="btn btn-info">
             <i class="fa fa-plus"></i>&nbsp;
             Agregar Contacto
           </button>
         </div>
       </div>
+      {{Form::close()}}
       <div class="row">
         <div class="col-md-12">
           <table class="table">
             <thead>
               <th class="col-md-3">Nombre</th>
-              <th class="col-md-2">Cargo</th>
+              <th class="col-md-3">Cargo</th>
               <th class="col-md-2">Email</th>
               <th class="col-md-2">Celular</th>
-              <th class="col-md-1"></th>
             </thead>
+            <tbody>
+            @foreach($model->contacts as $contact)
+              <tr>
+                <td>{{$contact->name}}</td>
+                <td>{{$contact->position}}</td>
+                <td>{{$contact->email}}</td>
+                <td>{{$contact->phone}}</td>
+              </tr>
+            @endforeach
+            </tbody>
           </table>
         </div>
       </div>
