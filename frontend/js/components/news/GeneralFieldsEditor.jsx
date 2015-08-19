@@ -155,6 +155,7 @@ function getExtraFields() {
             <Dropzone ref="uploader" url={'/upload/' + this.props.id}
               acceptedFiles="image/*,application/pdf"
               onAddedFile={onAddedFile.bind(this)}
+              maxFilesize={50}
             />
             <br />
             <a href="javascript:void(0)">Ver Archivos</a>

@@ -25,10 +25,9 @@
             <th class="col-md-1"></th>
           </thead>
           <tbody>
-          <?php $i = 1; ?>
           @foreach($news->getItems() as $item)
             <tr>
-              <td>{{$i}}</td>
+              <td>{{$item->date}}</td>
               <td>
               @if(isset($item->client))
               {{$item->client->name}}
@@ -51,7 +50,6 @@
                 </a>
               </td>
             </tr>
-            <?php $i++ ?>
           @endforeach
           </tbody>
         </table>
