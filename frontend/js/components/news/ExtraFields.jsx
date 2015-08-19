@@ -5,6 +5,11 @@ var LinkCollapse = require('../LinkCollapse.jsx');
 var $http = require('../../http');
 
 function onAddedFile(file) {
+  var uploads = this.state.uploads;
+  console.log(file);
+  uploads.push({file_name: file.name});
+  this.setState({uploads: uploads});
+
   if (this.props.onAddedFile) {
     this.props.onAddedFile(file);
   }
@@ -19,8 +24,10 @@ function onMediaTypeChanged(data) {
 function onBtnAddURLClicked(e) {
   var url = this.refs.url.getDOMNode().value;
   $http.post('/news/' + this.props.newsId +'/urls', {url: url}).then(function(res) {
-    console.log('url added');
     this.refs.url.getDOMNode().value = '';
+    var urls = this.state.urls;
+    urls.push(res);
+    this.setState({urls: urls});
     var messages = document.getElementById('messages');
     messages.innerHTML =  '<div class="alert alert-success alert-dismissable">'+
       '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
@@ -32,6 +39,9 @@ function onBtnAddURLClicked(e) {
 }
 
 function getUrls() {
+  if(this.state.urls.length === 0) {
+    return <span>No existen URLs</span>;
+  }
   var list = this.state.urls.map(function(item) {
     return <li><a href={item.url} target="_blank">{item.url}</a></li>;
   });
@@ -40,6 +50,9 @@ function getUrls() {
 }
 
 function getUploads() {
+  if (this.state.uploads.length === 0) {
+    return <span>No existen Archivos</span>;
+  }
   var list = this.state.uploads.map(function(item) {
     return <li><a href={'/uploads/' + item.file_name} target="_blank">{item.file_name}</a></li>;
   });
