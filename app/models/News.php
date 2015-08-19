@@ -14,6 +14,16 @@ class News extends Eloquent {
         return $this->belongsTo('Client');
     }
 
+    public function urls()
+    {
+        return $this->hasMany('NewsUrl');
+    }
+
+    public function uploads()
+    {
+        return $this->hasMany('NewsUpload');
+    }
+
     public function getDateAttribute($value)
     {
         if(gettype($value) === 'string') {

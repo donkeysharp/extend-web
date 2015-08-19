@@ -117,6 +117,13 @@ class NewsController extends BaseController
         ], 200);
     }
 
+    public function getUploads($id)
+    {
+        $news = News::findOrFail($id);
+        $uploads = $news->uploads()->get();
+        return Response::json($uploads);
+    }
+
     public function upload($id)
     {
         $news = News::findOrFail($id);
@@ -135,6 +142,24 @@ class NewsController extends BaseController
         $upload->save();
 
         return Response::json($upload, 200);
+    }
+
+    public function getURLS($id)
+    {
+        $news = News::findOrFail($id);
+        $urls = $news->urls()->get();
+        return Response::json($urls);
+    }
+
+    public function addURL($id)
+    {
+        $news = News::findOrFail($id);
+        $url = new NewsUrl();
+        $url->url = Input::get('url');
+        $url->news_id = $id;
+        $url->save();
+
+        return Response::json($url, 200);
     }
 
     private function getNewsDetailInstances($data, $newsId)

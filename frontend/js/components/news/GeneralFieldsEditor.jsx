@@ -1,13 +1,12 @@
 'use strict';
 var React = window.React;
 var $http = require('../../http');
-var MediaType = require('./MediaType.jsx');
+var ExtraFields = require('./ExtraFields.jsx');
 var PrintedMediaForm = require('./PrintedMediaForm.jsx');
 var DigitalMediaForm = require('./DigitalMediaForm.jsx');
 var RadioMediaForm = require('./RadioMediaForm.jsx');
 var TvMediaForm = require('./TvMediaForm.jsx');
 var SourceMediaForm = require('./SourceMediaForm.jsx');
-var Dropzone = require('../DropZoneReact.jsx');
 
 function onDeleteClick(e){
   if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
@@ -139,43 +138,15 @@ function getMediaForms() {
   return result;
 }
 
-function onAddedFile(file) {
-  alert('added');
-}
-
 function getExtraFields() {
   var mediaForms = getMediaForms.call(this);
   if(this.props.mode === 'create') return null;
 
   return (
-    <div>
-      <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
-        <div className="row">
-          <div className="col-md-6">
-            <Dropzone ref="uploader" url={'/upload/' + this.props.id}
-              acceptedFiles="image/*,application/pdf"
-              onAddedFile={onAddedFile.bind(this)}
-              maxFilesize={50}
-            />
-            <br />
-            <a href="javascript:void(0)">Ver Archivos</a>
-          </div>
-          <div className="col-md-6">
-            <div className="input-group">
-              <input type="text" className="form-control" placeholder="Adicionar URL" />
-              <span className="input-group-btn">
-                <button className="btn btn-light" type="button">
-                  <i className="fa fa-plus"></i>
-                </button>
-              </span>
-            </div>
-            <a href="javascript:void(0)">Ver URLS</a>
-          </div>
-        </div>
-        <br />
-        <MediaType ref="mediaTypeControl" onChange={onMediaTypeChanged.bind(this)} />
-        {mediaForms}
-    </div>
+    <ExtraFields ref="extraFields" newsId={this.props.id}
+      onMediaTypeChanged={onMediaTypeChanged.bind(this)}
+      mediaForms={mediaForms}
+    />
   );
 }
 
@@ -194,7 +165,7 @@ function initControls(data) {
    mediaType.source = details.source ? true : false;
 
   this.setState({model: data, clasification: data.clasification, type: mediaType});
-  this.refs.mediaTypeControl.changeStatus(this.state.type);
+  this.refs.extraFields.changeMediaTypeStatus(this.state.type);
 }
 
 function getExtraData() {
@@ -247,8 +218,6 @@ var GeneralFieldsEditor = React.createClass({
     $http.get('/news/' + this.props.id).then(function(data) {
       initControls.call(this, data);
     }.bind(this), function(err) {})
-
-    new Dropzone(this.refs.uploader.getDOMNode(), {url: 'foobar'});
   },
   render: function() {
     var buttonDisplay = this.props.mode === 'create' ? 'Continuar' : 'Guardar Noticia';

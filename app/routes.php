@@ -16,12 +16,16 @@ Route::group(['before' => 'auth'], function(){
     Route::get('dashboard/news/create', ['uses' => 'NewsController@create']);
     Route::get('dashboard/news/{id}/edit', ['uses' => 'NewsController@edit']);
     Route::get('/news/extra', ['uses' => 'NewsController@extra']);
-    Route::get('/news/{id}', ['uses' => 'NewsController@show']);
+    Route::get('/news/{id}', ['uses' => 'NewsController@show'])->where('id', '[0-9]+');
+    Route::get('news/{id}/uploads', ['uses' => 'NewsController@getUploads']);
+    Route::get('news/{id}/urls', ['uses' => 'NewsController@getURLS']);
 
     Route::post('/news', ['uses' => 'NewsController@store']);
     Route::put('/news/{id}', ['uses' => 'NewsController@update']);
     Route::delete('/news/{id}', ['uses' => 'NewsController@destroy']);
     Route::post('/upload/{id}', ['uses' => 'NewsController@upload']);
+    Route::post('/news/{id}/urls', ['uses' => 'NewsController@addURL']);
+
 });
 
 Route::group(['before' => 'auth'], function() {
