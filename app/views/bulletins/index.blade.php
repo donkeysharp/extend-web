@@ -8,7 +8,9 @@
       <div class="panel-body">
         <table class="table">
           <thead>
-            <th class="col-md-8">Fecha de Creación</th>
+            <th class="col-md-3">Fecha de Creación</th>
+            <th class="col-md-4">Cliente</th>
+            <th class="col-md-2"># de Noticias</th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
@@ -17,6 +19,12 @@
           @foreach($bulletins->getItems() as $item)
             <tr>
               <td>{{$item->created_at}}</td>
+              <td>
+                {{$item->details[0]->news->client->name}}
+              </td>
+              <td>
+                {{count($item->details)}}
+              </td>
               <td>
                 <a href="/public/bulletins/{{$item->id}}" class="btn btn-success" title="Ver Boletín" target="_blank">
                   <i class="fa fa-eye"></i>

@@ -475,7 +475,7 @@
 
                                 <td class="mcnTextContent" style="padding-top: 9px;padding-right: 18px;padding-bottom: 9px;padding-left: 18px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;" valign="top">
 
-                                  <h2 class="null" style="text-align: center;margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;color: #404040 !important;">Reporte 19 de agosto de 2015 - CAF</h2>
+                                  <h2 class="null" style="text-align: center;margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;color: #404040 !important;">{{Form::literalDate($date)}} - {{$details[0]->news->client->name}}</h2>
 
                                 </td>
                               </tr>

@@ -32,7 +32,7 @@ Route::group(['before' => 'auth'], function(){
 
 Route::group(['before' => 'auth'], function() {
     Route::get('/dashboard/bulletins', ['uses' => 'BulletinController@index']);
-    Route::get('/dashboard/bulletins/{id}/send', ['uses' => 'BulletinController@show']);
+    Route::post('/dashboard/bulletins/{id}/send', ['uses' => 'BulletinController@sendToClients']);
 
     Route::post('/bulletins', ['uses' => 'BulletinController@store']);
     Route::delete('/bulletins/{id}', ['uses' => 'BulletinController@destroy']);
@@ -86,8 +86,8 @@ Route::group(['before' => 'auth'], function() {
 
 Route::get('foo', function() {
     // return Hash::make(Input::get('q'));
-    $a = new DateTime();
-    return $a;
+    $a = Carbon\Carbon::now();
+    echo $a->year;
 });
 
 
@@ -163,4 +163,17 @@ Form::macro('paginator', function(
     $template .= "</ul>";
 
     return $template;
+});
+
+Form::macro('literalDate', function($date) {
+    $days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'];
+    $months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    if (!$date) {
+        $date = Carbon\Carbon::now();
+    }
+
+    $res = '';
+    $res .= $date->day . ' de ' . $months[$date->month - 1] . ' del ' . $date->year;
+    return $res;
 });

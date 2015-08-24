@@ -7,6 +7,13 @@ class BulletinController extends BaseController
         $limit = 10; $page = Input::get('page', 1);
 
         $bulletins = Bulletin::orderBy('created_at', 'desc')
+            ->with(['details'=>function($q) {
+                $q->with(['news' => function($q1) {
+                    $q1->with('client')
+                        ->with('uploads')
+                        ->with('urls');
+                }]);
+            }])
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();
@@ -16,16 +23,38 @@ class BulletinController extends BaseController
             ->with('bulletins', $paginator);
     }
 
-    public function show($id)
+    public function sendToClients($id)
     {
-        return $id;
+        $bulletin = Bulletin::findOrFail($id);
+        $details = $bulletin->details()->with(['news' => function($q) {
+            $q->with('client');
+        }])->get();
+
+        $clientId = $details[0]->news->client_id;
+        $contacts = Contact::where('client_id', '=', $clientId)->get();
+        $info = ['date' => Carbon\Carbon::now(), 'details' => $details];
+
+        foreach($contacts as $contact) {
+            Mail::send('bulletins.templates.mosaic', $info, function($message) use($contact) {
+                $message->to($contact->email, $contact->name)->subject('Boletín Extend');
+            });
+        }
+
+        return Response::json([
+            'status' => 'ok'
+        ], 200);
     }
 
     public function publicDisplay($id)
     {
-
+        $bulletin = Bulletin::findOrFail($id);
+        $details = $bulletin->details()->with(['news' => function($q) {
+            $q->with('client');
+        }])->get();
+        // return $details;
         return View::make('bulletins.templates.mosaic')
-            ->with('foo', 'bar');
+            ->with('date', Carbon\Carbon::now())
+            ->with('details', $details);
     }
 
     public function store()
