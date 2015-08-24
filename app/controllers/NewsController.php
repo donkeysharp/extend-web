@@ -145,7 +145,8 @@ class NewsController extends BaseController
         $news->client_id = $data['client_id'];
         $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
         $news->press_note = $data['press_note'];
-        $news->subtitle = $data['subtitle'];
+        // BUG FIX. No subtitle required for news. It should be moved to news details
+        $news->subtitle = '';
         $news->clasification = $data['clasification'];
         $news->code = $data['code'];
         $news->save();
@@ -191,6 +192,17 @@ class NewsController extends BaseController
     {
         $news = News::findOrFail($id);
         $news->delete();
+        return Response::json([
+            'status' => 'ok'
+        ], 200);
+    }
+
+    public function destroyDetail($id, $detailId)
+    {
+        $news = News::findOrFail($id);
+        $newsDetail = NewsDetail::findOrFail($detailId);
+        $newsDetail->delete();
+
         return Response::json([
             'status' => 'ok'
         ], 200);

@@ -11,6 +11,12 @@
       </a>
     </li>
     <li>
+      <a href="{{url('dashboard/bulletins')}}">
+        <i class="fa fa-upload"></i>&nbsp;
+        Boletines Generados
+      </a>
+    </li>
+    <li>
       <a href="{{url('dashboard/clients')}}">
         <i class="fa fa-exchange"></i>&nbsp;
         Administrar Clientes

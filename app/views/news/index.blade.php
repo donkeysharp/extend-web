@@ -29,7 +29,7 @@
                     <label for="fromDate">
                       Desde Fecha
                     </label>
-                    <input type="text" name="fromDate" class="form-control" />
+                    <input type="text" name="fromDate" class="form-control datepicker" />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -37,7 +37,7 @@
                     <label for="toDate">
                       Hasta Fecha
                     </label>
-                    <input type="text" name="toDate" class="form-control" />
+                    <input type="text" name="toDate" class="form-control datepicker" />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -131,6 +131,7 @@
             {{Form::close()}}
           </div>
         </div>
+        {{Form::open(['url' => 'bulletins', 'method' => 'GET'])}}
         <table class="table">
           <thead>
             <th class="col-md-1">Fecha</th>
@@ -171,18 +172,26 @@
                 </a>
               </td>
               <td>
-                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="-1" title="Eliminar Noticia">
+                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="{{$item->id}}" data-detail-id="{{$detail->id}}" title="Eliminar Detalle de Noticia">
                   <i class="fa fa-trash"></i>
                 </a>
               </td>
               <td>
-                <input type="checkbox" value="{{$item->id}}" />
+                <input type="checkbox" name="news_detail_id" value="{{$detail->id}}" />
               </td>
             </tr>
           @endforeach
         @endforeach
           </tbody>
         </table>
+        <div class="row">
+          <div class="col-md-4">
+            <button class="btn btn-success">
+              Generar Boletín
+            </button>
+          </div>
+        </div>
+        {{Form::close()}}
         <center>
           {{Form::paginator($news, '/dashboard/news')}}
         </center>
@@ -190,4 +199,43 @@
     </div>
   </div>
 </div>
+@stop
+
+@section('scripts')
+<script src="{{asset('assets/vendors/js/bootstrap-datepicker.min.js')}}"></script>
+<script src="{{asset('assets/vendors/js/bootstrap-datepicker.es.min.js')}}"></script>
+<script src="{{asset('assets/vendors/js/react.min.js')}}"></script>
+<script src="{{asset('assets/js/build.min.js')}}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $http = MyApp.$http;
+  $('.datepicker').datepicker({
+      format: 'dd/mm/yyyy',
+      language: 'es',
+      orientation: "top right",
+      autoclose: true
+    });
+  $('.delete').on('click', function(e) {
+   if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
+    var newsDetailId = e.currentTarget.dataset.detailId;
+    var newsId = e.currentTarget.dataset.id;
+
+    $http.remove('/news/' + newsId + '/details/' + newsDetailId).then(function(res) {
+    var messages = document.getElementById('messages');
+      messages.innerHTML =  '<div class="alert alert-info alert-dismissable">'+
+      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+      '&times;'+
+      '</button>'+
+      'Detalle de noticia eliminado exitosamente.'+
+      '</div>';
+      setTimeout(function() {
+        window.location = '/dashboard/news/';
+      }, 500);
+  }, function(err) {})
+  });
+});
+</script>
+@stop
+@section('styles')
+<link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/bootstrap-datepicker.min.css')}}">
 @stop
