@@ -6,6 +6,7 @@ Route::get('/login', ['uses' => 'HomeController@login']);
 Route::post('/login', ['uses' => 'HomeController@doLogin']);
 Route::post('/logout', ['uses' => 'HomeController@doLogout']);
 
+Route::get('/public/bulletins/{id}', ['uses' => 'BulletinController@publicDisplay']);
 
 Route::group(['before' => 'auth'], function() {
     Route::get('/dashboard', ['uses' => 'DashboardController@index']);
@@ -27,6 +28,14 @@ Route::group(['before' => 'auth'], function(){
     Route::post('/upload/{id}', ['uses' => 'NewsController@upload']);
     Route::post('/news/{id}/urls', ['uses' => 'NewsController@addURL']);
 
+});
+
+Route::group(['before' => 'auth'], function() {
+    Route::get('/dashboard/bulletins', ['uses' => 'BulletinController@index']);
+    Route::get('/dashboard/bulletins/{id}/send', ['uses' => 'BulletinController@show']);
+
+    Route::post('/bulletins', ['uses' => 'BulletinController@store']);
+    Route::delete('/bulletins/{id}', ['uses' => 'BulletinController@destroy']);
 });
 
 Route::group(['before' => 'auth'], function() {
@@ -76,7 +85,9 @@ Route::group(['before' => 'auth'], function() {
 });
 
 Route::get('foo', function() {
-    return Hash::make(Input::get('q'));
+    // return Hash::make(Input::get('q'));
+    $a = new DateTime();
+    return $a;
 });
 
 

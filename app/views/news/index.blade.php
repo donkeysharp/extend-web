@@ -131,7 +131,7 @@
             {{Form::close()}}
           </div>
         </div>
-        {{Form::open(['url' => 'bulletins', 'method' => 'GET'])}}
+        {{Form::open(['url' => '/bulletins'])}}
         <table class="table">
           <thead>
             <th class="col-md-1">Fecha</th>
@@ -177,7 +177,7 @@
                 </a>
               </td>
               <td>
-                <input type="checkbox" name="news_detail_id" value="{{$detail->id}}" />
+                <input type="checkbox" name="news_detail_id_{{$detail->id}}" value="{{$detail->id}}" />
               </td>
             </tr>
           @endforeach
@@ -216,22 +216,22 @@ $(document).ready(function(){
       autoclose: true
     });
   $('.delete').on('click', function(e) {
-   if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
+   if(!confirm('Está seguro que desea eliminar este detalle de noticia?')) {return;}
     var newsDetailId = e.currentTarget.dataset.detailId;
     var newsId = e.currentTarget.dataset.id;
 
     $http.remove('/news/' + newsId + '/details/' + newsDetailId).then(function(res) {
-    var messages = document.getElementById('messages');
-      messages.innerHTML =  '<div class="alert alert-info alert-dismissable">'+
-      '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
-      '&times;'+
-      '</button>'+
-      'Detalle de noticia eliminado exitosamente.'+
-      '</div>';
-      setTimeout(function() {
-        window.location = '/dashboard/news/';
-      }, 500);
-  }, function(err) {})
+      var messages = document.getElementById('messages');
+        messages.innerHTML =  '<div class="alert alert-info alert-dismissable">'+
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+        '&times;'+
+        '</button>'+
+        'Detalle de noticia eliminado exitosamente.'+
+        '</div>';
+        setTimeout(function() {
+          window.location = '/dashboard/news/';
+        }, 500);
+    }, function(err) {})
   });
 });
 </script>
