@@ -31,7 +31,7 @@
                 </a>
               </td>
               <td>
-                <a href="/dashboard/bulletins/{{$item->id}}/send" class="btn btn-light" title="Enviar Boletín">
+                <a href="javascript:void(0)" class="btn btn-light send" data-id="{{$item->id}}" title="Enviar Boletín">
                   <i class="fa fa-envelope"></i>
                 </a>
               </td>
@@ -76,6 +76,19 @@ $(document).ready(function(){
         }, 500);
     }, function(err) {})
   });
+  $('.send').on('click', function(e) {
+    if(!confirm('Está seguro que desea enviar este boletín?')) {return;}
+    var bulletinId = e.currentTarget.dataset.id;
+    $http.post('/bulletins/' + bulletinId + '/send').then(function(res) {
+      var messages = document.getElementById('messages');
+        messages.innerHTML =  '<div class="alert alert-success alert-dismissable">'+
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+        '&times;'+
+        '</button>'+
+        'Boletín enviado exitosamente.'+
+        '</div>';
+    }, function(err) {})
+  })
 });
 </script>
 @stop

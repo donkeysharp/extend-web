@@ -32,9 +32,9 @@ Route::group(['before' => 'auth'], function(){
 
 Route::group(['before' => 'auth'], function() {
     Route::get('/dashboard/bulletins', ['uses' => 'BulletinController@index']);
-    Route::post('/dashboard/bulletins/{id}/send', ['uses' => 'BulletinController@sendToClients']);
 
     Route::post('/bulletins', ['uses' => 'BulletinController@store']);
+    Route::post('/bulletins/{id}/send', ['uses' => 'BulletinController@sendToClients']);
     Route::delete('/bulletins/{id}', ['uses' => 'BulletinController@destroy']);
 });
 
