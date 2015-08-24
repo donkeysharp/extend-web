@@ -116,6 +116,7 @@ class NewsDetail extends Eloquent
         $item->type = NewsDetail::SOURCE;
         $item->news_id = $newsId;
         $item->media_id = $data['media_id'];
+        $item->title = $data['title'];
         $item->source = $data['source'];
         $item->alias = $data['alias'];
         $item->topic_id = $data['topic_id'];

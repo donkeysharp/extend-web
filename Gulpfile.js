@@ -28,7 +28,7 @@ gulp.task('build_js', function(){
   })
   .bundle()
   .pipe(source(path.MINIFIED_OUT))
-  .pipe(gulp.dest(path.DEST_BUILD));
+  .pipe(gulp.dest(path.DEST_SRC));
 
 });
 
@@ -45,7 +45,8 @@ gulp.task('build_css', function(){
 });
 
 gulp.task('obfuscate', function() {
-  gulp.src(path.DEST_SRC + '/*.js')
+  console.log('OBFUSCATING!!');
+  gulp.src(path.DEST_SRC + '/**/*.js')
     .pipe(uglify())
     .pipe(gulp.dest(path.DEST_BUILD));
 });

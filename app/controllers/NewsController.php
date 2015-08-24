@@ -13,7 +13,7 @@ class NewsController extends BaseController
                     $q->with('media');
                 }
             ])
-            ->orderBy('id')
+            ->orderBy('date', 'desc')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();

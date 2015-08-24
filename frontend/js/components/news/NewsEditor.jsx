@@ -9,7 +9,7 @@ var NewsEditor = React.createClass({
 
     return (
       <div className="row">
-        <div className="col-md-8 col-md-offset-2">
+        <div className="col-md-10 col-md-offset-1">
           <div className="panel panel-dark">
             <div className="panel-heading"><b>{title}</b></div>
             <div className="panel-body">
