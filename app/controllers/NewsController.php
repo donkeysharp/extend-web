@@ -4,24 +4,103 @@ class NewsController extends BaseController
 {
     public function index()
     {
-        $limit = 10; $page = Input::get('page', 1);
+        $limit = 20; $page = Input::get('page', 1);
 
-        $news = News::with('client')
-            ->with('details')
+        $query = News::with('client')
             ->with([
                 'details' => function($q) {
                     $q->with('media');
                 }
-            ])
-            ->orderBy('date', 'desc')
+            ]);
+        if (Input::get('q')) {
+            $query = $this->search();
+        }
+
+        $news = $query->orderBy('date', 'desc')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();
 
         $paginator = Paginator::make($news->all(), News::count(), $limit);
+        $clients = Client::all()->lists('name', 'id');
+        $media = Media::all()->lists('name', 'id');
+        $media[''] = '--- Seleccione un medio ---';
+        $clients[''] = '--- Seleccione un cliente ---';
 
         return View::make('news.index')
-            ->with('news', $paginator);
+            ->with('news', $paginator)
+            ->with('model', Input::all())
+            ->with('clients', $clients)
+            ->with('media', $media);
+    }
+
+    private function search()
+    {
+        $fromDate = Input::get('fromDate', false);
+        $toDate = Input::get('toDate', false);
+        $searchBy = Input::get('searchBy', false);
+        $clientId = Input::get('client_id', false);
+        $detailsData = [
+            'mediaType' => Input::get('mediaType', false),
+            'mediaId' => Input::get('media_id', false),
+            'title' => Input::get('title', false),
+            'tendency' => Input::get('tendency', false),
+            'source' => Input::get('source', false),
+            'gender' => Input::get('gender', false),
+            'show' => Input::get('show', false),
+        ];
+
+        $query = News::with([
+            'client' => function($q) use($clientId) {
+                if($clientId) {
+                    $q->where('id', '=', $clientId);
+                }
+            },
+            'details' => function($q) use($detailsData) {
+                if($detailsData['mediaType']) {
+                    $q->where('type', '=', $detailsData['mediaType']);
+                }
+                if($detailsData['mediaId']) {
+                    $q->where('media_id', '=', $detailsData['mediaId']);
+                }
+                if($detailsData['title']) {
+                    $q->where('title', 'like', '%' . $detailsData['title'] .'%');
+                }
+                if($detailsData['tendency']) {
+                    $q->where('tendency', '=', $detailsData['tendency']);
+                }
+                if($detailsData['source']) {
+                    $q->where('source', 'like', '%'.$detailsData['source'].'%');
+                }
+                if($detailsData['gender']) {
+                    $q->where('gender', 'like', '%'.$detailsData['gender'].'%');
+                }
+                if($detailsData['show']) {
+                    $q->where('show', 'like', '%'.$detailsData['show'].'%');
+                }
+            }
+        ]);
+
+        $dateField = 'date';
+        if($searchBy == 'created') {
+            $dateField = 'created_at';
+        }
+        if($fromDate) {
+            $fromDate = DateTime::createFromFormat('d/m/Y', $fromDate)->format('Y-m-d');
+            $query->where($dateField, '>=', $fromDate);
+        }
+        if($toDate) {
+            $toDate = DateTime::createFromFormat('d/m/Y', $toDate)->format('Y-m-d');
+            $query->where($dateField, '<=', $toDate);
+        }
+        if($clientId) {
+            $query->where('client_id', '=', $clientId);
+        }
+
+        // $result = $query->get();
+        // print_r(DB::getQueryLog());
+
+        return $query;
     }
 
     public function show($id)
