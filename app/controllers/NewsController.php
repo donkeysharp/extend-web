@@ -4,7 +4,7 @@ class NewsController extends BaseController
 {
     public function index()
     {
-        $limit = 20; $page = Input::get('page', 1);
+        $limit = 3; $page = Input::get('page', 1);
 
         $query = News::with('client')
             ->with([
@@ -13,6 +13,7 @@ class NewsController extends BaseController
                 }
             ]);
         if (Input::get('q')) {
+            $limit = 50;
             $query = $this->search();
         }
 
@@ -48,6 +49,7 @@ class NewsController extends BaseController
             'source' => Input::get('source', false),
             'gender' => Input::get('gender', false),
             'show' => Input::get('show', false),
+            'description' => Input::get('description', false),
         ];
 
         $query = News::with([
@@ -77,6 +79,9 @@ class NewsController extends BaseController
                 }
                 if($detailsData['show']) {
                     $q->where('show', 'like', '%'.$detailsData['show'].'%');
+                }
+                if($detailsData['description']) {
+                    $q->where('description', 'like', '%'.$detailsData['description'].'%');
                 }
             }
         ]);
@@ -169,7 +174,7 @@ class NewsController extends BaseController
         $news->client_id = $data['client_id'];
         $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
         $news->press_note = $data['press_note'];
-        $news->subtitle = $data['subtitle'];
+        $news->subtitle = '';
         $news->clasification = $data['clasification'];
         $news->code = $data['code'];
 

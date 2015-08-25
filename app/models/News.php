@@ -2,7 +2,7 @@
 
 class News extends Eloquent {
     protected $table = 'news';
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'subtitle'];
 
     public function details()
     {
@@ -33,4 +33,3 @@ class News extends Eloquent {
         return $value;
     }
 }
-

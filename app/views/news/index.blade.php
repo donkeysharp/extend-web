@@ -29,7 +29,8 @@
                     <label for="fromDate">
                       Desde Fecha
                     </label>
-                    <input type="text" name="fromDate" class="form-control datepicker" />
+                    <input type="text" name="fromDate" class="form-control datepicker"
+                      value="{{(new DateTime())->format('d/m/Y')}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -37,7 +38,8 @@
                     <label for="toDate">
                       Hasta Fecha
                     </label>
-                    <input type="text" name="toDate" class="form-control datepicker" />
+                    <input type="text" name="toDate" class="form-control datepicker"
+                      value="{{(new DateTime())->format('d/m/Y')}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -117,6 +119,14 @@
                   <div class="form-group">
                     <label for="gender">Género</label>
                     <input type="text" name="gender" class="form-control" />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <input type="text" name="description" class="form-control" />
                   </div>
                 </div>
               </div>
@@ -213,6 +223,7 @@ $(document).ready(function(){
       format: 'dd/mm/yyyy',
       language: 'es',
       orientation: "top right",
+      todayHighlight: true,
       autoclose: true
     });
   $('.delete').on('click', function(e) {

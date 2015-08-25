@@ -25,20 +25,39 @@ class BulletinController extends BaseController
 
     public function sendToClients($id)
     {
-        $bulletin = Bulletin::findOrFail($id);
-        $details = $bulletin->details()->with(['news' => function($q) {
-            $q->with('client');
-        }])->get();
+        $info = $this->getBulletinInfo($id);
 
         $clientId = $details[0]->news->client_id;
         $contacts = Contact::where('client_id', '=', $clientId)->get();
-        $info = ['date' => Carbon\Carbon::now(), 'details' => $details];
+        Mail::send('bulletins.templates.mosaic', $info, function($message) use($contacts) {
+            foreach($contacts as $contact) {
+                $message = $message->to($contact->email, $contact->name);
+            }
+            $message->subject('Boletín Extend');
+        });
 
-        foreach($contacts as $contact) {
-            Mail::send('bulletins.templates.mosaic', $info, function($message) use($contact) {
-                $message->to($contact->email, $contact->name)->subject('Boletín Extend');
-            });
+        return Response::json([
+            'status' => 'ok'
+        ], 200);
+    }
+
+    public function sendToTestClient($id)
+    {
+        $info = $this->getBulletinInfo($id);
+
+        $clientId = 100;
+        $contacts = Contact::where('client_id', '=', $clientId)->get();
+        if(count($contacts) === 0) {
+            return Response::json([
+                'status' => 'The client does not have contacts'
+            ], 400);
         }
+        Mail::send('bulletins.templates.mosaic', $info, function($message) use($contacts) {
+            foreach($contacts as $contact) {
+                $message = $message->to($contact->email, $contact->name);
+            }
+            $message->subject('Boletín Extend');
+        });
 
         return Response::json([
             'status' => 'ok'
@@ -47,14 +66,25 @@ class BulletinController extends BaseController
 
     public function publicDisplay($id)
     {
+        $info = $this->getBulletinInfo($id);
+        return View::make('bulletins.templates.mosaic')
+            ->with('date',$info['date'])
+            ->with('details', $info['details'])
+            ->with('subtitles', $info['subtitles']);
+    }
+
+    private function getBulletinInfo($id)
+    {
         $bulletin = Bulletin::findOrFail($id);
+        $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
         }])->get();
-        // return $details;
-        return View::make('bulletins.templates.mosaic')
-            ->with('date', Carbon\Carbon::now())
-            ->with('details', $details);
+        $info = [
+            'date' => Carbon\Carbon::now(),
+            'details' => $details,
+            'subtitles'=>$subtitles
+        ];
     }
 
     public function store()
@@ -77,7 +107,7 @@ class BulletinController extends BaseController
         }
 
         DB::commit();
-        return Redirect::to('dashboard/news')
+        return Redirect::to('dashboard/bulletins')
             ->with('message', 'Boletín creado exitosamente');
     }
 

@@ -52,7 +52,6 @@ function onSaveClick(e) {
     data.date = this.refs.date.getDOMNode().value;
     data.client_id = this.refs.client.getDOMNode().value;
     data.press_note = this.refs.pressNote.getDOMNode().value;
-    data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.clasification = this.state.clasification;
     data.code = this.refs.code.getDOMNode().value;
 
@@ -76,6 +75,22 @@ function onSaveClick(e) {
       }, 500);
     }, function(err) {});
   }
+}
+
+function getToday() {
+  var date = new Date();
+  var day, month, year;
+  day = date.getDate();
+  if (date.getDate() < 10) {
+    day = '0' + day;
+  }
+  month = date.getMonth() + 1;
+  if(date.getMonth() < 10) {
+    month = '0' + month;
+  }
+  year = date.getFullYear();
+
+  return day + '/' + month + '/' + year;
 }
 
 function onClasificationChange(e) {
@@ -153,7 +168,6 @@ function getExtraFields() {
 function initControls(data) {
   this.refs.date.getDOMNode().value = data.date;
   this.refs.pressNote.getDOMNode().value = data.press_note;
-  this.refs.subtitle.getDOMNode().value = data.subtitle;
   this.refs.code.getDOMNode().value = data.code;
 
    var details = parseNewsDetails(data);
@@ -212,6 +226,7 @@ var GeneralFieldsEditor = React.createClass({
       orientation: "top right",
       autoclose: true
     });
+    this.refs.date.getDOMNode().value = getToday();
     getExtraData.call(this);
 
     if(!this.props.id) return;
@@ -275,9 +290,9 @@ var GeneralFieldsEditor = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">
-                  <i className="fa fa-pencil"></i>
+                  <i className="fa fa-user"></i>
                 </div>
-                <input type="text" ref="subtitle" className="form-control" placeholder="Subtítulo" />
+                <input type="text" ref="code" className="form-control" placeholder="Código" />
               </div>
             </div>
           </div>
@@ -310,16 +325,6 @@ var GeneralFieldsEditor = React.createClass({
                     value="C" />
                   C
                 </label>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="form-group">
-              <div className="input-group">
-                <div className="input-group-addon">
-                  <i className="fa fa-user"></i>
-                </div>
-                <input type="text" ref="code" className="form-control" placeholder="Código" />
               </div>
             </div>
           </div>

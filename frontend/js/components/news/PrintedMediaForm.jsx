@@ -12,6 +12,7 @@ function initControls() {
   this.refs.section.getDOMNode().value = this.props.model.section;
   this.refs.page.getDOMNode().value = this.props.model.page;
   this.refs.title.getDOMNode().value = this.props.model.title;
+  this.refs.subtitle.getDOMNode().value = this.props.model.subtitle;
   this.refs.gender.getDOMNode().value = this.props.model.gender;
   this.refs.topic.getDOMNode().value = this.props.model.topic_id;
   this.refs.measure.getDOMNode().value = this.props.model.measure;
@@ -35,6 +36,7 @@ var PrintedMediaForm = React.createClass({
     data.section = this.refs.section.getDOMNode().value;
     data.page = this.refs.page.getDOMNode().value;
     data.title = this.refs.title.getDOMNode().value;
+    data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.gender = this.refs.gender.getDOMNode().value;
     data.topic_id = this.refs.topic.getDOMNode().value;
     data.measure = this.refs.measure.getDOMNode().value;
@@ -106,7 +108,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="gender" className="form-control" placeholder="Género" />
+                  <input type="text" ref="subtitle" className="form-control" placeholder="Subtítulo" />
                 </div>
               </div>
             </div>
@@ -123,29 +125,19 @@ var PrintedMediaForm = React.createClass({
                 <i className="fa fa-plus"></i>
               </a>
             </div>
-            <div className="col-md-3">
+            <div className="col-md-5">
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">
-                    <i className="fa fa-sliders"></i>
+                    <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="measure" className="form-control" placeholder="Medida" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="fa fa-money"></i>
-                  </div>
-                  <input type="text" ref="cost" className="form-control" placeholder="Costo" />
+                  <input type="text" ref="gender" className="form-control" placeholder="Género" />
                 </div>
               </div>
             </div>
           </div>
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-6">
               <div className="clasification">
                 Tendencia&nbsp;&nbsp;&nbsp;
                 <label>
@@ -168,6 +160,26 @@ var PrintedMediaForm = React.createClass({
                     checked={this.state.tendency === '3'} />
                   Neutra
                 </label>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-sliders"></i>
+                  </div>
+                  <input type="text" ref="measure" className="form-control" placeholder="Medida" />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-3">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-money"></i>
+                  </div>
+                  <input type="text" ref="cost" className="form-control" placeholder="Costo" />
+                </div>
               </div>
             </div>
           </div>

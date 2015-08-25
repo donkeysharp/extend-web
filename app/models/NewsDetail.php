@@ -45,6 +45,7 @@ class NewsDetail extends Eloquent
         $item->section = $data['section'];
         $item->page = $data['page'];
         $item->title = $data['title'];
+        $item->subtitle = $data['subtitle'];
         $item->gender = $data['gender'];
         $item->topic_id = $data['topic_id'];
         $item->measure = $data['measure'];
@@ -63,6 +64,7 @@ class NewsDetail extends Eloquent
         $item->media_id = $data['media_id'];
         $item->section = $data['section'];
         $item->page = $data['page'];
+        $item->subtitle = $data['subtitle'];
         $item->title = $data['title'];
         $item->web = $data['web'];
         $item->gender = $data['gender'];
@@ -82,6 +84,7 @@ class NewsDetail extends Eloquent
         $item->news_id = $newsId;
         $item->media_id = $data['media_id'];
         $item->source = $data['source'];
+        $item->subtitle = $data['subtitle'];
         $item->alias = $data['alias'];
         $item->title = $data['title'];
         $item->communication_risk = $data['communication_risk'];
@@ -102,6 +105,7 @@ class NewsDetail extends Eloquent
         $item->news_id = $newsId;
         $item->media_id = $data['media_id'];
         $item->source = $data['source'];
+        $item->subtitle = $data['subtitle'];
         $item->alias = $data['alias'];
         $item->title = $data['title'];
         $item->communication_risk = $data['communication_risk'];
@@ -122,6 +126,7 @@ class NewsDetail extends Eloquent
         $item->news_id = $newsId;
         $item->media_id = $data['media_id'];
         $item->title = $data['title'];
+        $item->subtitle = $data['subtitle'];
         $item->source = $data['source'];
         $item->alias = $data['alias'];
         $item->topic_id = $data['topic_id'];

@@ -93,7 +93,7 @@ class InitialTables extends Migration {
 			$t->increments('id');
 			$t->integer('type');
 			$t->string('title');
-			$t->string('description', 1000)->nullable();
+			$t->text('description')->nullable();
 			$t->string('tendency');
 			$t->string('section')->nullable();
 			$t->string('page')->nullable();

@@ -13,6 +13,7 @@ function initControls() {
   this.refs.section.getDOMNode().value = this.props.model.section;
   this.refs.page.getDOMNode().value = this.props.model.page;
   this.refs.title.getDOMNode().value = this.props.model.title;
+  this.refs.subtitle.getDOMNode().value = this.props.model.subtitle;
   this.refs.web.getDOMNode().value = this.props.model.web;
   this.refs.gender.getDOMNode().value = this.props.model.gender;
   this.refs.topic.getDOMNode().value = this.props.model.topic_id;
@@ -37,6 +38,7 @@ var DigitalMediaForm = React.createClass({
     data.section = this.refs.section.getDOMNode().value;
     data.page = this.refs.page.getDOMNode().value;
     data.title = this.refs.title.getDOMNode().value;
+    data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.web = this.refs.web.getDOMNode().value;
     data.gender = this.refs.gender.getDOMNode().value;
     data.topic_id = this.refs.topic.getDOMNode().value;
@@ -95,12 +97,20 @@ var DigitalMediaForm = React.createClass({
             </div>
           </div>
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-7">
               <div className="input-group">
                 <div className="input-group-addon">
                   <i className="fa fa-envelope"></i>
                 </div>
                 <input type="text" ref="title" className="form-control" placeholder="Título" />
+              </div>
+            </div>
+            <div className="col-md-5">
+              <div className="input-group">
+                <div className="input-group-addon">
+                  <i className="fa fa-envelope"></i>
+                </div>
+                <input type="text" ref="subtitle" className="form-control" placeholder="Subtítulo" />
               </div>
             </div>
           </div>

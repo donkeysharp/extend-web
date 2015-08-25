@@ -10,6 +10,7 @@ function initControls() {
 
   this.refs.media.getDOMNode().value = this.props.model.media_id;
   this.refs.title.getDOMNode().value = this.props.model.title;
+  this.refs.subtitle.getDOMNode().value = this.props.model.subtitle;
   this.refs.source.getDOMNode().value = this.props.model.source;
   this.refs.alias.getDOMNode().value = this.props.model.alias;
   this.refs.topic.getDOMNode().value = this.props.model.topic_id;
@@ -32,6 +33,7 @@ var SourceMediaForm = React.createClass({
     var data = {};
     data.media_id = this.refs.media.getDOMNode().value;
     data.title = this.refs.title.getDOMNode().value;
+    data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.source = this.refs.source.getDOMNode().value;
     data.alias = this.refs.alias.getDOMNode().value;
     data.topic_id = this.refs.topic.getDOMNode().value;
@@ -68,13 +70,23 @@ var SourceMediaForm = React.createClass({
             </div>
           </div><br />
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-7">
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
                   <input type="text" ref="title" className="form-control" placeholder="Título" />
+                </div>
+              </div>
+            </div>
+             <div className="col-md-5">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-user"></i>
+                  </div>
+                  <input type="text" ref="subtitle" className="form-control" placeholder="Subtítulo" />
                 </div>
               </div>
             </div>
