@@ -14,6 +14,7 @@
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
+            <th class="col-md-1"></th>
           </thead>
           <tbody>
           @foreach($bulletins->getItems() as $item)
@@ -33,6 +34,11 @@
               <td>
                 <a href="javascript:void(0)" class="btn btn-light send" data-id="{{$item->id}}" title="Enviar Boletín">
                   <i class="fa fa-envelope"></i>
+                </a>
+              </td>
+              <td>
+                <a href="javascript:void(0)" class="btn btn-info test-send" data-id="{{$item->id}}" title="Envio de prueba">
+                  Prueba
                 </a>
               </td>
               <td >
@@ -88,7 +94,21 @@ $(document).ready(function(){
         'Boletín enviado exitosamente.'+
         '</div>';
     }, function(err) {})
-  })
+  });
+  $('.test-send').on('click', function(e) {
+    if(!confirm('Está seguro que desea realizar los envíos de prueba?')) {return;}
+    var bulletinId = e.currentTarget.dataset.id;
+
+    $http.post('/bulletins/' + bulletinId + '/send/test').then(function(res) {
+      var messages = document.getElementById('messages');
+        messages.innerHTML =  '<div class="alert alert-success alert-dismissable">'+
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+        '&times;'+
+        '</button>'+
+        'Prueba de boletín enviada exitosamente.'+
+        '</div>';
+    }, function(err) {})
+  });
 });
 </script>
 @stop

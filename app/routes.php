@@ -35,6 +35,7 @@ Route::group(['before' => 'auth'], function() {
 
     Route::post('/bulletins', ['uses' => 'BulletinController@store']);
     Route::post('/bulletins/{id}/send', ['uses' => 'BulletinController@sendToClients']);
+    Route::post('/bulletins/{id}/send/test', ['uses' => 'BulletinController@sendToTestClient']);
     Route::delete('/bulletins/{id}', ['uses' => 'BulletinController@destroy']);
 });
 

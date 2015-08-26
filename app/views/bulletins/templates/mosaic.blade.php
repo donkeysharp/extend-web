@@ -17,7 +17,7 @@
       margin-bottom: 5px;
     }
     .container {
-      width: 700px;
+      width: 650px;
       margin-top: 20px;
       margin-left: auto;
       margin-right: auto;
@@ -40,17 +40,17 @@
     }
     @media (min-width: 768px) {
       .container {
-        width: 700px;
+        width: 650px;
       }
     }
     @media (min-width: 992px) {
       .container {
-        width: 700px;
+        width: 650px;
       }
     }
     @media (min-width: 1200px) {
       .container {
-        width: 700px;
+        width: 650px;
       }
     }
     .logo {

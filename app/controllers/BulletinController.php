@@ -25,7 +25,16 @@ class BulletinController extends BaseController
 
     public function sendToClients($id)
     {
-        $info = $this->getBulletinInfo($id);
+        $bulletin = Bulletin::findOrFail($id);
+        $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
+        $details = $bulletin->details()->with(['news' => function($q) {
+            $q->with('client');
+        }])->get();
+        $info = [
+            'date' => Carbon\Carbon::now(),
+            'details' => $details,
+            'subtitles'=>$subtitles
+        ];
 
         $clientId = $details[0]->news->client_id;
         $contacts = Contact::where('client_id', '=', $clientId)->get();
@@ -43,7 +52,16 @@ class BulletinController extends BaseController
 
     public function sendToTestClient($id)
     {
-        $info = $this->getBulletinInfo($id);
+        $bulletin = Bulletin::findOrFail($id);
+        $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
+        $details = $bulletin->details()->with(['news' => function($q) {
+            $q->with('client');
+        }])->get();
+        $info = [
+            'date' => Carbon\Carbon::now(),
+            'details' => $details,
+            'subtitles'=>$subtitles
+        ];
 
         $clientId = 100;
         $contacts = Contact::where('client_id', '=', $clientId)->get();
@@ -66,25 +84,16 @@ class BulletinController extends BaseController
 
     public function publicDisplay($id)
     {
-        $info = $this->getBulletinInfo($id);
-        return View::make('bulletins.templates.mosaic')
-            ->with('date',$info['date'])
-            ->with('details', $info['details'])
-            ->with('subtitles', $info['subtitles']);
-    }
-
-    private function getBulletinInfo($id)
-    {
         $bulletin = Bulletin::findOrFail($id);
         $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
         }])->get();
-        $info = [
-            'date' => Carbon\Carbon::now(),
-            'details' => $details,
-            'subtitles'=>$subtitles
-        ];
+
+        return View::make('bulletins.templates.mosaic')
+            ->with('date', Carbon\Carbon::now())
+            ->with('details', $details)
+            ->with('subtitles', $subtitles);
     }
 
     public function store()
