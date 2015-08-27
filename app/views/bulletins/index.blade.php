@@ -21,7 +21,11 @@
             <tr>
               <td>{{$item->created_at}}</td>
               <td>
+              @if(count($item->details) > 0)
                 {{$item->details[0]->news->client->name}}
+              @else
+                No hay un cliente definido
+              @endif
               </td>
               <td>
                 {{count($item->details)}}
@@ -41,7 +45,7 @@
                   Prueba
                 </a>
               </td>
-              <td >
+              <td>
                 <a href="javascript:void(0)" class="btn btn-danger delete" data-id="{{$item->id}}" title="Eliminar Boletin">
                   <i class="fa fa-trash"></i>
                 </a>

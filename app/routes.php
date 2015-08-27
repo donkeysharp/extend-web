@@ -12,6 +12,11 @@ Route::group(['before' => 'auth'], function() {
     Route::get('/dashboard', ['uses' => 'DashboardController@index']);
 });
 
+Route::group(['before' => 'auth'], function() {
+    Route::get('/subtitles', ['uses' => 'SubtitleController@index']);
+    Route::post('/subtitles', ['uses' => 'SubtitleController@store']);
+});
+
 Route::group(['before' => 'auth'], function(){
     Route::get('dashboard/news', ['uses' => 'NewsController@index']);
     Route::get('dashboard/news/create', ['uses' => 'NewsController@create']);

@@ -1,4 +1,16 @@
 'use strict';
+var ModalSubtitleCreateForm = require('../subtitles/ModalSubtitleCreateForm.jsx');
+
+function displayModal() {
+  this.refs.subtitleModal.showModal();
+}
+
+function onSubtitleCreated(res) {
+  this.refs.subtitle.getDOMNode().value = res.subtitle;
+  if(this.props.onSubtitleCreated) {
+    this.props.onSubtitleCreated(res);
+  }
+}
 
 function onTendencyChange(e) {
   this.setState({tendency: e.currentTarget.value});
@@ -54,9 +66,14 @@ var PrintedMediaForm = React.createClass({
     var topics = this.props.topics.map(function(item) {
       return <option value={item.id}>{item.name}</option>;
     });
+    var subtitles = this.props.subtitles.map(function(item) {
+      var mark = item.subtitle === this.props.model.subtitle ? 'selected' : '';
+      return <option value={item.subtitle} selected={mark}>{item.subtitle}</option>;
+    }.bind(this));
     return (
       <div className="row">
         <div className="col-md-12">
+          <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <div className="section-divider"><span>IMPRESO</span></div>
           <div className="row">
             <div className="col-md-5">
@@ -102,15 +119,17 @@ var PrintedMediaForm = React.createClass({
                 </div>
               </div>
             </div>
-            <div className="col-md-5">
+            <div className="col-md-4">
               <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="fa fa-user"></i>
-                  </div>
-                  <input type="text" ref="subtitle" className="form-control" placeholder="Subtítulo" />
-                </div>
+                <select ref="subtitle" className="form-control">
+                  {subtitles}
+                </select>
               </div>
+            </div>
+            <div className="col-md-1">
+              <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displayModal.bind(this)}>
+                <i className="fa fa-plus"></i>
+              </a>
             </div>
           </div>
           <div className="row">

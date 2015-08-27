@@ -10,7 +10,6 @@ var SourceMediaForm = require('./SourceMediaForm.jsx');
 
 function onDeleteClick(e){
   if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
-  console.log('>>> onDeleteClick');
 
   $http.remove('/news/' + this.props.id).then(function(res) {
     var messages = document.getElementById('messages');
@@ -27,7 +26,6 @@ function onDeleteClick(e){
 }
 
 function getMediaFormsData() {
-  console.log('>>> getMediaFormsData');
   var mediaType = this.state.type;
   var data = {printed: null, digital: null, radio: null, tv: null, source: null};
   if (mediaType.printed) {
@@ -49,8 +47,13 @@ function getMediaFormsData() {
   return data;
 }
 
+function onSubtitleCreated(res) {
+  var subtitles = this.state.subtitles;
+  subtitles.push(res);
+  this.setState({subtitles: subtitles});
+}
+
 function onSaveClick(e) {
-  console.log('>>> onSaveClick');
   var data = {};
     data.date = this.refs.date.getDOMNode().value;
     data.client_id = this.refs.client.getDOMNode().value;
@@ -103,14 +106,12 @@ function onClasificationChange(e) {
 }
 
 function onMediaTypeChanged(data) {
-  console.log('>>> onMediaTypeChanged');
   var mediaType = this.state.type;
   mediaType[data.mediaType] = data.value;
   this.setState({type: mediaType});
 }
 
 function parseNewsDetails(data) {
-  console.log('>>> parseNewsDetails');
   var res = {printed: null, digital: null, radio: null, tv: null, source: null};
   if(!data.details) return res;
 
@@ -132,36 +133,34 @@ function parseNewsDetails(data) {
 }
 
 function getMediaForms() {
-  console.log('>>> getMediaForms');
   var mediaType = this.state.type;
   var details = parseNewsDetails.call(this, this.state.model);
   var result = [];
   if(mediaType.printed) {
     var model = details.printed;
-    result.push(<PrintedMediaForm ref="printedMedia" model={model} media={this.state.media} topics={this.state.topics} />);
+    result.push(<PrintedMediaForm ref="printedMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
   }
   if (mediaType.digital) {
     var model = details.digital;
-    result.push(<DigitalMediaForm ref="digitalMedia" model={model} media={this.state.media} topics={this.state.topics} />);
+    result.push(<DigitalMediaForm ref="digitalMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
   }
   if (mediaType.radio) {
     var model = details.radio;
-    result.push(<RadioMediaForm ref="radioMedia" model={model} media={this.state.media} topics={this.state.topics} />);
+    result.push(<RadioMediaForm ref="radioMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
   }
   if (mediaType.tv) {
     var model = details.tv;
-    result.push(<TvMediaForm ref="tvMedia" model={model} media={this.state.media} topics={this.state.topics} />);
+    result.push(<TvMediaForm ref="tvMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
   }
   if (mediaType['source']) {
     var model = details.source;
-    result.push(<SourceMediaForm ref="sourceMedia" model={model} media={this.state.media} topics={this.state.topics} />);
+    result.push(<SourceMediaForm ref="sourceMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
   }
 
   return result;
 }
 
 function getExtraFields() {
-  console.log('>>> getExtraFields');
   var mediaForms = getMediaForms.call(this);
   if(this.props.mode === 'create') return null;
 
@@ -174,7 +173,6 @@ function getExtraFields() {
 }
 
 function initControls(data, extraData) {
-  console.log('>>> initControls');
   this.refs.date.getDOMNode().value = data.date;
   this.refs.pressNote.getDOMNode().value = data.press_note;
   this.refs.code.getDOMNode().value = data.code;
@@ -193,22 +191,21 @@ function initControls(data, extraData) {
     type: mediaType,
     clients: extraData.clients,
     topics: extraData.topics,
-    media: extraData.media
+    media: extraData.media,
+    subtitles: extraData.subtitles,
   });
   this.refs.extraFields.changeMediaTypeStatus(this.state.type);
 }
 
 function getExtraData() {
-  console.log('>>> getExtraData');
   var toGet = {clients: true};
   if(this.props.mode === 'edit') {
-    toGet.topics = true; toGet.media = true;
+    toGet.topics = true; toGet.media = true; toGet.subtitles = true;
   }
   return $http.get('/news/extra',toGet);
 }
 
 function onClientChage(e) {
-  console.log('>>> onClientChage');
   if(e.currentTarget.value === '0') return;
 
   var model = this.state.model;
@@ -218,7 +215,6 @@ function onClientChage(e) {
 
 var GeneralFieldsEditor = React.createClass({
   getInitialState: function () {
-    console.log('>>> GeneralFieldsEditor::getInitialState');
     return {
       id: 0,
       clasification: 'A',
@@ -237,7 +233,6 @@ var GeneralFieldsEditor = React.createClass({
     };
   },
   componentDidMount: function() {
-    console.log('>>> GeneralFieldsEditor::componentDidMount');
     $(this.refs.date.getDOMNode()).datepicker({
       format: 'dd/mm/yyyy',
       language: 'es',
@@ -246,19 +241,16 @@ var GeneralFieldsEditor = React.createClass({
     });
     this.refs.date.getDOMNode().value = getToday();
     getExtraData.call(this).then(function(extraData) {
-      if(!this.props.id) return;
+      if(!this.props.id) {
+        this.setState({clients: extraData.clients});
+        return
+      };
       $http.get('/news/' + this.props.id).then(function(data) {
         initControls.call(this, data, extraData);
       }.bind(this), function(err) {})
     }.bind(this), function(err){});
-
-    // if(!this.props.id) return;
-    // $http.get('/news/' + this.props.id).then(function(data) {
-    //   initControls.call(this, data);
-    // }.bind(this), function(err) {})
   },
   render: function() {
-    console.log('>>> GeneralFieldsEditor::render');
     var buttonDisplay = this.props.mode === 'create' ? 'Continuar' : 'Guardar Noticia';
     var extraFields = getExtraFields.call(this);
     var clients = this.state.clients.map(function(item) {
