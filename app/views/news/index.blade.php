@@ -22,7 +22,7 @@
             <a data-toggle="collapse" href="#search" aria-expanded="false">
               Búsqueda
             </a>
-            <div class="collapse" id="search">
+            <div class="collapse in" id="search">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
