@@ -21,6 +21,7 @@ Route::group(['before' => 'auth'], function(){
     Route::get('dashboard/news', ['uses' => 'NewsController@index']);
     Route::get('dashboard/news/create', ['uses' => 'NewsController@create']);
     Route::get('dashboard/news/{id}/edit', ['uses' => 'NewsController@edit']);
+    Route::get('dashboard/news/{id}/view', ['uses' => 'NewsController@view'])->where('id', '[0-9]+');
     Route::get('/news/extra', ['uses' => 'NewsController@extra']);
     Route::get('/news/{id}', ['uses' => 'NewsController@show'])->where('id', '[0-9]+');
     Route::get('news/{id}/uploads', ['uses' => 'NewsController@getUploads']);

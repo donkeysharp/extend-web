@@ -103,6 +103,19 @@ class NewsController extends BaseController
         return Response::json($news, 200);
     }
 
+    public function view($id)
+    {
+        $news = News::with([
+            'details' => function($q) {
+                $q->with('media')->with('topic');
+            },
+            'client'
+        ])->findOrFail($id);
+        // return $news;
+        return View::make('news.view')
+            ->with('news', $news);
+    }
+
     public function extra()
     {
         $clients = [];

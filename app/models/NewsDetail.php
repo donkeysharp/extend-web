@@ -16,6 +16,11 @@ class NewsDetail extends Eloquent
         return $this->belongsTo('Media');
     }
 
+    public function topic()
+    {
+        return $this->belongsTo('Topic');
+    }
+
     public function news()
     {
         return $this->belongsTo('News');
