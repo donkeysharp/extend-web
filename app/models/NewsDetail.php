@@ -3,6 +3,7 @@
 class NewsDetail extends Eloquent
 {
     protected $table = 'news_details';
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 
     const PRINTED = 1;
     const DIGITAL = 2;
@@ -42,6 +43,7 @@ class NewsDetail extends Eloquent
         $item->type = NewsDetail::PRINTED;
         $item->news_id = $newsId;
         $item->media_id = $data['media_id'];
+        $item->id = $data['id'];
         $item->section = $data['section'];
         $item->page = $data['page'];
         $item->title = $data['title'];

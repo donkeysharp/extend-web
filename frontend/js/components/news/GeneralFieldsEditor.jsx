@@ -77,7 +77,7 @@ function onSaveClick(e) {
       'Noticia creada exitosamente.'+
       '</div>';
       setTimeout(function() {
-        window.location = '/dashboard/news/' + res.id + '/edit';
+        // window.location = '/dashboard/news/' + res.id + '/edit';
       }, 500);
     }, function(err) {});
   }
@@ -100,7 +100,6 @@ function getToday() {
 }
 
 function onClasificationChange(e) {
-  console.log('>>> onClasificationChange');
   this.setState({clasification: e.currentTarget.value});
   e.currentTarget.checked = true;
 }
@@ -161,8 +160,8 @@ function getMediaForms() {
 }
 
 function getExtraFields() {
-  var mediaForms = getMediaForms.call(this);
   if(this.props.mode === 'create') return null;
+  var mediaForms = getMediaForms.call(this);
 
   return (
     <ExtraFields ref="extraFields" newsId={this.props.id}

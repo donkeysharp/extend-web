@@ -47,6 +47,10 @@ var DigitalMediaForm = React.createClass({
   },
   getData: function() {
     var data = {};
+    if (this.props.model) {
+      data.id = this.props.model.id;
+    }
+    data.type = 2;
     data.media_id = this.refs.media.getDOMNode().value;
     data.section = this.refs.section.getDOMNode().value;
     data.page = this.refs.page.getDOMNode().value;
@@ -71,7 +75,10 @@ var DigitalMediaForm = React.createClass({
       return <option value={item.id}>{item.name}</option>;
     });
     var subtitles = this.props.subtitles.map(function(item) {
-      var mark = item.subtitle === this.props.model.subtitle ? 'selected' : '';
+      var mark = '';
+      if(this.props.model) {
+        mark = item.subtitle === this.props.model.subtitle ? 'selected' : '';
+      }
       return <option value={item.subtitle} selected={mark}>{item.subtitle}</option>;
     }.bind(this));
     return (

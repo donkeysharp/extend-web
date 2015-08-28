@@ -174,26 +174,44 @@ class NewsController extends BaseController
 
     public function update($id)
     {
-        $data = Input::all();
-        $news = News::findOrFail($id);
-        $news->client_id = $data['client_id'];
-        $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
-        $news->press_note = $data['press_note'];
-        $news->subtitle = '';
-        $news->clasification = $data['clasification'];
-        $news->code = $data['code'];
-
-        $newsDetails = $this->getNewsDetailInstances($data, $id);
-        DB::transaction(function() use($news, $newsDetails, $data, $id) {
+        DB::beginTransaction();
+        try {
+            $data = Input::all();
+            $news = News::findOrFail($id);
+            $news->client_id = $data['client_id'];
+            $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
+            $news->press_note = $data['press_note'];
+            $news->subtitle = '';
+            $news->clasification = $data['clasification'];
+            $news->code = $data['code'];
             $news->save();
 
-            NewsDetail::where('news_id', $id)->delete();
+            $detailsIds = $this->getDetailsIds($data);
+            $data = $this->getNewsDetailInstances($data, $id);
 
-            foreach($newsDetails as $item) {
-                $item->save();
+            $newsDetails = NewsDetail::whereIn('id', $detailsIds)->get();
+            foreach($data as $item2) {
+                if (!isset($item2['id'])) {
+                    $newsDetail = new NewsDetail($item2);
+                    $newsDetail->news_id = $id;
+                    $newsDetail->save();
+                    continue;
+                }
+
+                foreach($newsDetails as $item) {
+                    if ($item->id == $item2['id']) {
+                        $item->fill($item2);
+                        $item->save();
+                        break;
+                    }
+                }
             }
-        });
+        } catch(Exception $e) {
+            DB::rollback();
+            throw new Exception($e);
+        }
         DB::commit();
+
         $news->details = $newsDetails;
         return Response::json($news, 200);
     }
@@ -263,23 +281,54 @@ class NewsController extends BaseController
         return Response::json($url, 200);
     }
 
+    private function getDetailsIds($data)
+    {
+        $ids = [];
+        if ($detailData = $data['media']['printed']) {
+            if(isset($detailData['id'])) {
+                $ids[] = $detailData['id'];
+            }
+        }
+        if ($detailData = $data['media']['digital']) {
+            if(isset($detailData['id'])) {
+                $ids[] = $detailData['id'];
+            }
+        }
+        if ($detailData = $data['media']['radio']) {
+            if(isset($detailData['id'])) {
+                $ids[] = $detailData['id'];
+            }
+        }
+        if ($detailData = $data['media']['tv']) {
+            if(isset($detailData['id'])) {
+                $ids[] = $detailData['id'];
+            }
+        }
+        if ($detailData = $data['media']['source']) {
+            if(isset($detailData['id'])) {
+                $ids[] = $detailData['id'];
+            }
+        }
+        return $ids;
+    }
+
     private function getNewsDetailInstances($data, $newsId)
     {
         $result = [];
         if ($detailData = $data['media']['printed']) {
-            $result[] = NewsDetail::createInstance(NewsDetail::PRINTED, $detailData, $newsId);
+            $result[] = $detailData;
         }
         if ($detailData = $data['media']['digital']) {
-            $result[] = NewsDetail::createInstance(NewsDetail::DIGITAL, $detailData, $newsId);
+            $result[] = $detailData;
         }
         if ($detailData = $data['media']['radio']) {
-            $result[] = NewsDetail::createInstance(NewsDetail::RADIO, $detailData, $newsId);
+            $result[] = $detailData;
         }
         if ($detailData = $data['media']['tv']) {
-            $result[] = NewsDetail::createInstance(NewsDetail::TV, $detailData, $newsId);
+            $result[] = $detailData;
         }
         if ($detailData = $data['media']['source']) {
-            $result[] = NewsDetail::createInstance(NewsDetail::SOURCE, $detailData, $newsId);
+            $result[] = $detailData;
         }
 
         return $result;
