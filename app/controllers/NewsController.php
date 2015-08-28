@@ -10,17 +10,18 @@ class NewsController extends BaseController
 
         $news = $query->skip($limit * ($page - 1))
             ->take($limit)
-            ->get(['*']);
+            ->get(['news_details.*', 'news.date']);
 
         $paginator = Paginator::make($news->all(), NewsDetail::count(), $limit);
-        $clients = Client::all()->lists('name', 'id');
+        $clients = Client::where('id', '<>', 100)->get()->lists('name', 'id');
         $media = Media::all()->lists('name', 'id');
         $media[''] = '--- Seleccione un medio ---';
         $clients[''] = '--- Seleccione un cliente ---';
 
+
         return View::make('news.index')
             ->with('news', $paginator)
-            ->with('model', Input::all())
+            ->withInput(Input::all())
             ->with('clients', $clients)
             ->with('media', $media);
     }
@@ -142,8 +143,6 @@ class NewsController extends BaseController
         $news->client_id = $data['client_id'];
         $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
         $news->press_note = $data['press_note'];
-        // BUG FIX. No subtitle required for news. It should be moved to news details
-        $news->subtitle = '';
         $news->clasification = $data['clasification'];
         $news->code = $data['code'];
         $news->save();
@@ -168,7 +167,6 @@ class NewsController extends BaseController
             $news->client_id = $data['client_id'];
             $news->date = DateTime::createFromFormat('d/m/Y', $data['date']);
             $news->press_note = $data['press_note'];
-            $news->subtitle = '';
             $news->clasification = $data['clasification'];
             $news->code = $data['code'];
             $news->save();

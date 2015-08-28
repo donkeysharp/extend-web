@@ -117,13 +117,13 @@
   <div class="logo">
     <center><img src="{{asset('assets/img/bulletin/logo.png')}}" /></center>
     <div class="bulletin-title">
-      Reporte {{Form::literalDate($date)}} - {{$details[0]->news->client->name}}
+      Reporte {{Form::literalDate($date)}} - {{$client->name}}
     </div>
     <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
   </div>
   <div class="news-list">
     @foreach($subtitles as $s)
-      <h1>{{$s->subtitle}}</h1>
+      <?php $displayed = false; ?>
       @foreach($details as $item)
         <?php
           $firstPicture = null;
@@ -139,6 +139,10 @@
           }
         ?>
         @if($item->subtitle === $s->subtitle)
+          @if(!$displayed)
+            <h1>{{$s->subtitle}}</h1>
+            <?php $displayed = true; ?>
+          @endif
           <span class="title">{{$item->title}}</span>
           <p>
             @if($firstPicture)

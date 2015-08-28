@@ -183,17 +183,17 @@
                 {{Form::tendency($item->tendency)}}
               </td>
               <td>
-                <a href="{{url('dashboard/news/'.$item->id.'/view')}}" class="btn btn-success" title="Ver Noticia">
+                <a href="{{url('dashboard/news/'.$item->news_id.'/view')}}" class="btn btn-success" title="Ver Noticia">
                   <i class="fa fa-eye"></i>
                 </a>
               </td>
               <td>
-                <a href="{{url('dashboard/news/' . $item->id . '/edit')}}" class="btn btn-light" title="Editar Noticia">
+                <a href="{{url('dashboard/news/' . $item->news_id . '/edit')}}" class="btn btn-light" title="Editar Noticia">
                   <i class="fa fa-pencil"></i>
                 </a>
               </td>
               <td>
-                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="{{$item->id}}" data-detail-id="{{$item->id}}" title="Eliminar Detalle de Noticia">
+                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="{{$item->news_id}}" data-detail-id="{{$item->id}}" title="Eliminar Detalle de Noticia">
                   <i class="fa fa-trash"></i>
                 </a>
               </td>
@@ -205,6 +205,13 @@
           </tbody>
         </table>
         <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              {{Form::select('client_id', $clients, null, [
+                'class' => 'form-control'
+              ])}}
+            </div>
+          </div>
           <div class="col-md-4">
             <button class="btn btn-success">
               Generar Boletín

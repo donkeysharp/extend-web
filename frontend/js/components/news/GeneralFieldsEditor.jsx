@@ -77,7 +77,7 @@ function onSaveClick(e) {
       'Noticia creada exitosamente.'+
       '</div>';
       setTimeout(function() {
-        // window.location = '/dashboard/news/' + res.id + '/edit';
+        window.location = '/dashboard/news/' + res.id + '/edit';
       }, 500);
     }, function(err) {});
   }
@@ -236,6 +236,7 @@ var GeneralFieldsEditor = React.createClass({
       format: 'dd/mm/yyyy',
       language: 'es',
       orientation: "top right",
+      todayHighlight: true,
       autoclose: true
     });
     this.refs.date.getDOMNode().value = getToday();
