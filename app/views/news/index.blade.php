@@ -144,32 +144,43 @@
         {{Form::open(['url' => '/bulletins'])}}
         <table class="table">
           <thead>
-            <th class="col-md-1">Fecha</th>
+            <th class="col-md-2">Fecha</th>
             <th class="col-md-1">Cliente</th>
+            <th class="col-md-2">Subtítulo</th>
             <th class="col-md-2">Medio</th>
             <th class="col-md-5">Título</th>
             <th class="col-md-1">Tendencia</th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
-            <th class="col-md-1"></th>
+            <th></th>
           </thead>
           <tbody>
         @foreach($news->getItems() as $item)
-          @foreach($item->details as $detail)
             <tr>
-              <td>{{$item->date}}</td>
+              <?php
+              $date = new DateTime($item->date);
+              $date = $date->format('d/m/Y');
+              ?>
+              <td style="font-size: 13px">{{$date}}</td>
               <td>
-              @if(isset($item->client))
-              {{$item->client->name}}
+              @if($item->news->client)
+                {{$item->news->client->name}}
+              @else
+                Sin Cliente
               @endif
               </td>
+              <td>{{$item->subtitle}}</td>
               <td>
-                {{$detail->media->name}}
+              @if($item->media)
+                {{$item->media->name}}
+              @else
+                Sin medio
+              @endif
               </td>
-              <td>{{$detail->title}}</td>
+              <td>{{$item->title}}</td>
               <td>
-                {{Form::tendency($detail->tendency)}}
+                {{Form::tendency($item->tendency)}}
               </td>
               <td>
                 <a href="{{url('dashboard/news/'.$item->id.'/view')}}" class="btn btn-success" title="Ver Noticia">
@@ -182,15 +193,14 @@
                 </a>
               </td>
               <td>
-                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="{{$item->id}}" data-detail-id="{{$detail->id}}" title="Eliminar Detalle de Noticia">
+                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="{{$item->id}}" data-detail-id="{{$item->id}}" title="Eliminar Detalle de Noticia">
                   <i class="fa fa-trash"></i>
                 </a>
               </td>
               <td>
-                <input type="checkbox" name="news_detail_id_{{$detail->id}}" value="{{$detail->id}}" />
+                <input type="checkbox" name="news_detail_id_{{$item->id}}" value="{{$item->id}}" />
               </td>
             </tr>
-          @endforeach
         @endforeach
           </tbody>
         </table>
