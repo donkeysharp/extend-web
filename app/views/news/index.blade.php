@@ -30,7 +30,7 @@
                       Desde Fecha
                     </label>
                     <input type="text" name="fromDate" class="form-control datepicker"
-                      value="{{(new DateTime())->format('d/m/Y')}}" />
+                      value="{{$model->fromDate}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -39,15 +39,19 @@
                       Hasta Fecha
                     </label>
                     <input type="text" name="toDate" class="form-control datepicker"
-                      value="{{(new DateTime())->format('d/m/Y')}}" />
+                      value="{{$model->toDate}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="searchBy">Buscar por</label>
                     <select class="form-control" name="searchBy">
-                      <option value="published">Publicada</option>
-                      <option value="created">Ingreso</option>
+                      <option value="published" <?php echo $model->searchBy == 'published' ? 'selected' : '' ?>>
+                        Publicada
+                      </option>
+                      <option value="created" <?php echo $model->searchBy == 'created' ? 'selected' : '' ?>>
+                        Ingreso
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -56,7 +60,7 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="client_id">Cliente</label>
-                    {{Form::select('client_id', $clients, null, [
+                    {{Form::select('client_id', $clients, $model->client_id, [
                       'class' => 'form-control'
                     ])}}
                   </div>
@@ -66,18 +70,27 @@
                     <label for="mediaType">Tipo</label>
                     <select name="mediaType" class="form-control">
                       <option value="">--- Seleccione un tipo ---</option>
-                      <option value="1">Impreso</option>
-                      <option value="2">Digital</option>
-                      <option value="3">Radio</option>
-                      <option value="4">TV</option>
-                      <option value="5">Fuente</option>
+                      <option value="1" <?php echo $model->mediaType == '1' ? 'selected' : '' ?>> Impreso
+                      </option>
+                      <option value="2" <?php echo $model->mediaType == '2' ? 'selected' : '' ?>>
+                        Digital
+                      </option>
+                      <option value="3" <?php echo $model->mediaType == '3' ? 'selected' : '' ?>>
+                        Radio
+                      </option>
+                      <option value="4" <?php echo $model->mediaType == '4' ? 'selected' : '' ?>>
+                        TV
+                      </option>
+                      <option value="5" <?php echo $model->mediaType == '5' ? 'selected' : '' ?>>
+                        Fuente
+                      </option>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label form="media_id">Medio</label>
-                    {{Form::select('media_id', $media, null, [
+                    {{Form::select('media_id', $media, $model->media_id, [
                       'class' => 'form-control'
                     ])}}
                   </div>
@@ -87,7 +100,7 @@
                 <div class="col-md-8">
                   <div class="form-group">
                     <label for="title">Título</label>
-                    <input class="form-control" type="text" name="title" />
+                    <input class="form-control" type="text" name="title" value="{{$model->title}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
@@ -95,9 +108,15 @@
                     <label for="tendency">Tendencia</label>
                     <select name="tendency" class="form-control">
                       <option value="">--- Seleccione tendencia ---</option>
-                      <option value="1">Positiva</option>
-                      <option value="2">Negativa</option>
-                      <option value="3">Neutra</option>
+                      <option value="1" <?php echo $model->tendency == '1' ? 'selected' : '' ?>>
+                        Positiva
+                      </option>
+                      <option value="2" <?php echo $model->tendency == '2' ? 'selected' : '' ?>>
+                        Negativa
+                      </option>
+                      <option value="3" <?php echo $model->tendency == '3' ? 'selected' : '' ?>>
+                        Neutra
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -106,19 +125,19 @@
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="source">Fuente</label>
-                    <input type="text" name="source" class="form-control" />
+                    <input type="text" name="source" class="form-control" value="{{$model->source}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="show">Programa</label>
-                    <input type="text" name="show" class="form-control" />
+                    <input type="text" name="show" class="form-control" value="{{$model->show}}" />
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label for="gender">Género</label>
-                    <input type="text" name="gender" class="form-control" />
+                    <input type="text" name="gender" class="form-control" value="{{$model->gender}}" />
                   </div>
                 </div>
               </div>
@@ -126,7 +145,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="description">Descripción</label>
-                    <input type="text" name="description" class="form-control" />
+                    <input type="text" name="description" class="form-control" value="{{$model->description}}" />
                   </div>
                 </div>
               </div>

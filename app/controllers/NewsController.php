@@ -21,7 +21,7 @@ class NewsController extends BaseController
 
         return View::make('news.index')
             ->with('news', $paginator)
-            ->withInput(Input::all())
+            ->with('model', new SearchQuery(Input::all()))
             ->with('clients', $clients)
             ->with('media', $media);
     }
@@ -77,7 +77,7 @@ class NewsController extends BaseController
 
         $dateField = 'date';
         if($searchBy == 'created') {
-            $dateField = 'created_at';
+            $dateField = 'news.created_at';
         }
         if($fromDate) {
             $fromDate = DateTime::createFromFormat('d/m/Y', $fromDate)->format('Y-m-d');
