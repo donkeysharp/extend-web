@@ -20,7 +20,8 @@
             <th class="col-md-1">#</th>
             <th class="col-md-4">Nombre</th>
             <th class="col-md-4">Ciudad</th>
-            <th class="col-md-2">Teléfono</th>
+            <th class="col-md-1">Teléfono</th>
+            <th class="col-md-1"></th>
             <th class="col-md-1"></th>
           </thead>
           <tbody>
@@ -36,6 +37,11 @@
                   <i class="fa fa-pencil"></i>
                 </a>
               </td>
+              <td>
+                <a href="javascript:void(0)" class=" btn btn-danger delete" data-id="{{$client->id}}" title="Eliminar Cliente de Noticia">
+                  <i class="fa fa-trash"></i>
+                </a>
+              </td>
             </tr>
             <?php $i++ ?>
           @endforeach
@@ -48,4 +54,31 @@
     </div>
   </div>
 </div>
+@stop
+
+@section('scripts')
+<script src="{{asset('assets/vendors/js/react.min.js')}}"></script>
+<script src="{{asset('assets/js/build.min.js')}}"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $http = MyApp.$http;
+  $('.delete').on('click', function(e) {
+   if(!confirm('Está seguro que desea eliminar este cliente?')) {return;}
+    var id = e.currentTarget.dataset.id;
+
+    $http.remove('/clients/' + id).then(function(res) {
+      var messages = document.getElementById('messages');
+        messages.innerHTML =  '<div class="alert alert-info alert-dismissable">'+
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+        '&times;'+
+        '</button>'+
+        'Cliente eliminado exitosamente.'+
+        '</div>';
+        setTimeout(function() {
+          window.location = '/dashboard/clients/';
+        }, 500);
+    }, function(err) {})
+  });
+});
+</script>
 @stop
