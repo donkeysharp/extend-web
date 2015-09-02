@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 class NewsController extends BaseController
 {
@@ -8,10 +9,20 @@ class NewsController extends BaseController
         $limit = 20;
         $query = $this->search();
 
+
+        $newsColumns = ['news.date', 'news.press_note', 'news.code', 'news.clasification', 'news_details.*'];
+        if (Input::get('export', false)) {
+            $news = $query->get($newsColumns);
+            return Excel::create(Carbon::now(), function($excel) use($news) {
+                    $excel->sheet('Noticias', function($sheet) use($news) {
+                        $sheet->fromArray($news);
+                    });
+                })->download('xls');
+        }
+
         $news = $query->skip($limit * ($page - 1))
             ->take($limit)
-            ->get(['news_details.*', 'news.date']);
-
+            ->get($newsColumns);
         $paginator = Paginator::make($news->all(), NewsDetail::count(), $limit);
         $clients = Client::where('id', '<>', 100)->get()->lists('name', 'id');
         $media = Media::all()->lists('name', 'id');

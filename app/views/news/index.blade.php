@@ -148,6 +148,15 @@
                     <input type="text" name="description" class="form-control" value="{{$model->description}}" />
                   </div>
                 </div>
+                <div class="col-md-6">
+                  <br>
+                  <div class="input-group">
+                    <label for="export">
+                      Exportar Datos a Excel
+                      <input type="checkbox" name="export" />
+                    </label>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <div class="col-md-4">

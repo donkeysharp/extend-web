@@ -56,7 +56,6 @@ class InitialTables extends Migration {
 
 		Schema::create('news', function($t){
 			$t->increments('id');
-			$t->string('subtitle');
 			$t->string('press_note');
 			$t->string('code')->nullable();
 			$t->string('clasification');
