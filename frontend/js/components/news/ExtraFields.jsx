@@ -4,10 +4,9 @@ var Dropzone = require('../DropZoneReact.jsx');
 var LinkCollapse = require('../LinkCollapse.jsx');
 var $http = require('../../http');
 
-function onAddedFile(file) {
+function onAddedFile(file, res) {
   var uploads = this.state.uploads;
-  console.log(file);
-  uploads.push({file_name: file.name});
+  uploads.push(res);
   this.setState({uploads: uploads});
 
   if (this.props.onAddedFile) {
@@ -38,24 +37,56 @@ function onBtnAddURLClicked(e) {
   }.bind(this), function(err) {})
 }
 
+function deleteUrl(e) {
+  var urlId = e.currentTarget.dataset.urlId;
+  var index = e.currentTarget.dataset.index;
+  $http.remove('/news/' + this.props.newsId  + '/urls/' + urlId).then(function(res) {
+    var urls = this.state.urls;
+    urls.splice(index, 1);
+    this.setState({urls : urls});
+  }.bind(this));
+}
+
 function getUrls() {
   if(this.state.urls.length === 0) {
     return <span>No existen URLs</span>;
   }
-  var list = this.state.urls.map(function(item) {
-    return <li><a href={item.url} target="_blank">{item.url}</a></li>;
-  });
+  var list = this.state.urls.map(function(item, index) {
+    return <li>
+      <a href={item.url} target="_blank">{item.url}</a>
+      &nbsp;-&nbsp;
+      <a href="javascript:void(0)" data-index={index} data-url-id={item.id} onClick={deleteUrl.bind(this)}>
+        <i className="fa fa-close"></i>
+      </a>
+    </li>;
+  }.bind(this));
 
   return <ul>{list}</ul>;
+}
+
+function deleteUpload(e) {
+  var uploadId = e.currentTarget.dataset.uploadId;
+  var index = e.currentTarget.dataset.index;
+  $http.remove('/news/' + this.props.newsId  + '/uploads/' + uploadId).then(function(res) {
+    var uploads = this.state.uploads;
+    uploads.splice(index, 1);
+    this.setState({uploads : uploads});
+  }.bind(this));
 }
 
 function getUploads() {
   if (this.state.uploads.length === 0) {
     return <span>No existen Archivos</span>;
   }
-  var list = this.state.uploads.map(function(item) {
-    return <li><a href={'/uploads/' + item.file_name} target="_blank">{item.file_name}</a></li>;
-  });
+  var list = this.state.uploads.map(function(item, index) {
+    return <li>
+      <a href={'/uploads/' + item.file_name} target="_blank">{item.file_name}</a>
+      &nbsp;-&nbsp;
+      <a href="javascript:void(0)" data-upload-id={item.id} data-index={index} onClick={deleteUpload.bind(this)}>
+        <i className="fa fa-close"></i>
+      </a>
+    </li>;
+  }.bind(this));
 
   return <ul>{list}</ul>;
 }
@@ -87,7 +118,7 @@ var ExtraFields = React.createClass({
         <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
           <div className="row">
             <div className="col-md-6">
-              <Dropzone ref="uploader" url={'/upload/' + this.props.newsId}
+              <Dropzone ref="uploader" url={'/news/' + this.props.newsId + '/uploads'}
                 acceptedFiles="image/*,application/pdf"
                 onAddedFile={onAddedFile.bind(this)}
                 maxFilesize={50}

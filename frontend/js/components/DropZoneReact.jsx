@@ -22,7 +22,7 @@ var DropzoneReact = React.createClass({
     var el = this.refs.uploader.getDOMNode();
     var dropzone = new Dropzone(el, getDefaultProps(this.props));
     if(this.props.onAddedFile) {
-      dropzone.on('addedfile', this.props.onAddedFile);
+      dropzone.on('success', this.props.onAddedFile);
     }
     this.setState({uploader: dropzone});
   },

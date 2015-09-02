@@ -279,6 +279,43 @@ class NewsController extends BaseController
         return Response::json($url, 200);
     }
 
+    public function destroyUpload($id, $uploadId)
+    {
+        $news = News::findOrFail($id);
+        $upload = NewsUpload::where('news_id', '=', $id)
+            ->where('id', '=', $uploadId)
+            ->get()->first();
+
+        if ($upload) {
+            $upload->delete();
+            return Response::json([
+                'status' => 'ok'
+            ], 200);
+        }
+
+        return Response::json([
+            'status' => 'Upload not found'
+        ], 404);
+    }
+
+    public function destroyUrl($id, $urlId)
+    {
+        $news = News::findOrFail($id);
+        $url = NewsUrl::where('news_id', '=', $id)
+            ->where('id', '=', $urlId)
+            ->get()->first();
+
+        if ($url) {
+            $url->delete();
+            return Response::json([
+                'status' => 'ok'
+            ], 200);
+        }
+        return Response::json([
+            'status' => 'URL not found'
+        ], 404);
+    }
+
     private function getDetailsIds($data)
     {
         $ids = [];

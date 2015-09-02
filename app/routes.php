@@ -31,8 +31,10 @@ Route::group(['before' => 'auth'], function(){
     Route::put('/news/{id}', ['uses' => 'NewsController@update']);
     Route::delete('/news/{id}', ['uses' => 'NewsController@destroy']);
     Route::delete('/news/{id}/details/{detailId}', ['uses' => 'NewsController@destroyDetail']);
-    Route::post('/upload/{id}', ['uses' => 'NewsController@upload']);
+    Route::post('/news/{id}/uploads', ['uses' => 'NewsController@upload']);
     Route::post('/news/{id}/urls', ['uses' => 'NewsController@addURL']);
+    Route::delete('/news/{id}/uploads/{uploadId}', ['uses' => 'NewsController@destroyUpload']);
+    Route::delete('/news/{id}/urls/{urlId}', ['uses' => 'NewsController@destroyUrl']);
 
 });
 
@@ -92,9 +94,6 @@ Route::group(['before' => 'auth'], function() {
 });
 
 Route::get('foo', function() {
-    // return Hash::make(Input::get('q'));
-    $a = Carbon\Carbon::now();
-    echo $a->year;
 });
 
 
