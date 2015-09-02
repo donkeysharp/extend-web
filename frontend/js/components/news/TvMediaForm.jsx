@@ -57,7 +57,7 @@ var TvMediaForm = React.createClass({
     data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.communication_risk = this.refs.communication_risk.getDOMNode().value;
     data.show = this.refs.show.getDOMNode().value;
-    data.topic_id = this.refs.topic.getDOMNode().value;
+    data.topic_id = this.refs.topic.getDOMNode().value || null;
     data.measure = this.refs.measure.getDOMNode().value;
     data.cost = this.refs.cost.getDOMNode().value;
     data.tendency = this.state.tendency;
@@ -88,7 +88,7 @@ var TvMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select ref="media" className="form-control">
-                <option value="0">--- Seleccion Medio ---</option>
+                <option value="">--- Seleccion Medio ---</option>
                 {media}
               </select>
             </div>
@@ -167,7 +167,7 @@ var TvMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select ref="topic" className="form-control">
-                <option value="0">--- Seleccione Tema ---</option>
+                <option value="">--- Seleccione Tema ---</option>
                 {topics}
               </select>
             </div>

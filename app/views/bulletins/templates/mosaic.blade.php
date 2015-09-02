@@ -66,18 +66,6 @@
       padding-top: 15px;
       border-bottom: 3px solid #0082a4;
     }
-    .top-link {
-      font-size: 11px;
-      color: #666;
-    }
-    .footer{
-      padding-top: 15px;
-      padding-bottom: 15px;
-      background-color: #e2e2e2;
-      font-size: 18px;
-      color: #858585;
-      text-align: center;
-    }
     .news-list {
       padding: 0 20px 0 20px;
       margin-top: 27px;
@@ -110,18 +98,27 @@
         display: hidden;
       }
     }
+    .footer{
+      padding-top: 15px;
+      padding-bottom: 15px;
+      background-color: #e2e2e2;
+      font-size: 18px;
+      color: #858585;
+      text-align: center;
+    }
   </style>
 </head>
-<body>
-<div class="container">
-  <div class="logo">
+<body style=" margin: 0;padding: 0;background-color: #F2F2F2;font-family: sans-serif;color: #404040;">
+<div class="container" style="width: 650px;margin-top: 20px;margin-left: auto;margin-right: auto;margin-bottom: 20px;background-color: #fff;position: relative;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;"
+    >
+  <div class="logo" style="clear: left; background-color: #e2e2e2;">
     <center><img src="{{asset('assets/img/bulletin/logo.png')}}" /></center>
-    <div class="bulletin-title">
+    <div class="bulletin-title" style="text-align: center;font-size: 26px;color: #0082a4;font-weight: bold;padding-bottom: 30px;padding-top: 15px;border-bottom: 3px solid #0082a4;">
       Reporte {{Form::literalDate($date)}} - {{$client->name}}
     </div>
     <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
   </div>
-  <div class="news-list">
+  <div class="news-list" style="padding: 0 20px 0 20px;margin-top: 27px;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;">
     @foreach($subtitles as $s)
       <?php $displayed = false; ?>
       @foreach($details as $item)
@@ -140,13 +137,15 @@
         ?>
         @if($item->subtitle === $s->subtitle)
           @if(!$displayed)
-            <h1>{{$s->subtitle}}</h1>
+            <h1 style="margin-top: 5px;margin-bottom: 5px;">{{$s->subtitle}}</h1>
             <?php $displayed = true; ?>
           @endif
-          <span class="title">{{$item->title}}</span>
-          <p>
+          <span class="title" style="font-size: 26px;font-weight: bolder;">
+            {{$item->title}}
+          </span>
+          <p style="font-size: 15px;text-align: justify;">
             @if($firstPicture)
-              <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" class="picture" />
+              <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" class="picture" style="float: left;width: 300px;margin-right: 10px;margin-bottom: 10px" />
             @endif
             {{{$item->description}}}
           </p>
@@ -170,7 +169,7 @@
       @endforeach
     @endforeach
   </div>
-  <div class="footer">
+  <div class="footer" style=" padding-top: 15px;padding-bottom: 15px;background-color: #e2e2e2;font-size: 18px;color: #858585;text-align: center;">
     <span style="font-size: 21px">MONITOREO PRENSA <b>EXTEND COMUNICACIONES BOLIVIA</b></span>
     <div style="margin-top: 5px; margin-bottom: 15px;border-bottom: 6px solid #548aae; font-size:3px;">&nbsp;</div>
     <i>

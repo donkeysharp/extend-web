@@ -26,7 +26,7 @@ function initControls() {
   this.refs.subtitle.getDOMNode().value = this.props.model.subtitle;
   this.refs.source.getDOMNode().value = this.props.model.source;
   this.refs.alias.getDOMNode().value = this.props.model.alias;
-  this.refs.topic.getDOMNode().value = this.props.model.topic_id;
+  this.refs.topic.getDOMNode().value = this.props.model.topic_id || null;
   this.refs.measure.getDOMNode().value = this.props.model.measure;
   this.refs.cost.getDOMNode().value = this.props.model.cost;
   this.refs.description.getDOMNode().value = this.props.model.description;
@@ -84,7 +84,7 @@ var SourceMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-10">
               <select ref="media" className="form-control">
-                <option value="0">--- Seleccione Medio ---</option>
+                <option value="">--- Seleccione Medio ---</option>
                 {media}
               </select>
             </div>
@@ -139,7 +139,7 @@ var SourceMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select ref="topic" className="form-control">
-                <option value="0">--- Seleccione Tema ---</option>
+                <option value="">--- Seleccione Tema ---</option>
                 {topics}
               </select>
             </div>

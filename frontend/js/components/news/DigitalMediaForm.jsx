@@ -58,7 +58,7 @@ var DigitalMediaForm = React.createClass({
     data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.web = this.refs.web.getDOMNode().value;
     data.gender = this.refs.gender.getDOMNode().value;
-    data.topic_id = this.refs.topic.getDOMNode().value;
+    data.topic_id = this.refs.topic.getDOMNode().value || null;
     data.measure = this.refs.measure.getDOMNode().value;
     data.cost = this.refs.cost.getDOMNode().value;
     data.tendency = this.state.tendency;
@@ -91,7 +91,7 @@ var DigitalMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select ref="media" className="form-control">
-                <option value="0">--- Seleccion Medio ---</option>
+                <option value="">--- Seleccion Medio ---</option>
                 {media}
               </select>
             </div>
@@ -169,7 +169,7 @@ var DigitalMediaForm = React.createClass({
           <div className="row">
             <div className="col-md-5">
               <select ref="topic" className="form-control">
-                <option value="0">--- Seleccione Tema ---</option>
+                <option value="">--- Seleccione Tema ---</option>
                 {topics}
               </select>
             </div>

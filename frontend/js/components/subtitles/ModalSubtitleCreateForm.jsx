@@ -3,6 +3,9 @@ var React = window.React;
 var $http = require('../../http');
 
 function addSubtitle() {
+  if (this.refs.subtitle.getDOMNode().value) {
+    return;
+  }
   var data = {};
   data.subtitle = this.refs.subtitle.getDOMNode().value;
   $http.post('/subtitles', data).then(function(res) {

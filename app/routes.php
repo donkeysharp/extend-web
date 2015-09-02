@@ -173,13 +173,13 @@ Form::macro('paginator', function(
 
 Form::macro('literalDate', function($date) {
     $days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sábado'];
-    $months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    $months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
     if (!$date) {
         $date = Carbon\Carbon::now();
     }
 
     $res = '';
-    $res .= $date->day . ' de ' . $months[$date->month - 1] . ' del ' . $date->year;
+    $res .= $date->day . ' de ' . $months[$date->month - 1] . ' de ' . $date->year;
     return $res;
 });
