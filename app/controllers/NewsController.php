@@ -92,17 +92,29 @@ class NewsController extends BaseController
         if($searchBy == 'created') {
             $dateField = 'news.created_at';
         }
+        // By default search today's news
+        $now = Carbon::now();
+        $now = $now->year . '-' . $now->month . '-' . $now->day;
         if($fromDate) {
             $fromDate = DateTime::createFromFormat('d/m/Y', $fromDate)->format('Y-m-d');
-            $query = $query->where($dateField, '>=', $fromDate);
+        } else {
+            $fromDate = $now;
         }
         if($toDate) {
             $toDate = DateTime::createFromFormat('d/m/Y', $toDate)->format('Y-m-d');
-            $query->where($dateField, '<=', $toDate);
+        } else {
+            $toDate = $now;
         }
-        if($clientId) {
-            $query->where('client_id', '=', $clientId);
-        }
+        $query->where($dateField, '>=', $fromDate);
+        $query->where($dateField, '<=', $toDate);
+
+        // Always include coyuntura news
+        $query->where(function($q) use($clientId) {
+            $q->where('client_id', '=', 100);
+            if ($clientId) {
+                $q->orWhere('client_id', '=', $clientId);
+            }
+        });
 
         $query->orderBy('date', 'desc');
 
