@@ -109,12 +109,13 @@ class NewsController extends BaseController
         $query->where($dateField, '<=', $toDate);
 
         // Always include coyuntura news
-        $query->where(function($q) use($clientId) {
-            $q->where('client_id', '=', 100);
-            if ($clientId) {
+
+        if ($clientId) {
+            $query->where(function($q) use($clientId) {
+                $q->where('client_id', '=', 100);
                 $q->orWhere('client_id', '=', $clientId);
-            }
-        });
+            });
+        }
 
         $query->orderBy('date', 'desc');
 
