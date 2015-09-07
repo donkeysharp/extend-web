@@ -6,7 +6,7 @@ class NewsController extends BaseController
     public function index()
     {
         $page = Input::get('page', 1);
-        $limit = 20;
+        $limit = 30;
         $query = $this->search();
 
 
@@ -19,10 +19,12 @@ class NewsController extends BaseController
                     });
                 })->download('xls');
         }
+        if (!Input::get('q', false)) {
+            $query->skip($limit * ($page - 1))
+                        ->take($limit);
+        }
+        $news = $query->get($newsColumns);
 
-        $news = $query->skip($limit * ($page - 1))
-            ->take($limit)
-            ->get($newsColumns);
         $paginator = Paginator::make($news->all(), NewsDetail::count(), $limit);
         $clients = Client::where('id', '<>', 100)->get()->lists('name', 'id');
         $media = Media::all()->lists('name', 'id');

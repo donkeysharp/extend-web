@@ -13,8 +13,39 @@
     <table border="0" style="background-color: #e2e2e2; width: 100%">
       <tr>
         <td width="100%">
-          <center><img src="{{asset('assets/img/bulletin/logo.png')}}" /></center>
-          <div class="bulletin-title" style="text-align: center;font-size: 26px;color: #0082a4;font-weight: bold;padding-bottom: 30px;padding-top: 15px;border-bottom: 3px solid #0082a4;font-family: Helvetica, sans-serif;">
+        <?php
+          $pattern1 = 'bayer';
+          $pattern2 = 'b.a.y.e.r';
+          $text = $client->name;
+          $isBayerClient = false;
+          $index1 = strpos($text, $pattern1);
+          $index2 = strpos($text, $pattern2);
+          if ($index1 !== false || $index2 !== false) {
+            $isBayerClient = true;
+          }
+
+          $isSanCristobalClient = false;
+          $pattern1 = 'MSC';
+          $pattern2 = 'San Cristobal';
+          $pattern3 = 'San Cristóbal';
+          $pattern4 = 'M.S.C';
+          $text = $client->name;
+          $index1 = strpos($text, $pattern1);
+          $index2 = strpos($text, $pattern2);
+          $index3 = strpos($text, $pattern3);
+          $index4 = strpos($text, $pattern4);
+
+          if ($index1 !== false || $index2 !== false || $index3 !== false || $index4 !== false) {
+            $isSanCristobalClient = true;
+          }
+        ?>
+        @if($isBayerClient)
+          <img src="{{asset('assets/img/bulletin/bayer.png')}}" style="margin-left:20px;">
+          <img src="{{asset('assets/img/bulletin/logo.png')}}" style="float:right;margin-right:20px;" align="right">
+        @else
+          <center><img src="{{asset('assets/img/bulletin/logo.png')}}"></center>
+        @endif
+          <div class="bulletin-title" style="text-align: center;font-size: 26px;color: #0082a4;font-weight: bold;padding-bottom: 30px;padding-top: 15px;border-bottom: 3px solid #c10a28;font-family: Helvetica, sans-serif;">
             Reporte {{Form::literalDate($date)}} - {{$client->name}}
           </div>
           <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
@@ -27,6 +58,7 @@
           <div style="-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box; font-family: Helvetica, sans-serif;color: #404040;">
             @foreach($subtitles as $s)
               <?php $displayed = false; ?>
+
               @foreach($details as $item)
                 <?php
                   $firstPicture = null;
@@ -43,28 +75,25 @@
                 ?>
                 @if($item->subtitle === $s->subtitle)
                   @if(!$displayed)
-                    <span style="font-size: 26px;font-weight: bolder;color: #404040;">{{$s->subtitle}}</span>
+                    <span style="font-size: 26px;font-weight: bolder;color: #404040;">
+                    @if ($isSanCristobalClient && strcmp($s->subtitle, 'COYUNTURA') === 0)
+                      Noticias C
+                    @else
+                      {{$s->subtitle}}
+                    @endif
+                    </span>
                     <?php $displayed = true; ?>
                     <br>
                   @endif
                   <h2 class="null" style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;text-align: left;color: #404040 !important;">
-                  @if($firstPicture)
-                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" style="width: 300px;height: 155px;margin: 5px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;" align="left" height="155" width="300">
-                  @endif
                   {{$item->title}}
                   </h2>
-                              <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
-                              {{{$item->description}}}
-                              </p>
-{{--                  <span class="title" style="font-size: 26px;font-weight: bolder;color: #404040;">
-                    {{$item->title}}
-                  </span>
-                  <p style="font-size: 15px;text-align: justify;color: #404040;">
-                    @if($firstPicture)
-                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" class="picture" style="float: left;margin-right: 10px;margin-bottom: 10px;width: 60%;max-width: 400px;" />
-                    @endif
-                    {{{$item->description}}}
-                  </p> --}}
+                  <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
+                  @if($firstPicture)
+                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" style="width: 300px;height: 155px;margin: 5px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;float:left;" align="left" height="155" width="300">
+                  @endif
+                  {{{$item->description}}}
+                  </p>
                   <br>
                   @if($item->web)
                     <a href="{{$item->web}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:15px">
@@ -89,15 +118,18 @@
         </td>
       </tr>
     </table>
+    {{-- c10a28 --}}
   <table border="0" style="background-color: #e2e2e2;width:100%;font-family: Helvetica, sans-serif;">
     <tr>
       <td width="100%" style="padding-top: 15px;padding-bottom: 15px;background-color: #e2e2e2;font-size: 18px;color: #858585;text-align: center;font-family: Helvetica, sans-serif;">
+      <div style="border-bottom: 3px solid #c10a28;padding-bottom:8px;">
         <span style="font-size: 21px;font-family: Helvetica, sans-serif;">MONITOREO PRENSA <b>EXTEND COMUNICACIONES BOLIVIA</b></span>
-        <div style="margin-top: 5px; margin-bottom: 15px;border-bottom: 6px solid #548aae; font-size:3px;">&nbsp;</div>
+      </div>
+        <div style="margin-top: 0px; margin-bottom: 15px;border-bottom: 6px solid #548aae; font-size:3px;">&nbsp;</div>
         <i>
           <center><b>Contácenos: </b>Calacoto, Calle 18 N° 8022 Edificio Parque 18 Piso 2 Of. 2C</center>
           <center><b>Teléfonos: </b>(591-2) 2774373 - 2797733</center>
-          <center><b>monitoreo.prensa@extend.com</b></center>
+          <center><b>monitoreo.prensa@extend.com.bo</b></center>
         </i>
       </td>
     </tr>
