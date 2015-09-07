@@ -29,6 +29,7 @@ class BulletinController extends BaseController
         $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
+            $q->with('urls')->with('uploads');
         }])->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
@@ -58,6 +59,7 @@ class BulletinController extends BaseController
         $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
+            $q->with('urls')->with('uploads');
         }])->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
@@ -93,7 +95,8 @@ class BulletinController extends BaseController
         $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
-        }])->get();
+            $q->with('urls')->with('uploads');
+        },])->get();
 
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);

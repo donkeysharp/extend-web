@@ -90,17 +90,29 @@
                   </h2>
                   <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
                   @if($firstPicture)
-                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" style="width: 300px;height: 155px;margin: 5px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;float:left;" align="left" height="155" width="300">
+                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" style="width: 300px;height: 155px;margin: 5px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;float:left;padding-right:10px;" align="left" height="155" width="300" padding="10">
                   @endif
                   {{{$item->description}}}
                   </p>
                   <br>
                   @if($item->web)
-                    <a href="{{$item->web}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:15px">
+                    <a href="{{$item->web}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:14px">
                       <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/url.png')}}" height="25" width="25" >
                       Ver Nota Completa
                     </a>
                     <br>
+                  @endif
+                  @if (count($item->news->urls) > 0)
+                    <span style="font-size: 14px;font-weight: bolder;color:#606060">
+                      Otros Medios
+                    </span>
+                    <br>
+                    @foreach($item->news->urls as $_url)
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="{{$_url->url}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:14px">
+                        {{$_url->url}}
+                      </a><br>
+                    @endforeach
                   @endif
                   @if($firstPdf)
                     <a href="{{asset('uploads/' . $firstPdf->file_name)}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:15px">
