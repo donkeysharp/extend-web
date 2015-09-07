@@ -52,7 +52,7 @@
                   </span>
                   <p style="font-size: 15px;text-align: justify;color: #404040;">
                     @if($firstPicture)
-                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" class="picture" style="float: left;margin-right: 10px;margin-bottom: 10px;width: 60%;" />
+                      <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" class="picture" style="float: left;margin-right: 10px;margin-bottom: 10px;width: 60%;max-width: 400px;" />
                     @endif
                     {{{$item->description}}}
                   </p>
