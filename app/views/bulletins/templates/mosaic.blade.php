@@ -76,26 +76,27 @@
                 ?>
                 @if($item->subtitle === $s->subtitle)
                   @if(!$displayed)
-                    <span style="font-size: 26px;font-weight: bolder;color: #404040;">
+                    <h2 style="font-size: 26px;font-weight: bolder;color: #404040;">
                     @if ($isSanCristobalClient && strcmp($s->subtitle, 'COYUNTURA') === 0)
                       Noticias C
                     @else
                       {{$s->subtitle}}
                     @endif
-                    </span>
+                    </h2>
                     <?php $displayed = true; ?>
-                    <br>
                   @endif
                   <h2 class="null" style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;text-align: left;color: #404040 !important;">
-                  {{$item->title}}
+                  {{$item->title}} - {{$item->media->name}}
                   </h2>
+
                   <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
                   @if($firstPicture)
+                    <a href="{{asset('uploads/' . $firstPicture->file_name)}}" target="_blank">
                       <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" style="width: 300px;height: 155px;margin: 5px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;float:left;padding-right:10px;" align="left" height="155" width="300" padding="10">
+                    </a>
                   @endif
                   {{{$item->description}}}
                   </p>
-                  <br>
                   @if($item->web)
                     <a href="{{$item->web}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:14px">
                       <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/url.png')}}" height="25" width="25" >
@@ -105,12 +106,11 @@
                   @endif
                   @if (count($item->news->urls) > 0)
                     <span style="font-size: 14px;font-weight: bolder;color:#606060">
-                      Otros Medios
+                      Otros medios
                     </span>
                     <br>
                     @foreach($item->news->urls as $_url)
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <a href="{{$_url->url}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:14px">
+                      <a href="{{$_url->url}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:12px">
                         {{$_url->url}}
                       </a><br>
                     @endforeach
@@ -122,7 +122,6 @@
                     </a>
                     <br>
                   @endif
-                  <br>
                   <br>
                 @endif
               @endforeach

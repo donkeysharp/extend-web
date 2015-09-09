@@ -25,7 +25,7 @@ class BulletinController extends BaseController
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
-        }])->get();
+        }])->with('media')->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
 
@@ -60,7 +60,7 @@ class BulletinController extends BaseController
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
-        }])->get();
+        }])->with('media')->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
         $subtitles = $client->customSubtitles()->get();
@@ -100,7 +100,7 @@ class BulletinController extends BaseController
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
-        },])->get();
+        },])->with('media')->get();
 
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
