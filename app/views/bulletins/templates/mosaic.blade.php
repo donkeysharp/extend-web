@@ -18,22 +18,23 @@
           $pattern2 = 'b.a.y.e.r';
           $text = $client->name;
           $isBayerClient = false;
-          $index1 = strpos($text, $pattern1);
-          $index2 = strpos($text, $pattern2);
+          $index1 = strpos(strtolower($text), $pattern1);
+          $index2 = strpos(strtolower($text), $pattern2);
           if ($index1 !== false || $index2 !== false) {
             $isBayerClient = true;
           }
 
           $isSanCristobalClient = false;
-          $pattern1 = 'MSC';
-          $pattern2 = 'San Cristobal';
-          $pattern3 = 'San Cristóbal';
-          $pattern4 = 'M.S.C';
+          $pattern1 = 'msc';
+          $pattern2 = 'san cristobal';
+          $pattern3 = 'san cristóbal';
+          $pattern4 = 'm.s.c';
           $text = $client->name;
-          $index1 = strpos($text, $pattern1);
-          $index2 = strpos($text, $pattern2);
-          $index3 = strpos($text, $pattern3);
-          $index4 = strpos($text, $pattern4);
+
+          $index1 = strpos(strtolower($text), $pattern1);
+          $index2 = strpos(strtolower($text), $pattern2);
+          $index3 = strpos(strtolower($text), $pattern3);
+          $index4 = strpos(strtolower($text), $pattern4);
 
           if ($index1 !== false || $index2 !== false || $index3 !== false || $index4 !== false) {
             $isSanCristobalClient = true;
