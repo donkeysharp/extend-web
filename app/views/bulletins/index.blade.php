@@ -21,8 +21,8 @@
             <tr>
               <td>{{$item->created_at}}</td>
               <td>
-              @if(count($item->details) > 0)
-                {{$item->details[0]->news->client->name}}
+              @if($item->client)
+                {{$item->client->name}}
               @else
                 No hay un cliente definido
               @endif

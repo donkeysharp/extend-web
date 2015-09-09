@@ -46,5 +46,11 @@
         Administrar Usuarios
       </a>
     </li>
+    <li>
+      <a href="{{url('dashboard/custom/subtitles')}}">
+        <i class="fa fa-outdent"></i>
+        Personalizar Subtítulos
+      </a>
+    </li>
   </ul>
 </div>

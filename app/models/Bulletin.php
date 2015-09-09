@@ -8,4 +8,9 @@ class Bulletin extends Eloquent
     {
         return $this->belongsToMany('NewsDetail', 'bulletin_news_detail');
     }
+
+    public function client()
+    {
+        return $this->belongsTo('Client');
+    }
 }

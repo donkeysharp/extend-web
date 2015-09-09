@@ -7,13 +7,8 @@ class BulletinController extends BaseController
         $limit = 10; $page = Input::get('page', 1);
 
         $bulletins = Bulletin::orderBy('created_at', 'desc')
-            ->with(['details'=>function($q) {
-                $q->with(['news' => function($q1) {
-                    $q1->with('client')
-                        ->with('uploads')
-                        ->with('urls');
-                }]);
-            }])
+            ->with('client')
+            ->with('details')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();
@@ -26,13 +21,18 @@ class BulletinController extends BaseController
     public function sendToClients($id)
     {
         $bulletin = Bulletin::findOrFail($id);
-        $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
+        // $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
         }])->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
+
+        $subtitles = $client->customSubtitles()->get();
+        if (count($subtitles) === 0) {
+            $subtitles = Subtitle::orderBy('id')->get();
+        }
         $info = [
             'date' => Carbon\Carbon::now(),
             'details' => $details,
@@ -56,13 +56,17 @@ class BulletinController extends BaseController
     public function sendToTestClient($id)
     {
         $bulletin = Bulletin::findOrFail($id);
-        $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
+        // $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
         }])->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
+        $subtitles = $client->customSubtitles()->get();
+        if (count($subtitles) === 0) {
+            $subtitles = Subtitle::orderBy('id')->get();
+        }
         $info = [
             'date' => Carbon\Carbon::now(),
             'details' => $details,
@@ -92,7 +96,7 @@ class BulletinController extends BaseController
     public function publicDisplay($id)
     {
         $bulletin = Bulletin::findOrFail($id);
-        $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
+        // $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
@@ -100,6 +104,10 @@ class BulletinController extends BaseController
 
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
+        $subtitles = $client->customSubtitles()->get();
+        if (count($subtitles) === 0) {
+            $subtitles = Subtitle::orderBy('id')->get();
+        }
 
         return View::make('bulletins.templates.mosaic')
             ->with('date', Carbon\Carbon::now())

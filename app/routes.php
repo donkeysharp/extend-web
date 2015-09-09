@@ -93,6 +93,12 @@ Route::group(['before' => 'auth'], function() {
     Route::delete('/users/{id}', ['uses' => 'UserController@destroy']);
 });
 
+Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/custom/subtitles', ['uses' => 'CustomizeController@subtitles']);
+    Route::get('/custom/subtitles/{clientId}', ['uses' => 'CustomizeController@getSubtitlesByClient']);
+    Route::post('/custom/subtitles/{clientId}', ['uses' => 'CustomizeController@saveSubtitles']);
+});
+
 Route::get('foo', function() {
 });
 
