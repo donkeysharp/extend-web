@@ -1,25 +1,54 @@
-## Laravel PHP Framework
+Extend's Web
+============
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+This webapp was mainly developed using Laravel Framework, ReactJS and Compass.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+# Development Requirements
+* PHPv5.4 or later (apt-get install php5, php5-cli, php5-mcrypt)
+* NodeJS
+* Ruby (rvm)
+* A RDBMS e.g. Mysql, Postgresql, Sqlite3
+* For development it's not necessary a HTTP server because Laravel includes it's own development server
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+# Development Dependencies
+This website's dependencies has to be installed using Composer utility:
+'''
+$ composer install
+'''
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+To compile, minimize and concatenate compass and javascript files it's necessary to have installed NodeJS.
 
-## Official Documentation
+The first time you need to install gulp and compass:
+'''
+$ gem install compass
+$ sudo npm install -g gulp
+'''
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+To compile, minimize and concat scss and js files execute
+'''
+$ gulp build
+'''
+or
+'''
+$ gulp
+'''
 
-### Contributing To Laravel
+# Environment Configuration
+To have a custom development environment create a 'ENVIRONMENT' file on project's root directory with the environment's name.
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+To create a configuration environment called 'foobar' execute
+'''
+$ echo foobar > ENVIRONMENT
+'''
+Then create a folder 'foobar' on 'app/config' with the custom configuration files such as database.php, mail.php, etc.
 
-### License
+To check the current configuration environment execute:
+'''
+$ php artisan env
+'''
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+# Install Database and initial values
+Once database.php is configured (read Environment Configuration) install database and initial records by executing:
+'''
+$ php artisan migrate --seed
+'''
