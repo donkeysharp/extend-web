@@ -46,8 +46,12 @@
         @else
           <center><img src="{{asset('assets/img/bulletin/logo.png')}}"></center>
         @endif
-          <div class="bulletin-title" style="text-align: center;font-size: 26px;color: #0082a4;font-weight: bold;padding-bottom: 30px;padding-top: 15px;border-bottom: 3px solid #c10a28;font-family: Helvetica, sans-serif;">
-            Reporte {{Form::literalDate($date)}} - {{$client->name}}
+          <div class="bulletin-title" style="text-align: center;font-size: 22px;color: #0082a4;font-weight: bold;padding-bottom: 10px;padding-top: 15px;border-bottom: 3px solid #c10a28;font-family: Helvetica, sans-serif;">
+            Reporte
+            <br>
+            <span style="font-size: 28px; font-family:Helvetica, sans-serif">{{Form::literalDate($date)}}</span>
+            <br>
+            <span style="font-size: 30px; font-family:Helvetica, sans-serif">{{$client->name}}</span>
           </div>
           <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
         </td>
@@ -86,9 +90,9 @@
                     <?php $displayed = true; ?>
                   @endif
                   <h2 class="null" style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;text-align: left;color: #404040 !important;">
-                  {{$item->title}} - {{$item->media->name}}
+                  {{$item->title}}
                   </h2>
-
+                  <h3 style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-style: normal;font-weight: normal;line-height: 125%;letter-spacing: -.75px;text-align: left;color: #404040 !important;">{{$item->media->name}}</h3>
                   <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 15px;line-height: 150%;text-align: left;">
                   @if($firstPicture)
                     <a href="{{asset('uploads/' . $firstPicture->file_name)}}" target="_blank">
@@ -111,7 +115,11 @@
                     <br>
                     @foreach($item->news->urls as $_url)
                       <a href="{{$_url->url}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:12px">
+                      @if (strlen($_url->url) > 50)
+                        {{substr($_url->url, 0, 50)}}...
+                      @else
                         {{$_url->url}}
+                      @endif
                       </a><br>
                     @endforeach
                   @endif
@@ -139,7 +147,7 @@
       </div>
         <div style="margin-top: 0px; margin-bottom: 15px;border-bottom: 6px solid #548aae; font-size:3px;">&nbsp;</div>
         <i>
-          <center><b>Contácenos: </b>Calacoto, Calle 18 N° 8022 Edificio Parque 18 Piso 2 Of. 2C</center>
+          <center><b>Contáctenos: </b>Calacoto, Calle 18 N° 8022 Edificio Parque 18 Piso 2 Of. 2C</center>
           <center><b>Teléfonos: </b>(591-2) 2774373 - 2797733</center>
           <center><b>monitoreo.prensa@extend.com.bo</b></center>
         </i>
