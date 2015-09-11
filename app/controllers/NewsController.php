@@ -117,7 +117,7 @@ class NewsController extends BaseController
             });
         }
 
-        $query->orderBy('date', 'desc');
+        $query->orderBy('created_at', 'desc');
 
         return $query;
     }
