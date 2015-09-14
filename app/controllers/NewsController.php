@@ -271,6 +271,8 @@ class NewsController extends BaseController
     {
         $news = News::findOrFail($id);
 
+        $isNewsFooter = Input::get('newsFooter', false) ? true : false;
+
         $file = Input::file('file');
         $extension = File::extension($file->getClientOriginalName());
         $directory = public_path() . '/uploads';
@@ -282,6 +284,7 @@ class NewsController extends BaseController
         $upload->type = File::extension($file->getClientOriginalName());;
         $upload->news_id = $id;
         $upload->file_name = $filename;
+        $upload->news_footer = $isNewsFooter;
         $upload->save();
 
         return Response::json($upload, 200);

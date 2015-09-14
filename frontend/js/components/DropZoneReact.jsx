@@ -1,3 +1,5 @@
+'use strict';
+
 var Dropzone = window.Dropzone;
 
 function getDefaultProps(props) {
@@ -9,6 +11,14 @@ function getDefaultProps(props) {
   };
 
   return data;
+}
+
+function addCustomBody(file, xhr, formData) {
+  if (this.props.uploadBody) {
+    for (var key in this.props.uploadBody) {
+      formData.append(key, this.props.uploadBody[key]);
+    }
+  }
 }
 
 var DropzoneReact = React.createClass({
@@ -23,6 +33,7 @@ var DropzoneReact = React.createClass({
     var dropzone = new Dropzone(el, getDefaultProps(this.props));
     if(this.props.onAddedFile) {
       dropzone.on('success', this.props.onAddedFile);
+      dropzone.on('sending', addCustomBody.bind(this));
     }
     this.setState({uploader: dropzone});
   },

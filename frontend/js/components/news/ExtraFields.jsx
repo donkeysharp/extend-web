@@ -7,7 +7,7 @@ var $http = require('../../http');
 function onAddedFile(file, res) {
   var uploads = this.state.uploads;
   uploads.push(res);
-  this.setState({uploads: uploads});
+  this.setState({uploads: uploads, newsFooter: false, uploadBody: null });
 
   if (this.props.onAddedFile) {
     this.props.onAddedFile(file);
@@ -18,6 +18,14 @@ function onMediaTypeChanged(data) {
   if (this.props.onMediaTypeChanged) {
     this.props.onMediaTypeChanged(data);
   }
+}
+
+function onNewsFooterChange(e) {
+  var data = null;
+  if (e.currentTarget.checked) {
+    data = { newsFooter: true };
+  }
+  this.setState({newsFooter: e.currentTarget.checked, uploadBody: data });
 }
 
 function onBtnAddURLClicked(e) {
@@ -99,7 +107,9 @@ var ExtraFields = React.createClass({
   getInitialState: function () {
     return {
       uploads: [],
-      urls: []
+      urls: [],
+      newsFooter: false,
+      uploadBody: null
     };
   },
   componentDidMount: function () {
@@ -118,10 +128,16 @@ var ExtraFields = React.createClass({
         <div className="section-divider"><span>DATOS ADJUNTOS</span></div>
           <div className="row">
             <div className="col-md-6">
+              <label>
+                <input type="checkbox" checked={this.state.newsFooter} onChange={onNewsFooterChange.bind(this)} />
+                &nbsp;
+                Pie de noticia
+              </label>
               <Dropzone ref="uploader" url={'/news/' + this.props.newsId + '/uploads'}
                 acceptedFiles="image/*,application/pdf"
                 onAddedFile={onAddedFile.bind(this)}
                 maxFilesize={50}
+                uploadBody={this.state.uploadBody}
               />
               <LinkCollapse linkText="Ver Archivos" content={uploads} />
 
