@@ -69,13 +69,17 @@
                 <?php
                   $firstPicture = null;
                   $firstPdf = null;
+                  $firstNewsFooter = null;
                   foreach($item->news->uploads as $upload) {
                     $type = strtolower($upload->type);
-                    if(($type === 'jpg' || $type === 'jpeg' || $type === 'png' || $type === 'gif') && !$firstPicture) {
+                    if(($type === 'jpg' || $type === 'jpeg' || $type === 'png' || $type === 'gif') && !$firstPicture && !$upload->news_footer) {
                       $firstPicture = $upload;
                     }
                     if(($type === 'pdf') && !$firstPdf) {
                       $firstPdf = $upload;
+                    }
+                    if ($upload->news_footer && !$firstNewsFooter) {
+                      $firstNewsFooter = $upload;
                     }
                   }
                 ?>
@@ -128,6 +132,12 @@
                     <a href="{{asset('uploads/' . $firstPdf->file_name)}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:15px">
                       <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/pdf.jpeg')}}" height="25" width="25">
                       Ver PDF
+                    </a>
+                    <br>
+                  @elseif($firstNewsFooter)
+                    <a href="{{asset('uploads/' . $firstNewsFooter->file_name)}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:15px">
+                      <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/url.png')}}" height="25" width="25">
+                      Ver captura de noticia
                     </a>
                     <br>
                   @endif
