@@ -10,7 +10,7 @@
 <tr>
 <td width="22%">&nbsp;</td>
 <td width="56%" style="background-color: #fff; font-family: Helvetica, sans-serif;">
-    <table border="0" style="background-color: #e2e2e2; width: 100%">
+    <table border="0" style="background-color: #ffffff; width: 100%">
       <tr>
         <td width="100%">
         <?php
@@ -41,18 +41,19 @@
           }
         ?>
         @if($isBayerClient)
-          <img src="{{asset('assets/img/bulletin/bayer.png')}}" style="margin-left:20px;">
-          <img src="{{asset('assets/img/bulletin/logo.png')}}" style="float:right;margin-right:20px;" align="right">
+          <img src="{{asset('assets/img/bulletin/logo.png')}}" style="margin-left:20px;" >
+          <img src="{{asset('assets/img/bulletin/bayer.png')}}" style="float:right;margin-right:20px;" align="right">
         @else
           <center><img src="{{asset('assets/img/bulletin/logo.png')}}"></center>
         @endif
-          <div class="bulletin-title" style="text-align: center;font-size: 22px;color: #0082a4;font-weight: bold;padding-bottom: 10px;padding-top: 15px;border-bottom: 3px solid #c10a28;font-family: Helvetica, sans-serif;">
+          <div class="bulletin-title" style="text-align:center;font-size:22px;color:#0082a4;font-weight:bold;padding-bottom:10px;padding-top:15px;border-bottom:3px solid #c10a28;font-family:Helvetica, sans-serif;">
             Reporte
             <br>
             <span style="font-size: 28px; font-family:Helvetica, sans-serif">{{Form::literalDate($date)}}</span>
             <br>
             <span style="font-size: 30px; font-family:Helvetica, sans-serif">{{$client->name}}</span>
           </div>
+          <div style="border-bottom: 3px solid #1E1E9B; font-size:3px;">&nbsp;</div>
           <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
         </td>
       </tr>
@@ -138,19 +139,51 @@
         </td>
       </tr>
     </table>
-    {{-- c10a28 --}}
-  <table border="0" style="background-color: #e2e2e2;width:100%;font-family: Helvetica, sans-serif;">
+  <table border="0" style="background-color: #ffffff;width:100%;font-family: Helvetica, sans-serif;">
     <tr>
-      <td width="100%" style="padding-top: 15px;padding-bottom: 15px;background-color: #e2e2e2;font-size: 18px;color: #858585;text-align: center;font-family: Helvetica, sans-serif;">
-      <div style="border-bottom: 3px solid #c10a28;padding-bottom:8px;">
-        <span style="font-size: 21px;font-family: Helvetica, sans-serif;">MONITOREO PRENSA <b>EXTEND COMUNICACIONES BOLIVIA</b></span>
-      </div>
+      <td width="100%" cellpadding="0" style="padding-top: 15px;padding-bottom: 15px;background-color: #ffffff;font-size: 18px;color: #858585;text-align: center;font-family: Helvetica, sans-serif;">
+        <div style="border-bottom: 3px solid #c10a28;padding-bottom:8px;">
+          <span style="font-size: 21px;font-family: Helvetica, sans-serif;">
+            MONITOREO PRENSA
+          </span>
+          <br>
+          <span style="font-size: 21px;font-family: Helvetica, sans-serif;">
+            <b>EXTEND COMUNICACIONES BOLIVIA</b>
+          </span>
+        </div>
         <div style="margin-top: 0px; margin-bottom: 15px;border-bottom: 6px solid #548aae; font-size:3px;">&nbsp;</div>
         <i>
-          <center><b>Contáctenos: </b>Calacoto, Calle 18 N° 8022 Edificio Parque 18 Piso 2 Of. 2C</center>
-          <center><b>Teléfonos: </b>(591-2) 2774373 - 2797733</center>
-          <center><b>monitoreo.prensa@extend.com.bo</b></center>
+          <center style="font-size: 16px;">
+            Calacoto, Calle 18 N° 8022 Edificio "Parque 18" Piso 2 Of. 2C. Telf. (591-2) 2774373 - <b>La Paz</b>
+          </center>
+          <center style="font-size: 16px;">
+            Calle Saavedra esq. Cochabamba, Torre Empresarial CAINCO, piso 14 Of. 4 Telf. (591-3) 3111236 - <b>Santa Cruz</b>
+          </center>
+          <center style="font-size: 16px;">
+            <b>www.extend.com.bo</b>
+          </center>
+          <center style="font-size: 16px;">
+            <b>monitoreo.prensa@extend.com.bo</b>
+          </center>
         </i>
+        <div style="float:right">
+          <span style="font-size: 14px;font-family: Helvetica, sans-serif;">
+            <b>Siguenos en:</b>
+            &nbsp;
+            <a href="#">
+              <img src="{{asset('assets/img/bulletin/twitter.png')}}" style="width:18px;height:18px" width="18" height="18"></a>&nbsp;
+            <a href="#">
+              <img src="{{asset('assets/img/bulletin/face.png')}}" style="width:18px;height:18px" width="18" height="18"></a>&nbsp;
+            <a href="#">
+              <img src="{{asset('assets/img/bulletin/instagram.png')}}" style="width:18px;height:18px" width="18" height="18"></a>&nbsp;
+            <a href="#">
+              <img src="{{asset('assets/img/bulletin/linkedin.png')}}" style="width:18px;height:18px" width="18" height="18"></a>&nbsp;
+            <a href="#">
+              <img src="{{asset('assets/img/bulletin/gplus.png')}}" style="width:18px;height:18px" width="18" height="18"></a>&nbsp;
+            <a href="#">
+              <img src="{{asset('assets/img/bulletin/snapchat.png')}}" style="width:18px;height:18px" width="18" height="18"></a>&nbsp;
+          </span>
+        </div>
       </td>
     </tr>
   </table>
