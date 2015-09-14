@@ -41,18 +41,21 @@
           }
         ?>
         @if($isBayerClient)
-          <img src="{{asset('assets/img/bulletin/logo.png')}}" style="margin-left:20px;" >
-          <img src="{{asset('assets/img/bulletin/bayer.png')}}" style="float:right;margin-right:20px;" align="right">
+          <img src="{{asset('assets/img/bulletin/logo.png')}}" style="float:left;margin-left:20px;margin-bottom:50px" align="left">
+          <img src="{{asset('assets/img/bulletin/bayer.png')}}" style="float:right;margin-right:20px;margin-bottom:50px" align="right">
         @else
           <center><img src="{{asset('assets/img/bulletin/logo.png')}}"></center>
         @endif
-          <div class="bulletin-title" style="text-align:center;font-size:22px;color:#0082a4;font-weight:bold;padding-bottom:10px;padding-top:15px;border-bottom:3px solid #c10a28;font-family:Helvetica, sans-serif;">
-            Reporte
-            <br>
-            <span style="font-size: 28px; font-family:Helvetica, sans-serif">{{Form::literalDate($date)}}</span>
-            <br>
-            <span style="font-size: 30px; font-family:Helvetica, sans-serif">{{$client->name}}</span>
+          <div class="bulletin-title" style="text-align:center;font-size:22px;color:#0082a4;font-weight:bold;padding-bottom:10px;padding-top:15px;font-family:Helvetica, sans-serif;">
+            <center>Reporte</center>
+            <center>
+              <span style="font-size: 28px; font-family:Helvetica, sans-serif">{{Form::literalDate($date)}}</span>
+            </center>
+            <center>
+              <span style="font-size: 30px; font-family:Helvetica, sans-serif">{{$client->name}}</span>
+            </center>
           </div>
+          <div style="border-bottom: 3px solid #c10a28; font-size:3px;">&nbsp;</div>
           <div style="border-bottom: 3px solid #1E1E9B; font-size:3px;">&nbsp;</div>
           <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
         </td>
