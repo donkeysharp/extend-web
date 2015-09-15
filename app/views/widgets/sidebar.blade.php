@@ -35,9 +35,9 @@
       </a>
     </li>
     <li>
-      <a href="{{url('dashboard/export')}}">
-        <i class="fa fa-cloud-download"></i>&nbsp;
-        Exportar Datos
+      <a href="{{url('dashboard/reports')}}">
+        <i class="fa fa-bar-chart-o"></i>&nbsp;
+        Reportes
       </a>
     </li>
     <li>

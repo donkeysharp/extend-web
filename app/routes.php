@@ -84,6 +84,10 @@ Route::group(['before' => 'auth'], function() {
 });
 
 Route::group(['before' => 'auth'], function() {
+    Route::get('dashboard/reports', ['uses' => 'ReportController@index']);
+});
+
+Route::group(['before' => 'auth'], function() {
     Route::get('dashboard/users', ['uses' => 'UserController@index']);
     Route::get('dashboard/users/create', ['uses' => 'UserController@create']);
     Route::get('dashboard/users/{id}/edit', ['uses' => 'UserController@edit']);
