@@ -55,9 +55,9 @@
               <span style="font-size: 30px; font-family:Helvetica, sans-serif">{{$client->name}}</span>
             </center>
           </div>
-          <div style="border-bottom: 3px solid #c10a28; font-size:3px;">&nbsp;</div>
-          <div style="border-bottom: 3px solid #1E1E9B; font-size:3px;">&nbsp;</div>
-          <div style="border-bottom: 6px solid #0082a4; font-size:3px;">&nbsp;</div>
+          <div style="border-bottom: 2px solid #c10a28; font-size:2px;">&nbsp;</div>
+          <div style="border-bottom: 2px solid #1E1E9B; font-size:2px;">&nbsp;</div>
+          <div style="border-bottom: 4px solid #0082a4; font-size:2px;">&nbsp;</div>
         </td>
       </tr>
     </table>
@@ -155,7 +155,7 @@
   <table border="0" style="background-color: #ffffff;width:100%;font-family: Helvetica, sans-serif;">
     <tr>
       <td width="100%" cellpadding="0" style="padding-top: 15px;padding-bottom: 15px;background-color: #ffffff;font-size: 18px;color: #858585;text-align: center;font-family: Helvetica, sans-serif;">
-        <div style="border-bottom: 3px solid #c10a28;padding-bottom:8px;">
+        <div style="border-bottom: 2px solid #c10a28;padding-bottom:8px;">
           <span style="font-size: 21px;font-family: Helvetica, sans-serif;">
             MONITOREO PRENSA
           </span>
@@ -164,7 +164,7 @@
             <b>EXTEND COMUNICACIONES BOLIVIA</b>
           </span>
         </div>
-        <div style="margin-top: 0px; margin-bottom: 15px;border-bottom: 6px solid #548aae; font-size:3px;">&nbsp;</div>
+        <div style="margin-top: 0px; margin-bottom: 15px;border-bottom: 3px solid #548aae; font-size:2px;">&nbsp;</div>
         <i>
           <center style="font-size: 16px;">
             Calacoto, Calle 18 N° 8022 Edificio "Parque 18" Piso 2 Of. 2C. Telf. (591-2) 2774373 - <b>La Paz</b>
