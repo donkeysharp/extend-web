@@ -175,8 +175,8 @@
             <th class="col-md-2">Fecha</th>
             <th class="col-md-1">Cliente</th>
             <th class="col-md-2">Subtítulo</th>
-            <th class="col-md-2">Medio</th>
-            <th class="col-md-5">Título</th>
+            <th class="col-md-3">Medio</th>
+            <th class="col-md-4">Título</th>
             <th class="col-md-1">Tendencia</th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
@@ -200,11 +200,13 @@
               </td>
               <td>{{$item->subtitle}}</td>
               <td>
+              <span style="-ms-word-break: break-all;word-break: break-all;word-break: break-word;-webkit-hyphens: auto;-moz-hyphens: auto;hyphens: auto;">
               @if($item->media)
                 {{$item->media->name}}
               @else
                 Sin medio
               @endif
+              </span>
               </td>
               <td>{{$item->title}}</td>
               <td>

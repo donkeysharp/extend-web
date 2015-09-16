@@ -6,7 +6,7 @@ class NewsController extends BaseController
     public function index()
     {
         $page = Input::get('page', 1);
-        $limit = 30;
+        $limit = 300;
         $query = $this->search();
 
 
