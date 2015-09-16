@@ -88,7 +88,7 @@
                 ?>
                 @if($item->subtitle === $s->subtitle)
                   @if(!$displayed)
-                    <h2 style="font-size: 26px;font-weight: bolder;color: #404040;">
+                    <h2 style="font-size: 26px;font-weight: bolder;color: #404040;margin-top:20px;margin-bottom:20px">
                     @if ($isSanCristobalClient && strcmp($s->subtitle, 'COYUNTURA') === 0)
                       Noticias C
                     @else
@@ -139,7 +139,7 @@
                     <br>
                   @elseif($firstNewsFooter)
                     <a href="{{asset('uploads/' . $firstNewsFooter->file_name)}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:15px">
-                      <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/url.png')}}" height="25" width="25">
+                      <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/screenshot-xl.png')}}" height="25" width="25">
                       Ver captura de noticia
                     </a>
                     <br>
