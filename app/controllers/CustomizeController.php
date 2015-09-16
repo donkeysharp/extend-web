@@ -15,7 +15,7 @@ class CustomizeController extends BaseController
     {
         $client = Client::findOrFail($clientId);
         $subtitles = Subtitle::orderBy('id')->get();
-        $customSubtitles = $client->customSubtitles()->get();
+        $customSubtitles = $client->customSubtitles()->orderBy('custom_subtitles.id')->get();
 
         if (count($customSubtitles) === 0) {
             $customSubtitles = $subtitles;
