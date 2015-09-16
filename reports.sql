@@ -18,32 +18,32 @@ order by t.name;
 
 -- Reporte 3 (cantidad de noticias positivias, negativas y neutras por cliente)
 -- Positivas
-select count(nd.id) as postive
+select count(nd.id) as positive
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
-where n.client_id = 101 and 
-	nd.tendency = 1 and 
+where n.client_id = 101 and
+	nd.tendency = 1 and
     nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
 -- Negativas
 select count(nd.id) as negative
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
-where n.client_id = 101 and 
-	nd.tendency = 2 and 
+where n.client_id = 101 and
+	nd.tendency = 2 and
     nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
 -- Neutras
 select count(nd.id) as neutral
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
-where n.client_id = 101 and 
-	nd.tendency = 3 and 
+where n.client_id = 101 and
+	nd.tendency = 3 and
     nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
 
 -- Reporte 4 (cantidad de noticias por genero)
-select nd.gender, count(nd.gender)
+select nd.gender, count(nd.gender) as news
 from news_details as nd
 where ifnull(length(nd.gender), 0) > 0 and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'

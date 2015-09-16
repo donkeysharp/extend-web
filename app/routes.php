@@ -104,6 +104,8 @@ Route::group(['before' => 'auth'], function() {
 });
 
 Route::get('foo', function() {
+    $a = new ReportGenerator();
+    return $a->report6('2015-09-01', '2015-09-30');
 });
 
 
