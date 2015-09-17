@@ -90,7 +90,7 @@
                   @if(!$displayed)
                     <h2 style="font-size: 26px;font-weight: bolder;color: #404040;margin-top:20px;margin-bottom:20px">
                     @if ($isSanCristobalClient && strcmp($s->subtitle, 'COYUNTURA') === 0)
-                      Noticias C
+                      NOTICIAS C
                     @else
                       {{$s->subtitle}}
                     @endif

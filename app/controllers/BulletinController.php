@@ -29,7 +29,7 @@ class BulletinController extends BaseController
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
 
-        $subtitles = $client->customSubtitles()->get();
+        $subtitles = $client->customSubtitles()->orderBy('custom_subtitles.id')->get();
         if (count($subtitles) === 0) {
             $subtitles = Subtitle::orderBy('id')->get();
         }
@@ -63,7 +63,7 @@ class BulletinController extends BaseController
         }])->with('media')->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
-        $subtitles = $client->customSubtitles()->get();
+        $subtitles = $client->customSubtitles()->orderBy('custom_subtitles.id')->get();
         if (count($subtitles) === 0) {
             $subtitles = Subtitle::orderBy('id')->get();
         }
@@ -104,7 +104,7 @@ class BulletinController extends BaseController
 
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
-        $subtitles = $client->customSubtitles()->get();
+        $subtitles = $client->customSubtitles()->orderBy('custom_subtitles.id')->get();
         if (count($subtitles) === 0) {
             $subtitles = Subtitle::orderBy('id')->get();
         }
