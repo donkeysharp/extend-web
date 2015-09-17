@@ -14,6 +14,11 @@
       <tr>
         <td width="100%">
         <?php
+          /* All this php block contains client exceptions
+           * for bulletin header, certain subtitles.
+           * This will tend to be buggy. TODO: find a solution
+           */
+          // Bayer client exception
           $pattern1 = 'bayer';
           $pattern2 = 'b.a.y.e.r';
           $text = $client->name;
@@ -24,7 +29,7 @@
             $isBayerClient = true;
           }
 
-          $isSanCristobalClient = false;
+          // Minera San Cristobal client exception
           $pattern1 = 'msc';
           $pattern2 = 'san cristobal';
           $pattern3 = 'san cristóbal';
@@ -36,8 +41,13 @@
           $index3 = strpos(strtolower($text), $pattern3);
           $index4 = strpos(strtolower($text), $pattern4);
 
-          if ($index1 !== false || $index2 !== false || $index3 !== false || $index4 !== false) {
-            $isSanCristobalClient = true;
+          $isSanCristobalClient = $index1 !== false || $index2 !== false || $index3 !== false || $index4 !== false;
+          if ($isSanCristobalClient) {
+            foreach($details as $item) {
+              if (strcmp(strtoupper($item->subtitle), 'COYUNTURA') === 0) {
+                $item->subtitle = 'NOTICIAS C';
+              }
+            }
           }
         ?>
         @if($isBayerClient)
@@ -89,11 +99,7 @@
                 @if($item->subtitle === $s->subtitle)
                   @if(!$displayed)
                     <h2 style="font-size: 26px;font-weight: bolder;color: #404040;margin-top:20px;margin-bottom:20px">
-                    @if ($isSanCristobalClient && strcmp($s->subtitle, 'COYUNTURA') === 0)
-                      NOTICIAS C
-                    @else
                       {{$s->subtitle}}
-                    @endif
                     </h2>
                     <?php $displayed = true; ?>
                   @endif
