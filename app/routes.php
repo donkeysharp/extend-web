@@ -52,6 +52,7 @@ Route::group(['before' => 'auth'], function() {
     Route::get('dashboard/clients/create', ['uses' => 'ClientController@create']);
     Route::get('dashboard/clients/{id}/edit', ['uses' => 'ClientController@edit']);
 
+    Route::get('/clients', ['uses' => 'ClientController@indexJson']);
     Route::post('/clients', ['uses' => 'ClientController@store']);
     Route::put('/clients/{id}', ['uses' => 'ClientController@update']);
     Route::delete('/clients/{id}', ['uses' => 'ClientController@destroy']);
@@ -85,6 +86,7 @@ Route::group(['before' => 'auth'], function() {
 
 Route::group(['before' => 'auth'], function() {
     Route::get('dashboard/reports', ['uses' => 'ReportController@index']);
+    Route::get('/reports', ['uses' => 'ReportController@getReport']);
 });
 
 Route::group(['before' => 'auth'], function() {

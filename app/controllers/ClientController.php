@@ -16,6 +16,13 @@ class ClientController extends BaseController
             ->with('clients', $paginator);
     }
 
+    public function indexJson()
+    {
+        $clients = Client::all();
+
+        return Response::json($clients, 200);
+    }
+
     public function create()
     {
         $model = new Client();
