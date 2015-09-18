@@ -276,12 +276,12 @@ class NewsController extends BaseController
         $file = Input::file('file');
         $extension = File::extension($file->getClientOriginalName());
         $directory = public_path() . '/uploads';
-        $filename =  $file->getClientOriginalName();
+        $filename =  parent::generateGUID() . '.' . $extension;
 
         $upload_success = Input::file('file')->move($directory, $filename);
 
         $upload = new NewsUpload();
-        $upload->type = File::extension($file->getClientOriginalName());;
+        $upload->type = $extension;
         $upload->news_id = $id;
         $upload->file_name = $filename;
         $upload->news_footer = $isNewsFooter;

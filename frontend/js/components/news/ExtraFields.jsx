@@ -30,7 +30,18 @@ function onNewsFooterChange(e) {
 
 function onBtnAddURLClicked(e) {
   var url = this.refs.url.getDOMNode().value;
+  if (url.trim().length === 0) {
+    return;
+  }
+  this.refs.btnAddUrl.getDOMNode().disabled = true;
+  $(this.refs.urlPlusIcon.getDOMNode()).hide();
+  $(this.refs.urlSpinIcon.getDOMNode()).show();
+
   $http.post('/news/' + this.props.newsId +'/urls', {url: url}).then(function(res) {
+    this.refs.btnAddUrl.getDOMNode().removeAttribute('disabled');
+    $(this.refs.urlPlusIcon.getDOMNode()).show();
+    $(this.refs.urlSpinIcon.getDOMNode()).hide();
+
     this.refs.url.getDOMNode().value = '';
     var urls = this.state.urls;
     urls.push(res);
@@ -87,8 +98,17 @@ function getUploads() {
     return <span>No existen Archivos</span>;
   }
   var list = this.state.uploads.map(function(item, index) {
+    var prefix = '';
+    if (item.news_footer === '1') {
+      prefix = '[Pie de nota] - ';
+    }
+    var fileName = item.file_name;
+    if (fileName.length > 20) {
+      fileName = fileName.substr(0,20) + '...' + item.type;
+    }
+
     return <li>
-      <a href={'/uploads/' + item.file_name} target="_blank">{item.file_name}</a>
+      <a href={'/uploads/' + item.file_name} target="_blank">{prefix + fileName}</a>
       &nbsp;-&nbsp;
       <a href="javascript:void(0)" data-upload-id={item.id} data-index={index} onClick={deleteUpload.bind(this)}>
         <i className="fa fa-close"></i>
@@ -113,6 +133,7 @@ var ExtraFields = React.createClass({
     };
   },
   componentDidMount: function () {
+    $(this.refs.urlSpinIcon.getDOMNode()).hide();
     $http.get('/news/'+this.props.newsId+'/urls').then(function(res) {
       this.setState({urls: res});
     }.bind(this), function(err){})
@@ -149,9 +170,11 @@ var ExtraFields = React.createClass({
                   placeholder="Adicionar URL" />
                 <span className="input-group-btn">
                   <button className="btn btn-light"
+                    ref="btnAddUrl"
                     onClick={onBtnAddURLClicked.bind(this)}
                     type="button">
-                    <i className="fa fa-plus"></i>
+                    <i ref="urlPlusIcon" className="fa fa-plus"></i>
+                    <i ref="urlSpinIcon" className="fa fa-spin fa-spinner"></i>
                   </button>
                 </span>
               </div>

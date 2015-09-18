@@ -54,6 +54,13 @@
           $index4 = strpos(strtolower($text), $pattern4);
 
           $isSanCristobalClient = $index1 !== false || $index2 !== false || $index3 !== false || $index4 !== false;
+          $hasCoyunturaNews = false;
+          foreach ($details as $item) {
+            if ($item->news->client_id == 100) {
+              $hasCoyunturaNews = true;
+              break;
+            }
+          }
         ?>
         @if($isBayerClient)
           <img src="{{asset('assets/img/bulletin/logo.png')}}" style="float:left;margin-left:20px;margin-bottom:50px" align="left">
@@ -85,6 +92,7 @@
               'details' => $details,
               'display_coyuntura' => false
             ])
+          @if ($hasCoyunturaNews)
             <h2 style="font-size: 26px;font-weight: bolder;color: #404040;margin-top:20px;margin-bottom:20px">
               @if ($isSanCristobalClient)
                 NOTICIAS C
@@ -97,6 +105,7 @@
               'details' => $details,
               'display_coyuntura' => true
             ])
+          @endif
           </div>
         </td>
       </tr>
