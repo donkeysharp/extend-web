@@ -88,7 +88,12 @@ select m.name, count(nd.id) as positive
 from media as m
 inner join news_details as nd
 on m.id = nd.media_id
-where nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1' and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1' and
 	nd.tendency = 1
 group by m.name
 order by m.name;
@@ -97,7 +102,12 @@ select m.name, count(nd.id) as negative
 from media as m
 inner join news_details as nd
 on m.id = nd.media_id
-where nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1' and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and 
+    nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1' and
 	nd.tendency = 2
 group by m.name
 order by m.name;
@@ -106,7 +116,12 @@ select m.name, count(nd.id) as neutral
 from media as m
 inner join news_details as nd
 on m.id = nd.media_id
-where nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1' and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+    nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1' and
 	nd.tendency = 3
 group by m.name
 order by m.name;

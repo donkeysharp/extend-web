@@ -3,26 +3,36 @@ var React = window.React;
 var $http = require('../http');
 var reportMap = require('./reportMap');
 
-function onReportchange (e) {
-  var value = e.currentTarget.value;
-  var state = {
-    report: value,
-    displayReport: false
-  };
-  // TODO: add exceptions to display clients dropdown
-  this.setState(state);
-}
-
 function onGenerateReport (e) {
-  this.setState({displayReport: true});
+  this.setState({displayReport: false});
+  var data = {
+    client_id: this.refs.client.getDOMNode().value,
+    month: this.refs.month.getDOMNode().value,
+    year: this.refs.year.getDOMNode().value
+  };
+  $http.get('/reports', data).then(function(res) {
+    this.setState({data: res, displayReport: true});
+  }.bind(this));
 }
 
-function getReport(report) {
-  if (reportMap.hasOwnProperty(report)) {
-    var Report = reportMap[report];
-    return <Report />
+function getReports() {
+  var data = this.state.data;
+  var pressData = data.press;
+  var radioData = data.radio;
+  var tvData = data.tv;
+
+  var result = [];
+  for (var key in pressData) {
+    if (reportMap.hasOwnProperty(key)) {
+      if (Object.prototype.toString.call(pressData[key]) === '[object Array]') {
+        if (pressData[key].length <= 0) { continue; }
+      }
+      var Report = reportMap[key];
+      result.push(<Report data={pressData[key]} />);
+    }
   }
-  return '';
+
+  return result;
 }
 
 function getClients() {
@@ -48,13 +58,15 @@ function getClients() {
 var ReportView = React.createClass({
   getInitialState: function () {
     return {
-      report: '',
       clients: [],
-      enableClients: false,
-      displayReport: false
+      displayReport: false,
+      data: {}
     };
   },
   componentDidMount: function () {
+    var now = new Date();
+    this.refs.month.getDOMNode().value = now.getMonth() + 1;
+    this.refs.year.getDOMNode().value = now.getFullYear();
     $http.get('/clients').then(function(res) {
       this.setState({ clients: res });
     }.bind(this), function(err) {})
@@ -62,42 +74,40 @@ var ReportView = React.createClass({
   render: function() {
     var report = '';
     if (this.state.displayReport) {
-      report = getReport(this.state.report);
+      report = getReports.call(this);
     }
-    var clients = '';
-    if (this.state.enableClients) {
-      clients = getClients.call(this);
-    }
+    var clients = getClients.call(this);
     return (
       <div className="row">
         <div className="col-md-10 col-md-offset-1">
           <div className="panel panel-dark">
             <div className="panel-heading"><b>asdasdasdasd</b></div>
             <div className="panel-body">
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label>Reporte</label>
-                    <select className="form-control" value={this.state.report} onChange={onReportchange.bind(this)}>
-                      <option value="">--- Seleccione un reporte ---</option>
-                      <option value="Report1">Comparación según medio de comunicación</option>
-                      <option value="Report2">Comparación según tema</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
               {clients}
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>Desde</label>
-                    <input type="text" className="form-control" name="from" id="from" />
+                    <label>Mes</label>
+                    <select className="form-control" ref="month">
+                      <option value="1">Enero</option>
+                      <option value="2">Febrero</option>
+                      <option value="3">Marzo</option>
+                      <option value="4">Abril</option>
+                      <option value="5">Mayo</option>
+                      <option value="6">Junio</option>
+                      <option value="7">Julio</option>
+                      <option value="8">Agosto</option>
+                      <option value="9">Septiembre</option>
+                      <option value="10">Octubre</option>
+                      <option value="11">Noviembre</option>
+                      <option value="12">Diciembre</option>
+                    </select>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label>Hasta</label>
-                    <input type="text" className="form-control" name="to" id="to" />
+                    <label>Año</label>
+                    <input type="text" className="form-control" ref="year" />
                   </div>
                 </div>
               </div>

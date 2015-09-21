@@ -37,7 +37,7 @@ function getFormattedData(array) {
 }
 
 function generateReport() {
-  var reportData = getFormattedData(this.state.data)
+  var reportData = getFormattedData(this.props.data)
 
   drawChart.call(this, reportData.chartRes);
   drawTable.call(this, reportData.tableRes);
@@ -89,25 +89,12 @@ function exportToImage() {
 }
 
 var Report2 = React.createClass({
-  getInitialState: function () {
-    return {
-      data: []
-    };
-  },
   componentDidMount: function () {
-    var data = {
-      report: 'report2',
-      fromDate: this.props.fromDate,
-      toDate: this.props.toDate
-    };
-    $http.get('/reports', data).then(function(res) {
-      this.setState({data: res});
-    }.bind(this), function(err) { });
-  },
-  render: function() {
-    if (this.state.data.length > 0) {
+    if (this.props.data && this.props.data.length > 0) {
       generateReport.call(this);
     }
+  },
+  render: function() {
     return (
       <div>
         <div className="row">

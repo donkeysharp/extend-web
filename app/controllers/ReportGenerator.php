@@ -2,30 +2,12 @@
 
 class ReportGenerator
 {
+    const PRESS = 1;
     const PRINTED = 1;
     const DIGITAL = 2;
     const RADIO  = 3;
     const TV = 4;
     const SOURCE = 5;
-
-    private function getFilterByMediaQuery($query, $filterByMedia)
-    {
-        if ($filterByMedia == self::PRINTED || $filterByMedia == self::DIGITAL) {
-            $query->where(function($q)
-            {
-                $q->where('nd.type', '=', 1)
-                    ->orWhere('nd.type', '=', 2);
-            });
-        } else if ($filterByMedia == self::RADIO) {
-            $query->where('nd.type', '=', 3);
-        } else if ($filterByMedia == self::TV) {
-            $query->where('nd.type', '=', 4);
-        } else if ($filterByMedia == self::SOURCE) {
-            $query->where('nd.type', '=', 5);
-        }
-
-        return $query;
-    }
 
     /**
      * [report1 description]
@@ -293,5 +275,60 @@ class ReportGenerator
         }
 
         return $result;
+    }
+
+
+
+    private function getFilterByMediaQuery($query, $filterByMedia)
+    {
+        if ($filterByMedia == self::PRINTED || $filterByMedia == self::DIGITAL) {
+            $query->where(function($q)
+            {
+                $q->where('nd.type', '=', 1)
+                    ->orWhere('nd.type', '=', 2);
+            });
+        } else if ($filterByMedia == self::RADIO) {
+            $query->where('nd.type', '=', 3);
+        } else if ($filterByMedia == self::TV) {
+            $query->where('nd.type', '=', 4);
+        } else if ($filterByMedia == self::SOURCE) {
+            $query->where('nd.type', '=', 5);
+        }
+
+        return $query;
+    }
+
+    public static function getDates($month, $year)
+    {
+        if ($month <= 0 || $month > 12) {
+            return [$year . '-01-01', $year . '01-31'];
+        }
+        if ($month === 2) {
+            if ($year % 4 == 0) {
+                return [$year . '-02-01', $year .'-02-29'];
+            }
+            return [$year . '-02-01', $year . '-02-28'];
+        }
+
+        $lastDay = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        return [$year . '-' . $month . '-01', $year . '-' . $month . '-' . $lastDay[$month]];
+    }
+
+    public static function getPastDates($month, $year)
+    {
+        $date3 = static::getDates($month, $year);
+        $month--;
+        if ($month == 0) {
+            $month = 12;
+            $year--;
+        }
+        $date2 = static::getDates($month, $year);
+        $month--;
+        if ($month == 0) {
+            $month = 12;
+            $year--;
+        }
+        $date1 = static::getDates($month, $year);
+        return [$date1, $date2, $date3];
     }
 }
