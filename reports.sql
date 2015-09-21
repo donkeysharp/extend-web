@@ -3,7 +3,12 @@ select m.name, count(nd.id) as news
 from media as m
 inner join news_details as nd
 on m.id = nd.media_id
-where nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
+inner join news as n
+on n.id = nd.news_id
+where
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2 ) and
+	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by m.name
 order by m.name;
 
@@ -12,7 +17,12 @@ select t.name, count(nd.id) as news
 from topics as t
 inner join news_details as nd
 on t.id = nd.topic_id
-where nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
+inner join news as n
+on n.id = nd.news_id
+where
+	n.client_id = 4 and
+    (nd.type = 1 or nd.type = 2) and
+	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by t.name
 order by t.name;
 
@@ -22,7 +32,9 @@ select count(nd.id) as positive
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
-where n.client_id = 101 and
+where 
+	n.client_id = 101 and
+	(nd.type = 1 or nd.type = 2) and
 	nd.tendency = 1 and
     nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
 -- Negativas
@@ -30,7 +42,9 @@ select count(nd.id) as negative
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
-where n.client_id = 101 and
+where 
+	n.client_id = 101 and
+	(nd.type = 1 or nd.type = 2) and
 	nd.tendency = 2 and
     nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
 -- Neutras
@@ -38,21 +52,33 @@ select count(nd.id) as neutral
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
-where n.client_id = 101 and
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
 	nd.tendency = 3 and
     nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
 
 -- Reporte 4 (cantidad de noticias por genero)
 select nd.gender, count(nd.gender) as news
 from news_details as nd
-where ifnull(length(nd.gender), 0) > 0 and
+inner join news as n
+on n.id = nd.news_id
+where
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+	ifnull(length(nd.gender), 0) > 0 and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by nd.gender;
 
 -- Reporte 5 (cantidad de noticias por fuente)
 select nd.source, count(nd.source)
 from news_details as nd
-where ifnull(length(nd.source), 0) > 0 and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 5) and
+	ifnull(length(nd.source), 0) > 0 and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by nd.source;
 
