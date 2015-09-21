@@ -15,6 +15,31 @@ function onGenerateReport (e) {
   }.bind(this));
 }
 
+function pushReport(data, result, title) {
+  var temporal = [];
+  for (var key in data) {
+    if (reportMap.hasOwnProperty(key)) {
+      if (Object.prototype.toString.call(data[key]) === '[object Array]') {
+        if (data[key].length <= 0) { continue; }
+      }
+      if (key === 'Report3') {
+        if (data[key].positive === '0' && data[key].negative === '0' && data[key].neutral === '0') {
+          continue;
+        }
+      }
+      var Report = reportMap[key];
+      temporal.push(<Report data={data[key]} />);
+    }
+  }
+
+  if (temporal.length > 0) {
+    result.push(<h2>{title}</h2>)
+    temporal.map(function(item) {
+      result.push(item);
+    });
+  }
+}
+
 function getReports() {
   var data = this.state.data;
   var pressData = data.press;
@@ -22,15 +47,9 @@ function getReports() {
   var tvData = data.tv;
 
   var result = [];
-  for (var key in pressData) {
-    if (reportMap.hasOwnProperty(key)) {
-      if (Object.prototype.toString.call(pressData[key]) === '[object Array]') {
-        if (pressData[key].length <= 0) { continue; }
-      }
-      var Report = reportMap[key];
-      result.push(<Report data={pressData[key]} />);
-    }
-  }
+  pushReport(pressData, result, 'Prensa');
+  pushReport(radioData, result, 'Radio');
+  pushReport(tvData, result, 'TV');
 
   return result;
 }
@@ -122,7 +141,9 @@ var ReportView = React.createClass({
                   </div>
                 </div>
               </div>
-              {report}
+              <div className="report-container">
+                {report}
+              </div>
             </div>
           </div>
         </div>

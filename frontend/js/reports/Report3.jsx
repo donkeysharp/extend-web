@@ -20,7 +20,6 @@ function drawTable(data) {
 }
 
 function drawChart(reportData) {
-  console.log(reportData);
   var data1 = google.visualization.arrayToDataTable([
     ['Tendencia', 'Tendencia', {role: 'style'} ],
     ['Positivo', parseInt(reportData.positive, 10), '#4285F4'],
