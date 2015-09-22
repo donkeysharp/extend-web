@@ -13,7 +13,7 @@ class ReportController extends BaseController
         $date = ReportGenerator::getDates(Input::get('month', 1), Input::get('year', 2015));
         $from = $date[0];
         $to = $date[1];
-
+        $pastDates = ReportGenerator::getPastDates(Input::get('month', 1), Input::get('year', 2015));
         $reportGenerator = new ReportGenerator();
 
         $result = [];
@@ -50,6 +50,7 @@ class ReportController extends BaseController
                                                             $result['press']['Report3'],
                                                             $result['radio']['Report3'],
                                                             $result['tv']['Report3']);
+        $result['general']['GeneralReportC'] = $reportGenerator->generalReportC($pastDates, $client->id);
 
         return $result;
     }

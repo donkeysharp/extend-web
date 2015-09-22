@@ -107,7 +107,8 @@ Route::group(['before' => 'auth'], function() {
 
 Route::get('foo', function() {
     $a = new ReportGenerator();
-    return $a->report2('2015-09-01', '2015-09-30', 101, 1);
+    $dates = ReportGenerator::getPastDates(9, 2015);
+    return $a->generalReportC($dates, 101);
 });
 
 

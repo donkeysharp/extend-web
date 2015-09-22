@@ -320,6 +320,27 @@ class ReportGenerator
         return $result;
     }
 
+    public function getMonthReport($from, $to, $clientId)
+    {
+        $result = $this->report3($from, $to, $clientId, false);
+        return $result;
+    }
+
+    public function generalReportC($dates, $clientId)
+    {
+        $report1 = $this->getMonthReport($dates[0][0], $dates[0][1], $clientId);
+        $report2 = $this->getMonthReport($dates[1][0], $dates[1][1], $clientId);
+        $report3 = $this->getMonthReport($dates[2][0], $dates[2][1], $clientId);
+
+        $result = [
+            $dates[0][0] => $report1,
+            $dates[1][0] => $report2,
+            $dates[2][0] => $report3,
+        ];
+
+        return $result;
+    }
+
     private function getFilterByMediaQuery($query, $filterByMedia)
     {
         if ($filterByMedia == self::PRINTED || $filterByMedia == self::DIGITAL) {
@@ -334,6 +355,8 @@ class ReportGenerator
             $query->where('nd.type', '=', 4);
         } else if ($filterByMedia == self::SOURCE) {
             $query->where('nd.type', '=', 5);
+        } else if ($filterByMedia == false) {
+            $query->where('nd.type', '<>', 5);
         }
 
         return $query;

@@ -10,6 +10,7 @@ var Report7 = require('./Report6.jsx');
 
 var GeneralReportA = require('./GeneralReportA.jsx');
 var GeneralReportB = require('./GeneralReportB.jsx');
+var GeneralReportC = require('./GeneralReportC.jsx');
 
 module.exports = {
   Report1: Report1,
@@ -21,4 +22,5 @@ module.exports = {
   // Report7: Report7,
   GeneralReportA: GeneralReportA,
   GeneralReportB: GeneralReportB,
+  GeneralReportC: GeneralReportC,
 };
