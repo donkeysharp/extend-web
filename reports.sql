@@ -149,3 +149,34 @@ where nd.tendency = 3 and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by source;
 
+-- Reporte General A
+-- Prensa
+select count(nd.id) as press
+from news_details as nd
+inner join news as n
+on n.id = nd.news_id
+where
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+    nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
+-- Radio
+select count(nd.id) as radio
+from news_details as nd
+inner join news as n
+on n.id = nd.news_id
+where
+	n.client_id = 101 and
+    nd.type = 3 and
+    nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
+-- Tv
+select count(nd.id) as tv
+from news_details as nd
+inner join news as n
+on n.id = nd.news_id
+where
+	n.client_id = 101 and
+    nd.type = 4 and
+    nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1';
+
+-- Reporte General B
+-- Generated Programatically

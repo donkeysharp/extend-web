@@ -45,11 +45,13 @@ function getReports() {
   var pressData = data.press;
   var radioData = data.radio;
   var tvData = data.tv;
+  var generalData = data.general;
 
   var result = [];
-  pushReport(pressData, result, 'Prensa');
-  pushReport(radioData, result, 'Radio');
-  pushReport(tvData, result, 'TV');
+  pushReport(generalData, result, 'Reportes Generales');
+  pushReport(pressData, result, 'Reportes Prensa');
+  pushReport(radioData, result, 'Reportes Radio');
+  pushReport(tvData, result, 'Reportes Televisión');
 
   return result;
 }

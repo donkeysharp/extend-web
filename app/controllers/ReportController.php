@@ -42,7 +42,14 @@ class ReportController extends BaseController
         $result['tv']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::TV);
         // $result['tv']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::TV);
 
-        // TODO: General Reports (reports 8, 9, 10 for byMediaTypeGeneral, byMediaTypeSpecific, trimistral)
+        $result['general']['GeneralReportA'] = $reportGenerator->generalReportA(
+                                                            $result['press']['Report1'],
+                                                            $result['radio']['Report1'],
+                                                            $result['tv']['Report1']);
+        $result['general']['GeneralReportB'] = $reportGenerator->generalReportB(
+                                                            $result['press']['Report3'],
+                                                            $result['radio']['Report3'],
+                                                            $result['tv']['Report3']);
 
         return $result;
     }

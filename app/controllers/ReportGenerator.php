@@ -277,7 +277,48 @@ class ReportGenerator
         return $result;
     }
 
+    public function generalReportA($pressReport1, $radioReport1, $tvReport1)
+    {
+        $result = [];
+        $pressTotal = $radioTotal = $tvTotal = 0;
+        foreach ($pressReport1 as $item) {
+            $pressTotal += $item->news;
+        }
+        foreach ($radioReport1 as $item) {
+            $radioTotal += $item->news;
+        }
+        foreach ($tvReport1 as $item) {
+            $tvTotal += $item->news;
+        }
 
+        $result = [
+            'press' => $pressTotal,
+            'radio' => $radioTotal,
+            'tv' => $tvTotal
+        ];
+        return $result;
+    }
+
+    public function generalReportB($pressReport3, $radioReport3, $tvReport3)
+    {
+        $result = [];
+        $result['press'] = [
+            'positive' => $pressReport3['positive'],
+            'negative' => $pressReport3['negative'],
+            'neutral' => $pressReport3['neutral']
+        ];
+        $result['radio'] = [
+            'positive' => $radioReport3['positive'] ?: '0',
+            'negative' => $radioReport3['negative'] ?: '0',
+            'neutral' => $radioReport3['neutral'] ?: '0'
+        ];
+        $result['tv'] = [
+            'positive' => $tvReport3['positive'] ?: '0',
+            'negative' => $tvReport3['negative'] ?: '0',
+            'neutral' => $tvReport3['neutral'] ?: '0'
+        ];
+        return $result;
+    }
 
     private function getFilterByMediaQuery($query, $filterByMedia)
     {
