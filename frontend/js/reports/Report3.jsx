@@ -86,6 +86,20 @@ var Report3 = React.createClass({
       generateReport.call(this);
     }
   },
+  getExportData: function() {
+    var table = this.refs.dataTable.getDOMNode().innerHTML;
+    var image = this.chart1.getImageURI();
+    image = '<img src="' + image + '" />';
+
+    var image2 = this.chart2.getImageURI();
+    image2 = '<img src="' + image2 + '" />';
+
+    return {
+      table: table,
+      image: image,
+      image2: image2
+    };
+  },
   render: function () {
     return (
       <div>
@@ -106,8 +120,6 @@ var Report3 = React.createClass({
           <div ref="chart1"></div>
           <div ref="chart2"></div>
         </center>
-        <button onClick={exportToImage.bind(this)}>Export</button>
-        <img ref="exporter" />
       </div>
     );
   }

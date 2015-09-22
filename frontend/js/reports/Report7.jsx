@@ -22,8 +22,6 @@ var Report7 = React.createClass({
         <center>
           <div ref="chart"></div>
         </center>
-        <button onClick={exportToImage.bind(this)}>Export</button>
-        <img ref="exporter" />
       </div>
     );
   }

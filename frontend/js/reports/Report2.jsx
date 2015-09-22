@@ -60,7 +60,7 @@ function drawChart(reportData) {
   data.addRows(reportData);
 
   var options = {
-    title:'Publicaciones según tema',
+    // title:'Publicaciones según tema',
     width:600,
     height:400,
     is3D: true,
@@ -94,6 +94,16 @@ var Report2 = React.createClass({
       generateReport.call(this);
     }
   },
+  getExportData: function() {
+    var table = this.refs.dataTable.getDOMNode().innerHTML;
+    var image = this.chart.getImageURI();
+    image = '<img src="' + image + '" />';
+
+    return {
+      table: table,
+      image: image
+    }
+  },
   render: function() {
     return (
       <div>
@@ -111,8 +121,6 @@ var Report2 = React.createClass({
         <center>
           <div ref="chart"></div>
         </center>
-        <button onClick={exportToImage.bind(this)}>Export</button>
-        <img ref="exporter" />
       </div>
     );
   }

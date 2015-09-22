@@ -3,6 +3,53 @@ var React = window.React;
 var $http = require('../http');
 var reportMap = require('./reportMap');
 
+function getTitle(key) {
+  if (key.indexOf('tv_') !== -1) {
+    return 'Reportes Televisión';
+  } else if (key.indexOf('radio_') !== -1) {
+    return 'Reportes Radio';
+  } else if (key.indexOf('press_') !== -1) {
+    return 'Reportes Prensa';
+  } else if (key.indexOf('general_') !== -1) {
+    return 'Reportes Generales';
+  }
+  return '';
+}
+
+function exportData(e) {
+  var newWin = window.open('', 'thePopup', 'width=1000,height=600');
+  var tpl = '<html><head><title>Reportes</title>';
+  tpl += '<link rel="stylesheet" type="text/css" href="/assets/vendors/css/bootstrap.min.css">';
+  tpl += '</head><body>';
+  tpl += '<div style="margin-left: 16px; margin-right:16px">';
+  tpl += '<div class="row"><div class="col-md-12">';
+
+  var refs = this.refs;
+  var lastTitle = '';
+  for (var key in refs) {
+    if (refs[key].getExportData) {
+      console.log(key);
+      var currentTitle = getTitle(key);
+      if (lastTitle !== currentTitle) {
+        tpl += '<h2>' + currentTitle + '</h2>';
+        lastTitle = currentTitle;
+      }
+
+      var data = refs[key].getExportData();
+      tpl += '<div class="row"><div class="col-md-4 col-md-offset-4">';
+      tpl += '<table class="table table-bordered">' + data.table + '</table>';
+      tpl += '</div></div>';
+      tpl += '<center>' + data.image;
+      if (data.image2) {
+        tpl += '<br>' + data.image2;
+      }
+      tpl += '</center>';
+    }
+  }
+  tpl += '</div></div></div></body></html>';
+  newWin.document.write(tpl);
+}
+
 function onGenerateReport (e) {
   this.setState({displayReport: false});
   var data = {
@@ -15,7 +62,7 @@ function onGenerateReport (e) {
   }.bind(this));
 }
 
-function pushReport(data, result, title) {
+function pushReport(data, result, title, type) {
   var temporal = [];
   for (var key in data) {
     if (reportMap.hasOwnProperty(key)) {
@@ -28,7 +75,8 @@ function pushReport(data, result, title) {
         }
       }
       var Report = reportMap[key];
-      temporal.push(<Report data={data[key]} />);
+      var refKey = type + '_' + key;
+      temporal.push(<Report ref={refKey} data={data[key]} />);
     }
   }
 
@@ -48,10 +96,11 @@ function getReports() {
   var generalData = data.general;
 
   var result = [];
-  pushReport(generalData, result, 'Reportes Generales');
-  pushReport(pressData, result, 'Reportes Prensa');
-  pushReport(radioData, result, 'Reportes Radio');
-  pushReport(tvData, result, 'Reportes Televisión');
+  var refKeys = [];
+  pushReport(generalData, result, 'Reportes Generales', 'general');
+  pushReport(pressData, result, 'Reportes Prensa', 'press');
+  pushReport(radioData, result, 'Reportes Radio', 'radio');
+  pushReport(tvData, result, 'Reportes Televisión', 'tv');
 
   return result;
 }
@@ -93,8 +142,9 @@ var ReportView = React.createClass({
     }.bind(this), function(err) {})
   },
   render: function() {
-    var report = '';
+    var report = '', exportButton = '';
     if (this.state.displayReport) {
+      exportButton = <button ref="export" className="btn btn-success" onClick={exportData.bind(this)}><i className="fa fa-print"></i> Exportar Reporte</button>;
       report = getReports.call(this);
     }
     var clients = getClients.call(this);
@@ -102,7 +152,7 @@ var ReportView = React.createClass({
       <div className="row">
         <div className="col-md-10 col-md-offset-1">
           <div className="panel panel-dark">
-            <div className="panel-heading"><b>asdasdasdasd</b></div>
+            <div className="panel-heading"><b>Reportes</b></div>
             <div className="panel-body">
               {clients}
               <div className="row">
@@ -144,6 +194,7 @@ var ReportView = React.createClass({
                 </div>
               </div>
               <div className="report-container">
+                {exportButton}
                 {report}
               </div>
             </div>
