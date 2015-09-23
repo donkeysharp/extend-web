@@ -75,6 +75,9 @@ class ClientController extends BaseController
         $client->website = $data['website'];
         $client->save();
 
+        if (Request::wantsJson()) {
+            return Response::json($client, 200);
+        }
         return Redirect::to('/dashboard/clients/' . $client->id . '/edit')
             ->with('message', 'Cliente creado exitosamente.');
     }

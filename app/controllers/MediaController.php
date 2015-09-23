@@ -85,6 +85,10 @@ class MediaController extends BaseController
         $media->website = $data['website'];
         $media->save();
 
+        if (Request::wantsJson()) {
+            return Response::json($media, 200);
+        }
+
         return Redirect::to('dashboard/media/' . $media->id . '/edit')
             ->with('message', 'Medio creado exitosamente');
     }

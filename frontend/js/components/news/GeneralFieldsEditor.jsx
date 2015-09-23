@@ -48,6 +48,12 @@ function getMediaFormsData() {
   return data;
 }
 
+function onMediaCreated(res) {
+  var media = this.state.media;
+  media.push(res);
+  this.setState({media: media});
+}
+
 function onSubtitleCreated(res) {
   var subtitles = this.state.subtitles;
   subtitles.push(res);
@@ -140,19 +146,30 @@ function getMediaForms() {
   var result = [];
   if(mediaType.printed) {
     var model = details.printed;
-    result.push(<PrintedMediaForm ref="printedMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
+    result.push(<PrintedMediaForm ref="printedMedia"
+      model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.digital) {
     var model = details.digital;
-    result.push(<DigitalMediaForm ref="digitalMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
+    result.push(<DigitalMediaForm ref="digitalMedia"
+      model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.radio) {
     var model = details.radio;
-    result.push(<RadioMediaForm ref="radioMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
+    result.push(<RadioMediaForm ref="radioMedia"
+      model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.tv) {
     var model = details.tv;
-    result.push(<TvMediaForm ref="tvMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles} onSubtitleCreated={onSubtitleCreated.bind(this)} />);
+    result.push(<TvMediaForm ref="tvMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType['source']) {
     var model = details.source;

@@ -38,6 +38,10 @@ class TopicController extends BaseController
         $topic->description = $data['description'];
         $topic->save();
 
+        if (Request::wantsJson()) {
+            return Response::json($topic, 200);
+        }
+
         return Redirect::to('dashboard/topics/'. $topic->id .'/edit')
             ->with('message', 'Tema creado exitosamente');
     }

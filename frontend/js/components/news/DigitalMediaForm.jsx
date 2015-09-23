@@ -1,7 +1,7 @@
 'use strict';
 var React = window.React;
 var ModalSubtitleCreateForm = require('../subtitles/ModalSubtitleCreateForm.jsx');
-var $http = require('../../http');
+var CreateMediaModal = require('../modals/CreateMediaModal.jsx');
 
 function displayModal() {
   this.refs.subtitleModal.showModal();
@@ -11,6 +11,19 @@ function onSubtitleCreated(res) {
   this.refs.subtitle.getDOMNode().value = res.subtitle;
   if(this.props.onSubtitleCreated) {
     this.props.onSubtitleCreated(res);
+  }
+}
+
+function displayMediaModal() {
+  this.refs.mediaModal.showModal();
+}
+
+function onItemCreated(res) {
+  if (this.props.onMediaCreated) {
+    this.props.onMediaCreated(res);
+  }
+  if (res.type == '2'){
+    this.refs.media.getDOMNode().value = res.id;
   }
 }
 
@@ -29,7 +42,7 @@ function initControls() {
   this.refs.subtitle.getDOMNode().value = this.props.model.subtitle;
   this.refs.web.getDOMNode().value = this.props.model.web;
   this.refs.gender.getDOMNode().value = this.props.model.gender;
-  this.refs.topic.getDOMNode().value = this.props.model.topic_id;
+  this.refs.topic.getDOMNode().value = this.props.model.topic_id || '';
   this.refs.measure.getDOMNode().value = this.props.model.measure;
   this.refs.cost.getDOMNode().value = this.props.model.cost;
   this.refs.description.getDOMNode().value = this.props.model.description;
@@ -86,6 +99,7 @@ var DigitalMediaForm = React.createClass({
       <div className="row">
         <div className="col-md-12">
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
+          <CreateMediaModal ref="mediaModal" onItemCreated={onItemCreated.bind(this)} />
           <div className="section-divider">
             <span>DIGITAL</span>
           </div>
@@ -99,7 +113,7 @@ var DigitalMediaForm = React.createClass({
               </select>
             </div>
             <div className="col-md-1">
-              <a className="btn btn-light btn-add" href="/dashboard/media/create">
+              <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displayMediaModal.bind(this)}>
                 <i className="fa fa-plus"></i>
               </a>
             </div>
