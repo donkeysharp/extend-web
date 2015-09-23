@@ -43,6 +43,7 @@ var PrintedMediaForm = React.createClass({
     initControls.call(this);
   },
   getData: function() {
+    this.refs.submitButton.getDOMNode().click();
     var data = {};
     if (this.props.model) {
       data.id = this.props.model.id;
@@ -82,6 +83,8 @@ var PrintedMediaForm = React.createClass({
         <div className="col-md-12">
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <div className="section-divider"><span>IMPRESO</span></div>
+          <iframe src="/blank" className="hidden" name="printed_iframe" id="printed_iframe"></iframe>
+          <form target="printed_iframe" action="/blank" method="POST" >
           <div className="row">
             <div className="col-md-5">
               <select ref="media" className="form-control">
@@ -100,7 +103,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-envelope"></i>
                   </div>
-                  <input type="text" ref="section" className="form-control" placeholder="Sección" />
+                  <input type="text" ref="section" name="section" className="form-control" placeholder="Sección" />
                 </div>
               </div>
             </div>
@@ -110,7 +113,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-search"></i>
                   </div>
-                  <input type="text" ref="page" className="form-control" placeholder="Página" />
+                  <input type="text" ref="page" name="page" className="form-control" placeholder="Página" />
                 </div>
               </div>
             </div>
@@ -122,7 +125,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="title" className="form-control" placeholder="Título" />
+                  <input type="text" ref="title" name="title" className="form-control" placeholder="Título" />
                 </div>
               </div>
             </div>
@@ -157,7 +160,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="gender" className="form-control" placeholder="Género" />
+                  <input type="text" ref="gender" name="gender" className="form-control" placeholder="Género" />
                 </div>
               </div>
             </div>
@@ -194,7 +197,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-sliders"></i>
                   </div>
-                  <input type="text" ref="measure" className="form-control" placeholder="Medida" />
+                  <input type="text" ref="measure" name="measure" className="form-control" placeholder="Medida" />
                 </div>
               </div>
             </div>
@@ -204,7 +207,7 @@ var PrintedMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-money"></i>
                   </div>
-                  <input type="text" ref="cost" className="form-control" placeholder="Costo" />
+                  <input type="text" ref="cost" name="cost" className="form-control" placeholder="Costo" />
                 </div>
               </div>
             </div>
@@ -215,6 +218,8 @@ var PrintedMediaForm = React.createClass({
               <textarea ref="description" className="form-control" placeholder="Descripción" rows="5"></textarea>
             </div>
           </div>
+          <button type="submit" ref="submitButton" className="hidden">Submit</button>
+          </form>
         </div>
       </div>
     );

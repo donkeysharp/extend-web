@@ -7,6 +7,7 @@ var DigitalMediaForm = require('./DigitalMediaForm.jsx');
 var RadioMediaForm = require('./RadioMediaForm.jsx');
 var TvMediaForm = require('./TvMediaForm.jsx');
 var SourceMediaForm = require('./SourceMediaForm.jsx');
+var CreateClientModal = require('../modals/CreateClientModal.jsx');
 
 function onDeleteClick(e){
   if(!confirm('Está seguro que desea eliminar esta noticia?')) {return;}
@@ -62,6 +63,7 @@ function onSaveClick(e) {
     data.code = this.refs.code.getDOMNode().value;
 
   if(this.props.mode === 'create') {
+    this.refs.submitButton.getDOMNode().click();
     $http.post('/news', data).then(function(res) {
       window.location = '/dashboard/news/' + res.id + '/edit';
     }.bind(this))
@@ -213,6 +215,17 @@ function onClientChage(e) {
   this.setState({model: model});
 }
 
+function clientCreated(client) {
+  var clients = this.state.clients;
+  clients.push(client);
+  this.setState({clients: clients});
+  this.refs.client.getDOMNode().value = client.id;
+}
+
+function displayClientModal(e) {
+  this.refs.clientModal.showModal()
+}
+
 var GeneralFieldsEditor = React.createClass({
   getInitialState: function () {
     return {
@@ -269,7 +282,10 @@ var GeneralFieldsEditor = React.createClass({
     }
     return (
       <div>
+        <CreateClientModal ref="clientModal" onItemCreated={clientCreated.bind(this)} />
         <div className="section-divider"><span>DATOS GENERALES</span></div>
+        <iframe src="/blank" className="hidden" name="news_iframe" id="news_iframe"></iframe>
+        <form target="news_iframe" action="/blank" method="POST" >
         <div className="row">
           <div className="col-md-6">
             <div className="form-group">
@@ -277,7 +293,7 @@ var GeneralFieldsEditor = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-calendar"></i>
                 </div>
-                <input type="text" ref="date" className="form-control" placeholder="Fecha" />
+                <input type="text" ref="date" name="date" className="form-control" placeholder="Fecha" />
               </div>
             </div>
           </div>
@@ -290,7 +306,7 @@ var GeneralFieldsEditor = React.createClass({
             </select>
           </div>
           <div className="col-md-1">
-            <a className="btn btn-light btn-add" href="/dashboard/clients/create">
+            <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displayClientModal.bind(this)}>
               <i className="fa fa-plus"></i>
             </a>
           </div>
@@ -302,7 +318,7 @@ var GeneralFieldsEditor = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-user"></i>
                 </div>
-                <input type="text" ref="pressNote" className="form-control" placeholder="Nota de Prensa" />
+                <input type="text" ref="pressNote" name="pressNote" className="form-control" placeholder="Nota de Prensa" />
               </div>
             </div>
           </div>
@@ -312,7 +328,7 @@ var GeneralFieldsEditor = React.createClass({
                 <div className="input-group-addon">
                   <i className="fa fa-user"></i>
                 </div>
-                <input type="text" ref="code" className="form-control" placeholder="Código" />
+                <input type="text" ref="code" name="code" className="form-control" placeholder="Código" />
               </div>
             </div>
           </div>
@@ -353,7 +369,8 @@ var GeneralFieldsEditor = React.createClass({
         <br />
         <div className="row">
           <div className="col-md-12">
-            <button className="btn btn-light" onClick={onSaveClick.bind(this)}>
+            <button type="submit" ref="submitButton" className="hidden">Submit</button>
+            <button className="btn btn-light" type="button" onClick={onSaveClick.bind(this)}>
               <i className="fa fa-save"></i>&nbsp;&nbsp;
               {buttonDisplay}
             </button>
@@ -363,6 +380,7 @@ var GeneralFieldsEditor = React.createClass({
             <a href="/dashboard/news">Volver</a>
           </div>
         </div>
+        </form>
       </div>
     );
   }

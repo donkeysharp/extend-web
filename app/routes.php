@@ -6,6 +6,10 @@ Route::get('/login', ['uses' => 'HomeController@login']);
 Route::post('/login', ['uses' => 'HomeController@doLogin']);
 Route::post('/logout', ['uses' => 'HomeController@doLogout']);
 
+Route::any('/blank', function() {
+    return '';
+});
+
 Route::get('/public/bulletins/{id}', ['uses' => 'BulletinController@publicDisplay']);
 
 Route::group(['before' => 'auth'], function() {

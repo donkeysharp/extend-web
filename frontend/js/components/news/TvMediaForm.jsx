@@ -45,6 +45,7 @@ var TvMediaForm = React.createClass({
     initControls.call(this);
   },
   getData: function() {
+    this.refs.submitButton.getDOMNode().click();
     var data = {};
     if (this.props.model) {
       data.id = this.props.model.id;
@@ -85,6 +86,8 @@ var TvMediaForm = React.createClass({
         <div className="col-md-12">
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <div className="section-divider"><span>TV</span></div>
+          <iframe src="/blank" className="hidden" name="tv_iframe" id="tv_iframe"></iframe>
+          <form target="tv_iframe" action="/blank" method="POST" >
           <div className="row">
             <div className="col-md-5">
               <select ref="media" className="form-control">
@@ -103,7 +106,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-envelope"></i>
                   </div>
-                  <input type="text" ref="source" className="form-control" placeholder="Fuente" />
+                  <input type="text" ref="source" name="source" className="form-control" placeholder="Fuente" />
                 </div>
               </div>
             </div>
@@ -113,7 +116,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-search"></i>
                   </div>
-                  <input type="text" ref="alias" className="form-control" placeholder="Alias" />
+                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
                 </div>
               </div>
             </div>
@@ -125,7 +128,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="title" className="form-control" placeholder="Título" />
+                  <input type="text" ref="title" name="title" className="form-control" placeholder="Título" />
                 </div>
               </div>
             </div>
@@ -149,7 +152,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="communication_risk" className="form-control" placeholder="Risgo Comunicacional" />
+                  <input type="text" ref="communication_risk" name="communication_risk" className="form-control" placeholder="Risgo Comunicacional" />
                 </div>
               </div>
             </div>
@@ -159,7 +162,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-user"></i>
                   </div>
-                  <input type="text" ref="show" className="form-control" placeholder="Programa" />
+                  <input type="text" ref="show" name="show" className="form-control" placeholder="Programa" />
                 </div>
               </div>
             </div>
@@ -182,7 +185,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-sliders"></i>
                   </div>
-                  <input type="text" ref="measure" className="form-control" placeholder="Medida" />
+                  <input type="text" ref="measure" name="measure" className="form-control" placeholder="Medida" />
                 </div>
               </div>
             </div>
@@ -192,7 +195,7 @@ var TvMediaForm = React.createClass({
                   <div className="input-group-addon">
                     <i className="fa fa-money"></i>
                   </div>
-                  <input type="text" ref="cost" className="form-control" placeholder="Costo" />
+                  <input type="text" ref="cost" name="cost" className="form-control" placeholder="Costo" />
                 </div>
               </div>
             </div>
@@ -230,6 +233,8 @@ var TvMediaForm = React.createClass({
               <textarea ref="description" className="form-control" placeholder="Descripción" rows="5"></textarea>
             </div>
           </div>
+          <button type="submit" ref="submitButton" className="hidden">Submit</button>
+          </form>
         </div>
       </div>
     );

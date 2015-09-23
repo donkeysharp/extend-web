@@ -25,9 +25,9 @@ var MediaType  = React.createClass({
       if(data.tv) {
         this.refs.tv.getDOMNode().checked = true;
       }
-      if(data.source) {
-        this.refs.source.getDOMNode().checked = true;
-      }
+      // if(data.source) {
+      //   this.refs.source.getDOMNode().checked = true;
+      // }
     }
   },
   render: function () {
@@ -50,10 +50,6 @@ var MediaType  = React.createClass({
           <label>
             <input type="checkbox" value="tv" ref="tv" onChange={onMediaTypeChanged.bind(this)} />
             &nbsp;TV&nbsp;&nbsp;&nbsp;
-          </label>
-          <label>
-            <input type="checkbox" value="source" ref="source" onChange={onMediaTypeChanged.bind(this)} />
-            &nbsp;Fuente&nbsp;&nbsp;&nbsp;
           </label>
         </div>
       </div>
