@@ -1,6 +1,7 @@
 'use strict';
 var ModalSubtitleCreateForm = require('../subtitles/ModalSubtitleCreateForm.jsx');
 var CreateMediaModal = require('../modals/CreateMediaModal.jsx');
+var CreateSourceModal = require('../modals/CreateSourceModal.jsx');
 
 function displayModal() {
   this.refs.subtitleModal.showModal();
@@ -26,6 +27,17 @@ function onItemCreated(res) {
   }
 }
 
+function displaySourceModal() {
+  this.refs.sourceModal.showModal();
+}
+
+function onSourceCreated(res) {
+  if (this.props.onSourceCreated) {
+    this.props.onSourceCreated(res);
+  }
+  this.refs.source.getDOMNode().value = res.source;
+}
+
 function onTendencyChange(e) {
   this.setState({tendency: e.currentTarget.value});
   e.currentTarget.checked = true;
@@ -44,6 +56,8 @@ function initControls() {
   this.refs.measure.getDOMNode().value = this.props.model.measure;
   this.refs.cost.getDOMNode().value = this.props.model.cost;
   this.refs.description.getDOMNode().value = this.props.model.description;
+  this.refs.source.getDOMNode().value = this.props.model.source || '';
+  this.refs.alias.getDOMNode().value = this.props.model.alias;
   this.setState({tendency: this.props.model.tendency});
 }
 
@@ -70,10 +84,12 @@ var PrintedMediaForm = React.createClass({
     data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.gender = this.refs.gender.getDOMNode().value;
     data.topic_id = this.refs.topic.getDOMNode().value || null;
-    data.measure = this.refs.measure.getDOMNode().value;
-    data.cost = this.refs.cost.getDOMNode().value;
+    data.measure = this.refs.measure.getDOMNode().value || null;
+    data.cost = this.refs.cost.getDOMNode().value || null;
     data.tendency = this.state.tendency;
     data.description = this.refs.description.getDOMNode().value;
+    data.source = this.refs.source.getDOMNode().value || null;
+    data.alias = this.refs.alias.getDOMNode().value || null;
 
     return data;
   },
@@ -92,11 +108,15 @@ var PrintedMediaForm = React.createClass({
       }
       return <option value={item.subtitle} selected={mark}>{item.subtitle}</option>;
     }.bind(this));
+    var sources = this.props.sources.map(function(item) {
+      return <option value={item.source}>{item.source}</option>;
+    });
     return (
       <div className="row">
         <div className="col-md-12">
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <CreateMediaModal ref="mediaModal" onItemCreated={onItemCreated.bind(this)} />
+          <CreateSourceModal ref="sourceModal" onSourceCreated={onSourceCreated.bind(this)} />
           <div className="section-divider"><span>IMPRESO</span></div>
           <iframe src="/blank" className="hidden" name="printed_iframe" id="printed_iframe"></iframe>
           <form target="printed_iframe" action="/blank" method="POST" >
@@ -159,6 +179,29 @@ var PrintedMediaForm = React.createClass({
           </div>
           <div className="row">
             <div className="col-md-5">
+                <select ref="source" className="form-control">
+                  <option value="">--- Seleccione una fuente ---</option>
+                  {sources}
+                </select>
+            </div>
+            <div className="col-md-1">
+              <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displaySourceModal.bind(this)}>
+                <i className="fa fa-plus"></i>
+              </a>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-search"></i>
+                  </div>
+                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-5">
               <select ref="topic" className="form-control">
                 <option value="">--- Seleccione Tema ---</option>
                 {topics}
@@ -169,7 +212,7 @@ var PrintedMediaForm = React.createClass({
                 <i className="fa fa-plus"></i>
               </a>
             </div>
-            <div className="col-md-5">
+            <div className="col-md-6">
               <div className="form-group">
                 <div className="input-group">
                   <div className="input-group-addon">

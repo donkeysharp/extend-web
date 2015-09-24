@@ -59,6 +59,8 @@ class NewsDetail extends Eloquent
         $item->cost = $data['cost'];
         $item->tendency = $data['tendency'];
         $item->description = $data['description'];
+        $item->source = $data['source'];
+        $item->alias = $data['alias'];
 
         return $item;
     }
@@ -80,6 +82,8 @@ class NewsDetail extends Eloquent
         $item->cost = $data['cost'];
         $item->tendency = $data['tendency'];
         $item->description = $data['description'];
+        $item->source = $data['source'];
+        $item->alias = $data['alias'];
 
         return $item;
     }

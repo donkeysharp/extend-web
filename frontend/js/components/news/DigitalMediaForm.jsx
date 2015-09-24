@@ -2,6 +2,7 @@
 var React = window.React;
 var ModalSubtitleCreateForm = require('../subtitles/ModalSubtitleCreateForm.jsx');
 var CreateMediaModal = require('../modals/CreateMediaModal.jsx');
+var CreateSourceModal = require('../modals/CreateSourceModal.jsx');
 
 function displayModal() {
   this.refs.subtitleModal.showModal();
@@ -27,6 +28,17 @@ function onItemCreated(res) {
   }
 }
 
+function displaySourceModal() {
+  this.refs.sourceModal.showModal();
+}
+
+function onSourceCreated(res) {
+  if (this.props.onSourceCreated) {
+    this.props.onSourceCreated(res);
+  }
+  this.refs.source.getDOMNode().value = res.source;
+}
+
 function onTendencyChange(e) {
   this.setState({tendency: e.currentTarget.value});
   e.currentTarget.checked = true;
@@ -46,6 +58,8 @@ function initControls() {
   this.refs.measure.getDOMNode().value = this.props.model.measure;
   this.refs.cost.getDOMNode().value = this.props.model.cost;
   this.refs.description.getDOMNode().value = this.props.model.description;
+  this.refs.source.getDOMNode().value = this.props.model.source || '';
+  this.refs.alias.getDOMNode().value = this.props.model.alias;
   this.setState({tendency: this.props.model.tendency});
 }
 
@@ -73,10 +87,12 @@ var DigitalMediaForm = React.createClass({
     data.web = this.refs.web.getDOMNode().value;
     data.gender = this.refs.gender.getDOMNode().value;
     data.topic_id = this.refs.topic.getDOMNode().value || null;
-    data.measure = this.refs.measure.getDOMNode().value;
-    data.cost = this.refs.cost.getDOMNode().value;
+    data.measure = this.refs.measure.getDOMNode().value || null;
+    data.cost = this.refs.cost.getDOMNode().value || null;
     data.tendency = this.state.tendency;
     data.description = this.refs.description.getDOMNode().value;
+    data.source = this.refs.source.getDOMNode().value || null;
+    data.alias = this.refs.alias.getDOMNode().value || null;
 
     return data;
   },
@@ -95,11 +111,15 @@ var DigitalMediaForm = React.createClass({
       }
       return <option value={item.subtitle} selected={mark}>{item.subtitle}</option>;
     }.bind(this));
+    var sources = this.props.sources.map(function(item) {
+      return <option value={item.source}>{item.source}</option>;
+    });
     return (
       <div className="row">
         <div className="col-md-12">
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <CreateMediaModal ref="mediaModal" onItemCreated={onItemCreated.bind(this)} />
+          <CreateSourceModal ref="sourceModal" onSourceCreated={onSourceCreated.bind(this)} />
           <div className="section-divider">
             <span>DIGITAL</span>
           </div>
@@ -160,7 +180,6 @@ var DigitalMediaForm = React.createClass({
               </a>
             </div>
           </div>
-          <br />
           <div className="row">
             <div className="col-md-7">
               <div className="form-group">
@@ -179,6 +198,29 @@ var DigitalMediaForm = React.createClass({
                     <i className="fa fa-user"></i>
                   </div>
                   <input type="text" ref="gender" name="gender" className="form-control" placeholder="Género" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-5">
+                <select ref="source" className="form-control">
+                  <option value="">--- Seleccione una fuente ---</option>
+                  {sources}
+                </select>
+            </div>
+            <div className="col-md-1">
+              <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displaySourceModal.bind(this)}>
+                <i className="fa fa-plus"></i>
+              </a>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-search"></i>
+                  </div>
+                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
                 </div>
               </div>
             </div>

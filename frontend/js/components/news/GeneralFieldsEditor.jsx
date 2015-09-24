@@ -54,6 +54,12 @@ function onMediaCreated(res) {
   this.setState({media: media});
 }
 
+function onSourceCreated(res) {
+  var sources = this.state.sources;
+  sources.push(res);
+  this.setState({sources: sources});
+}
+
 function onSubtitleCreated(res) {
   var subtitles = this.state.subtitles;
   subtitles.push(res);
@@ -147,28 +153,49 @@ function getMediaForms() {
   if(mediaType.printed) {
     var model = details.printed;
     result.push(<PrintedMediaForm ref="printedMedia"
-      model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      model={model}
+      media={this.state.media}
+      topics={this.state.topics}
+      subtitles={this.state.subtitles}
+      sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onSourceCreated={onSourceCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.digital) {
     var model = details.digital;
     result.push(<DigitalMediaForm ref="digitalMedia"
-      model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      model={model}
+      media={this.state.media}
+      topics={this.state.topics}
+      subtitles={this.state.subtitles}
+      sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onSourceCreated={onSourceCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.radio) {
     var model = details.radio;
     result.push(<RadioMediaForm ref="radioMedia"
-      model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+      model={model}
+      media={this.state.media}
+      topics={this.state.topics}
+      subtitles={this.state.subtitles}
+      sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onSourceCreated={onSourceCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.tv) {
     var model = details.tv;
-    result.push(<TvMediaForm ref="tvMedia" model={model} media={this.state.media} topics={this.state.topics} subtitles={this.state.subtitles}
+    result.push(<TvMediaForm ref="tvMedia"
+      model={model}
+      media={this.state.media}
+      topics={this.state.topics}
+      subtitles={this.state.subtitles}
+      sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
+      onSourceCreated={onSourceCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType['source']) {
@@ -212,6 +239,7 @@ function initControls(data, extraData) {
     topics: extraData.topics,
     media: extraData.media,
     subtitles: extraData.subtitles,
+    sources: extraData.sources
   });
   this.refs.extraFields.changeMediaTypeStatus(this.state.type);
 }
@@ -219,7 +247,7 @@ function initControls(data, extraData) {
 function getExtraData() {
   var toGet = {clients: true};
   if(this.props.mode === 'edit') {
-    toGet.topics = true; toGet.media = true; toGet.subtitles = true;
+    toGet.topics = true; toGet.media = true; toGet.subtitles = true; toGet.sources = true;
   }
   return $http.get('/news/extra',toGet);
 }
@@ -260,6 +288,7 @@ var GeneralFieldsEditor = React.createClass({
       clients: [],
       topics: [],
       media: [],
+      sources: [],
     };
   },
   componentDidMount: function() {

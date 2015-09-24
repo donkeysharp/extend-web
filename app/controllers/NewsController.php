@@ -148,6 +148,7 @@ class NewsController extends BaseController
         $topics = [];
         $media = [];
         $subtitles = [];
+        $sources = [];
         if (Input::get('clients')) {
             $clients = Client::all();
         }
@@ -160,12 +161,16 @@ class NewsController extends BaseController
         if (Input::get('subtitles')) {
             $subtitles = Subtitle::all();
         }
+        if (Input::get('sources')) {
+            $sources = Source::all();
+        }
 
         return Response::json([
             'clients' => $clients,
             'topics' => $topics,
             'media' => $media,
             'subtitles' => $subtitles,
+            'sources' => $sources,
         ], 200);
     }
 

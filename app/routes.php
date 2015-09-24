@@ -21,6 +21,11 @@ Route::group(['before' => 'auth'], function() {
     Route::post('/subtitles', ['uses' => 'SubtitleController@store']);
 });
 
+Route::group(['before' => 'auth'], function() {
+    Route::get('/sources', ['uses' => 'SourceController@index']);
+    Route::post('/sources', ['uses' => 'SourceController@store']);
+});
+
 Route::group(['before' => 'auth'], function(){
     Route::get('dashboard/news', ['uses' => 'NewsController@index']);
     Route::get('dashboard/news/create', ['uses' => 'NewsController@create']);

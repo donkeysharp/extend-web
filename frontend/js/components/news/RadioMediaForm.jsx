@@ -2,6 +2,7 @@
 var React = window.React;
 var ModalSubtitleCreateForm = require('../subtitles/ModalSubtitleCreateForm.jsx');
 var CreateMediaModal = require('../modals/CreateMediaModal.jsx');
+var CreateSourceModal = require('../modals/CreateSourceModal.jsx');
 
 function displayModal() {
   this.refs.subtitleModal.showModal();
@@ -25,6 +26,17 @@ function onItemCreated(res) {
   if (res.type == '3'){
     this.refs.media.getDOMNode().value = res.id;
   }
+}
+
+function displaySourceModal() {
+  this.refs.sourceModal.showModal();
+}
+
+function onSourceCreated(res) {
+  if (this.props.onSourceCreated) {
+    this.props.onSourceCreated(res);
+  }
+  this.refs.source.getDOMNode().value = res.source;
 }
 
 function onTendencyChange(e) {
@@ -66,17 +78,17 @@ var RadioMediaForm = React.createClass({
     }
     data.type = 3;
     data.media_id = this.refs.media.getDOMNode().value;
-    data.source = this.refs.source.getDOMNode().value;
-    data.alias = this.refs.alias.getDOMNode().value;
     data.title = this.refs.title.getDOMNode().value;
     data.subtitle = this.refs.subtitle.getDOMNode().value;
     data.communication_risk = this.refs.communication_risk.getDOMNode().value;
     data.show = this.refs.show.getDOMNode().value;
     data.topic_id = this.refs.topic.getDOMNode().value || null;
-    data.measure = this.refs.measure.getDOMNode().value;
-    data.cost = this.refs.cost.getDOMNode().value;
+    data.measure = this.refs.measure.getDOMNode().value || null;
+    data.cost = this.refs.cost.getDOMNode().value || null;
     data.tendency = this.state.tendency;
     data.description = this.refs.description.getDOMNode().value;
+    data.source = this.refs.source.getDOMNode().value || null;
+    data.alias = this.refs.alias.getDOMNode().value || null;
 
     return data;
   },
@@ -95,45 +107,31 @@ var RadioMediaForm = React.createClass({
       }
       return <option value={item.subtitle} selected={mark}>{item.subtitle}</option>;
     }.bind(this));
+    var sources = this.props.sources.map(function(item) {
+      return <option value={item.source}>{item.source}</option>;
+    });
     return (
       <div className="row">
         <div className="col-md-12">
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <CreateMediaModal ref="mediaModal" onItemCreated={onItemCreated.bind(this)} />
+          <CreateSourceModal ref="sourceModal" onSourceCreated={onSourceCreated.bind(this)} />
           <div className="section-divider"><span>RADIO</span></div>
           <iframe src="/blank" className="hidden" name="radio_iframe" id="radio_iframe"></iframe>
           <form target="radio_iframe" action="/blank" method="POST" >
           <div className="row">
-            <div className="col-md-5">
-              <select ref="media" className="form-control">
-                <option value="">--- Seleccion Medio ---</option>
-                {media}
-              </select>
+            <div className="col-md-6">
+              <div className="form-group">
+                <select ref="media" className="form-control">
+                  <option value="">--- Seleccion Medio ---</option>
+                  {media}
+                </select>
+              </div>
             </div>
             <div className="col-md-1">
               <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displayMediaModal.bind(this)}>
                 <i className="fa fa-plus"></i>
               </a>
-            </div>
-            <div className="col-md-3">
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="fa fa-envelope"></i>
-                  </div>
-                  <input type="text" ref="source" name="source" className="form-control" placeholder="Fuente" />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="fa fa-search"></i>
-                  </div>
-                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
-                </div>
-              </div>
             </div>
           </div>
           <div className="row">
@@ -178,6 +176,31 @@ var RadioMediaForm = React.createClass({
                     <i className="fa fa-user"></i>
                   </div>
                   <input type="text" ref="show" name="show" className="form-control" placeholder="Programa" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-5">
+              <div className="form-group">
+                <select ref="source" className="form-control">
+                  <option value="">--- Seleccione una fuente ---</option>
+                  {sources}
+                </select>
+              </div>
+            </div>
+            <div className="col-md-1">
+              <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displaySourceModal.bind(this)}>
+                <i className="fa fa-plus"></i>
+              </a>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-search"></i>
+                  </div>
+                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
                 </div>
               </div>
             </div>
