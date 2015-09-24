@@ -89,10 +89,10 @@ var Report3 = React.createClass({
   getExportData: function() {
     var table = this.refs.dataTable.getDOMNode().innerHTML;
     var image = this.chart1.getImageURI();
-    image = '<img src="' + image + '" />';
+    image = '<img src="' + image + '" style="width:600px; height:400px;" />';
 
     var image2 = this.chart2.getImageURI();
-    image2 = '<img src="' + image2 + '" />';
+    image2 = '<img src="' + image2 + '" style="width:600px; height:400px;" />';
 
     return {
       table: table,

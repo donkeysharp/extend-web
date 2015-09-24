@@ -85,7 +85,7 @@ function exportToImage() {
   var newWin = window.open('', 'thePopup', 'width=350,height=350');
   newWin.document.write("<html><head><title>popup</title></head><body><h1>Pop</h1>" +
               "<p>Print me</p><a href='print.html' onclick='window.print();return false;'>" +
-              "<img src='" + img + "'></a></body></html>");
+              "<img src='" + img + "' style='width:100%;height:100%'></a></body></html>");
 }
 
 var Report1 = React.createClass({
@@ -102,7 +102,7 @@ var Report1 = React.createClass({
   getExportData: function() {
     var table = this.refs.dataTable.getDOMNode().innerHTML;
     var image = this.chart.getImageURI();
-    image = '<img src="' + image + '" />';
+    image = '<img src="' + image + '" style="width:600px; height:400px;" />';
 
     return {
       table: table,

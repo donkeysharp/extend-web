@@ -20,9 +20,10 @@ function exportData(e) {
   var newWin = window.open('', 'thePopup', 'width=1000,height=600');
   var tpl = '<html><head><title>Reportes</title>';
   tpl += '<link rel="stylesheet" type="text/css" href="/assets/vendors/css/bootstrap.min.css">';
-  tpl += '</head><body>';
-  tpl += '<div style="margin-left: 16px; margin-right:16px">';
-  tpl += '<div class="row"><div class="col-md-12">';
+  tpl += '<style type="text/css">';
+  tpl += '.table-bordered td {padding: 5px} .table-bordered th {padding: 5px}';
+  tpl += '</style>';
+  tpl += '</head><body style="font-family:sans-serif; color:#1D1D1D; padding: 30px;">';
 
   var refs = this.refs;
   var lastTitle = '';
@@ -36,17 +37,18 @@ function exportData(e) {
       }
 
       var data = refs[key].getExportData();
-      tpl += '<div class="row"><div class="col-md-4 col-md-offset-4">';
-      tpl += '<table class="table table-bordered">' + data.table + '</table>';
-      tpl += '</div></div>';
-      tpl += '<center>' + data.image;
+      tpl += '<table class="table-bordered">' + data.table + '</table>';
+      tpl += '<br>';
+      tpl += '<table><tr><td>'
+      tpl += data.image;
       if (data.image2) {
-        tpl += '<br>' + data.image2;
+        tpl += '<br>';
+        tpl += data.image2;
       }
-      tpl += '</center>';
+      tpl += '</td></tr></table>';
     }
   }
-  tpl += '</div></div></div></body></html>';
+  tpl += '</body></html>';
   newWin.document.write(tpl);
 }
 
