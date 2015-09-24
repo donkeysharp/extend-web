@@ -117,8 +117,6 @@ class ReportGenerator
         return$result;
     }
 
-    // ASK FOR THIS REPORT as no source field is enabled for radio, tv, press
-    // how will we know how to associate it to radio, tv or press
     public function report5($from, $to, $clientId, $filterByMedia)
     {
         $query = DB::table('news_details as nd')
@@ -211,31 +209,38 @@ class ReportGenerator
         return $result;
     }
 
-    // ASK FOR THIS REPORT as no source field is enabled for radio, tv, press
-    // how will we know how to associate it to radio, tv or press
-    public function report7($from, $to)
+    public function report7($from, $to, $clientId, $filterByMedia)
     {
-        $positiveNews = DB::table('news_details as nd')
-            ->where('nd.tendency', '=', 1)
-            ->whereRaw('not isnull(nd.source)')
+        $q1 = DB::table('news_details as nd')
+            ->join('news as n', 'n.id', '=', 'nd.news_id')
+            ->where('n.client_id', '=', $clientId);
+        $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
+        $positiveNews = $q1->where('nd.tendency', '=', 1)
+            ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
             ->where('nd.created_at', '>=', $from)
             ->where('nd.created_at', '<=', $to)
             ->groupBy('nd.source')
             ->select(DB::raw('nd.source, count(nd.tendency) as positive'))
             ->get();
 
-        $negativeNews = DB::table('news_details as nd')
-            ->where('nd.tendency', '=', 2)
-            ->whereRaw('not isnull(nd.source)')
+        $q2 = DB::table('news_details as nd')
+            ->join('news as n', 'n.id', '=', 'nd.news_id')
+            ->where('n.client_id', '=', $clientId);
+        $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
+        $negativeNews = $q2->where('nd.tendency', '=', 2)
+            ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
             ->where('nd.created_at', '>=', $from)
             ->where('nd.created_at', '<=', $to)
             ->groupBy('nd.source')
             ->select(DB::raw('nd.source, count(nd.tendency) as negative'))
             ->get();
 
-        $neutralNews = DB::table('news_details as nd')
-            ->where('nd.tendency', '=', 3)
-            ->whereRaw('not isnull(nd.source)')
+        $q3 = DB::table('news_details as nd')
+            ->join('news as n', 'n.id', '=', 'nd.news_id')
+            ->where('n.client_id', '=', $clientId);
+        $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
+        $neutralNews = $q3->where('nd.tendency', '=', 3)
+            ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
             ->where('nd.created_at', '>=', $from)
             ->where('nd.created_at', '<=', $to)
             ->groupBy('nd.source')

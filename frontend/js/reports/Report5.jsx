@@ -2,22 +2,32 @@
 var React = window.React;
 
 
-function getFormattedData(data) {
-  var chartRes = [], tableRes = [];
+function getFormattedData(array) {
+  array.sort(function(a, b) {
+    a = parseInt(a.news, 10);
+    b = parseInt(b.news, 10);
+    if (a < b) { return 1; }
+    if (a > b) { return -1; }
+    return 0;
+  });
 
-  for (var key in data) {
-    chartRes.push([
-      key,
-      parseInt(data[key].positive, 10),
-      parseInt(data[key].negative, 10),
-      parseInt(data[key].neutral, 10),
-    ]);
-    tableRes.push({
-      source: key,
-      positive: data[key].positive,
-      negative: data[key].negative,
-      neutral: data[key].neutral
-    });
+  var chartRes = [], tableRes = [], i;
+  if (array.length > 5) {
+    for (i = 0; i < 5; ++i) {
+      chartRes.push([array[i].source, parseInt(array[i].news, 10)]);
+      tableRes.push({source: array[i].source, news: parseInt(array[i].news, 10)});
+    }
+    var othersTotal = 0;
+    for (i = 5 ; i < array.length; ++i) {
+      othersTotal += parseInt(array[i].news, 10);
+    }
+    chartRes.push(['Otros', othersTotal]);
+    tableRes.push({source: 'Otros', news: othersTotal});
+  } else {
+    for (i = 0; i < array.length; ++i) {
+      chartRes.push([array[i].source, parseInt(array[i].news, 10)]);
+      tableRes.push({source: array[i].source, news: parseInt(array[i].news, 10)});
+    }
   }
 
   return {
@@ -34,14 +44,11 @@ function generateReport() {
 }
 
 function drawTable(data) {
-  var
-    table = this.refs.dataTable.getDOMNode(),
-    tbody = table.getElementsByTagName('tbody')[0],
-    tpl = '';
-
+  var table = this.refs.dataTable.getDOMNode(),
+    tbody = table.getElementsByTagName('tbody')[0];
+  var tpl = '';
   for (var i = 0; i < data.length; ++i) {
-    tpl += '<tr><td>' + data[i].source + '</td><td>' + data[i].positive + '</td>';
-    tpl += '<td>' + data[i].negative + '</td><td>' + data[i].neutral + '</td></tr>';
+    tpl += '<tr><td>' + data[i].source + '</td><td>' + data[i].news + '</td></tr>';
   }
   tbody.innerHTML = tpl;
 }
@@ -49,28 +56,28 @@ function drawTable(data) {
 function drawChart(reportData) {
   var data = new google.visualization.DataTable();
   data.addColumn('string', 'Fuente');
-  data.addColumn('number', 'Positivo');
-  data.addColumn('number', 'Negativo');
-  data.addColumn('number', 'Neutro');
+  data.addColumn('number', 'Noticias');
   data.addRows(reportData);
 
   var options = {
     width:600,
     height:400,
-    legend: { position: 'top', maxLines: 3 },
-    bar: { groupWidth: '75%' },
-    isStacked: true,
+    is3D: true,
+    pieSliceTextStyle: {
+      fontSize: 10
+    },
   };
 
   var el = this.refs.chart.getDOMNode();
-  var chart = new google.visualization.ColumnChart(el);
+  var chart = new google.visualization.PieChart(el);
   this.chart = chart;
   chart.draw(data, options);
 }
 
-var Report7 = React.createClass({
+var Report5 = React.createClass({
+  displayName: 'Report5',
   componentDidMount: function () {
-    if (this.props.data) {
+    if (this.props.data && this.props.data.length > 0) {
       generateReport.call(this);
     }
   },
@@ -92,9 +99,7 @@ var Report7 = React.createClass({
             <table ref="dataTable" className="table table-bordered">
               <thead>
                 <th>Fuente</th>
-                <th>Positivo</th>
-                <th>Negativo</th>
-                <th>Neutro</th>
+                <th>Número</th>
               </thead>
               <tbody></tbody>
             </table>
@@ -108,4 +113,4 @@ var Report7 = React.createClass({
   }
 });
 
-module.exports = Report7;
+module.exports = Report5;

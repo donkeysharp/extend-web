@@ -71,13 +71,13 @@ where
 group by nd.gender;
 
 -- Reporte 5 (cantidad de noticias por fuente)
-select nd.source, count(nd.source)
+select nd.source, count(nd.source) as news
 from news_details as nd
 inner join news as n
 on n.id = nd.news_id
 where 
 	n.client_id = 101 and
-    (nd.type = 5) and
+    (nd.type = 1 or nd.type = 2) and
 	ifnull(length(nd.source), 0) > 0 and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by nd.source;
@@ -128,23 +128,38 @@ order by m.name;
 
 -- Reporte 7 (cantidad de noticias basadas en tendencia por fuente)
 -- Positive
-select source, count(nd.tendency) as positive
+select source, count(nd.source) as positive
 from news_details as nd
-where nd.tendency = 1 and
-	not isnull(nd.source) and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+	nd.tendency = 1 and
+	(not isnull(nd.source) and length(source) > 0 ) and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by source;
 -- Negative
 select source, count(nd.tendency) as negative
 from news_details as nd
-where nd.tendency = 2 and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+	nd.tendency = 2 and
 	not isnull(nd.source) and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by source;
 -- Neutral
 select source, count(nd.tendency) as neutral
 from news_details as nd
-where nd.tendency = 3 and
+inner join news as n
+on n.id = nd.news_id
+where 
+	n.client_id = 101 and
+    (nd.type = 1 or nd.type = 2) and
+	nd.tendency = 3 and
 	not isnull(nd.source) and
 	nd.created_at <= '2015-09-30' and nd.created_at >= '2015-09-1'
 group by source;

@@ -1,6 +1,5 @@
 'use strict';
 var React = window.React;
-var $http = require('../http');
 
 function getFormattedData(array) {
   array.sort(function(a, b) {
