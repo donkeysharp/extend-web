@@ -69,6 +69,12 @@
           <center><img src="{{asset('assets/img/bulletin/logo.png')}}"></center>
         @endif
           <div class="bulletin-title" style="text-align:center;font-size:22px;color:#0082a4;font-weight:bold;padding-bottom:10px;padding-top:15px;font-family:Helvetica, sans-serif;">
+          @if($isBayerClient)
+            <center>Monitoreo de Noticias Bayer Boliviana Ltda</center>
+            <center>
+              <span style="font-size: 28px; font-family:Helvetica, sans-serif">{{Form::literalDate($date)}}</span>
+            </center>
+          @else
             <center>Reporte</center>
             <center>
               <span style="font-size: 28px; font-family:Helvetica, sans-serif">{{Form::literalDate($date)}}</span>
@@ -76,6 +82,7 @@
             <center>
               <span style="font-size: 30px; font-family:Helvetica, sans-serif">{{$client->name}}</span>
             </center>
+          @endif
           </div>
           <div style="border-bottom: 2px solid #c10a28; font-size:2px;">&nbsp;</div>
           <div style="border-bottom: 2px solid #1E1E9B; font-size:2px;">&nbsp;</div>
