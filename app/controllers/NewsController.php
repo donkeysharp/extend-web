@@ -10,12 +10,77 @@ class NewsController extends BaseController
         $query = $this->search();
 
 
+
         $newsColumns = ['news.date', 'news.press_note', 'news.code', 'news.clasification', 'news_details.*'];
         if (Input::get('export', false)) {
-            $news = $query->get($newsColumns);
+            $news = $query->get(['news_details.*']);
             return Excel::create(Carbon::now(), function($excel) use($news) {
                     $excel->sheet('Noticias', function($sheet) use($news) {
-                        $sheet->fromArray($news);
+                        $clientId = Input::get('client_id', false);
+                        $client = Client::findOrFail($clientId);
+                        $sheet->setAutoSize(false);
+                        $sheet->getStyle('A2:N2' . $sheet->getHighestRow())
+                                    ->getAlignment()->setWrapText(true);
+                        $sheet->setHeight(2, 46);
+                        $sheet->row(2, function($row) {
+                            $row->setFont(['bold' => true]);
+                        });
+                        $sheet->cells('A2:N1', function($cells) {
+                            $cells->setAlignment('center');
+                        });
+                        $sheet->cells('A2:N2', function($cells) {
+                            $cells->setValignment('middle');
+                        });
+                        $sheet->mergeCells('A1:N1');
+
+                        $sheet->row(1, [$client->name]);
+
+                        $sheet->setWidth('A', 5);
+                        $sheet->setWidth('B', 10);
+                        $sheet->setWidth('C', 17.44);
+                        $sheet->setWidth('D', 5);
+                        $sheet->setWidth('E', 16.11);
+                        $sheet->setWidth('F', 28.34);
+                        $sheet->setWidth('G', 8.58);
+                        $sheet->setWidth('H', 13);
+                        $sheet->setWidth('I', 20.25);
+                        $sheet->setWidth('J', 10.5);
+                        $sheet->setWidth('K', 9.91);
+                        $sheet->setWidth('L', 12.14);
+                        $sheet->setWidth('M', 12.14);
+                        $sheet->setWidth('N', 12.14);
+                        $sheet->row(2, [
+                            'N°', 'FECHA', 'CLIENTE', 'OJO', 'MEDIO', 'TÍTULO ARTÍCULO',
+                            'Pixeles/ CM. COL', 'Equivalencia Publicitaria en dólares',
+                            'TEMA', 'TENDENCIA', 'TIPO', 'SECCIÓN', 'PÁG', 'CÓDIGO'
+                        ]);
+                        $row = 3;
+                        foreach ($news as $item) {
+                            $data = [
+                                $row-1, $item->news->date, $item->news->client->name,
+                                $item->news->clasification, $item->media->name,
+                                $item->title, $item->measure, $item->cost];
+                            if ($item->topic) {
+                                $data[] = $item->topic->name;
+                            } else {
+                                $data[] = '';
+                            }
+                            $tendency = '';
+                            if ($item->tendency == '1') { $tendency = 'Positivo'; }
+                            else if($item->tendency == '2') { $tendency = 'Negativo'; }
+                            else if($item->tendency == '3') {$tendency = 'Neutro'; }
+                            $data[] = $tendency;
+                            $type = '';
+                            if ($item->type == '1') {$type = 'Impreso'; }
+                            else if ($item->type == '2') { $type = 'Digital'; }
+                            else if ($item->type == '3') { $type = 'Radio'; }
+                            else if ($item->type == '4') { $type = 'Televisión'; }
+                            $data[] = $type;
+                            $data[] = $item->section;
+                            $data[] = $item->page;
+                            $data[] = $item->code;
+                            $sheet->row($row++, $data);
+                        }
                     });
                 })->download('xls');
         }
@@ -61,7 +126,7 @@ class NewsController extends BaseController
                 $q = $q->with('client');
             }
         ]);
-        $query->with('media');
+        $query->with('media')->with('topic');
         if($detailsData['mediaType']) {
             $query->where('type', '=', $detailsData['mediaType']);
         }
