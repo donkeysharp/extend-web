@@ -1,5 +1,6 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 function parseToDisplay(key) {
   switch(key) {
@@ -39,7 +40,10 @@ function drawChart(reportData) {
     ['Televisión', parseInt(reportData.tv.positive, 10), parseInt(reportData.tv.negative, 10), parseInt(reportData.tv.neutral, 10)],
   ]);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Tendencia por tipo de medio ' + month + ' ' + this.props.year;
   var options = {
+    title: title,
     width:600,
     height:400,
     legend: { position: 'top', maxLines: 3 },

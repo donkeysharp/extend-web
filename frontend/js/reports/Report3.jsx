@@ -1,6 +1,7 @@
 'use strict';
 var React = window.React;
 var $http = require('../http');
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
 function generateReport() {
@@ -35,8 +36,10 @@ function drawChart(reportData) {
     [ 'Negativo', parseInt(reportData.negative, 10) ],
     [ 'Neutro', parseInt(reportData.neutral, 10) ],
   ]);
-
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Tendencia noticiosa ' + month + ' ' + this.props.year;
   var options1 = {
+    title: title,
     width: 600,
     height: 400,
     legend: { position: 'top', maxLines: 3 },
@@ -47,14 +50,13 @@ function drawChart(reportData) {
   };
 
   var options2 = {
+    title: title,
     width:600,
     height:400,
     is3D: true,
     pieSliceTextStyle: {
       fontSize: 10
     },
-    // sliceVisibilityThreshold: 0.05,
-    // pieResidueSliceLabel: 'Otros'
   };
 
   var chart1 = new google.visualization.ColumnChart(this.refs.chart1.getDOMNode());

@@ -1,5 +1,6 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
 function getFormattedData(data) {
@@ -54,7 +55,10 @@ function drawChart(reportData) {
   data.addColumn('number', 'Neutro');
   data.addRows(reportData);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Tendencia porcentual por fuente ' + month + ' ' + this.props.year;
   var options = {
+    title: title,
     width:600,
     height:400,
     legend: { position: 'top', maxLines: 3 },

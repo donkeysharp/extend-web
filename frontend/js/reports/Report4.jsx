@@ -1,5 +1,6 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
 function getFormattedData(array) {
@@ -45,7 +46,10 @@ function drawChart(reportData) {
   data.addColumn('number', 'Noticias');
   data.addRows(reportData);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Publicaciones según género ' + month + ' ' + this.props.year;
   var options = {
+    title: title,
     chartArea: {width: '50%'},
     hAxis: {
       title: 'Noticias',

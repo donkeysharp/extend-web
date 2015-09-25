@@ -2,6 +2,25 @@
 var React = window.React;
 var $http = require('../http');
 
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+function getTitle(type, month, year) {
+  if (typeof month !== 'number') {
+    month = parseInt(month, 10);
+  }
+  month = months[month];
+  var title = 'Comparación según ';
+  if (type === 'press') {
+    title += 'medio de comunicación ';
+  } else if (type === 'radio') {
+    title += 'radiodifusora ';
+  } else if (type === 'tv') {
+    title += 'canal de televisión ';
+  } else {
+    title += 'medio ';
+  }
+  return title + month + ' ' + year;
+}
+
 function getFormattedData(array) {
   array.sort(function(a, b) {
     a = parseInt(a.news, 10);
@@ -60,7 +79,7 @@ function drawChart(reportData) {
   data.addRows(reportData);
 
   var options = {
-    // title:'Comparación según medio de comunicación',
+    title: getTitle(this.props.type, this.props.month, this.props.year),
     width:600,
     height:400,
     is3D: true,

@@ -1,5 +1,6 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 function getFormattedData(array) {
   array.sort(function(a, b) {
@@ -58,8 +59,10 @@ function drawChart(reportData) {
   data.addColumn('number', 'Noticias');
   data.addRows(reportData);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Publicaciones según tema ' + month + ' ' + this.props.year;
   var options = {
-    // title:'Publicaciones según tema',
+    title: title,
     width:600,
     height:400,
     is3D: true,

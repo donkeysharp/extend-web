@@ -64,7 +64,7 @@ function onGenerateReport (e) {
   }.bind(this));
 }
 
-function pushReport(data, result, title, type) {
+function pushReport(data, result, title, type, month, year) {
   var temporal = [];
   for (var key in data) {
     if (reportMap.hasOwnProperty(key)) {
@@ -78,7 +78,7 @@ function pushReport(data, result, title, type) {
       }
       var Report = reportMap[key];
       var refKey = type + '_' + key;
-      temporal.push(<Report ref={refKey} data={data[key]} />);
+      temporal.push(<Report ref={refKey} data={data[key]} type={type} month={month} year={year} />);
     }
   }
 
@@ -96,13 +96,15 @@ function getReports() {
   var radioData = data.radio;
   var tvData = data.tv;
   var generalData = data.general;
+  var month = this.refs.month.getDOMNode().value;
+  var year = this.refs.year.getDOMNode().value;
 
   var result = [];
   var refKeys = [];
-  pushReport(generalData, result, 'Reportes Generales', 'general');
-  pushReport(pressData, result, 'Reportes Prensa', 'press');
-  pushReport(radioData, result, 'Reportes Radio', 'radio');
-  pushReport(tvData, result, 'Reportes Televisión', 'tv');
+  pushReport(generalData, result, 'Reportes Generales', 'general', month, year);
+  pushReport(pressData, result, 'Reportes Prensa', 'press', month, year);
+  pushReport(radioData, result, 'Reportes Radio', 'radio', month, year);
+  pushReport(tvData, result, 'Reportes Televisión', 'tv', month, year);
 
   return result;
 }

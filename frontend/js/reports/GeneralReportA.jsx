@@ -1,5 +1,7 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
 
 function generateReport() {
   drawChart.call(this, this.props.data);
@@ -26,7 +28,10 @@ function drawChart(reportData) {
     ['Televisión', reportData.tv]
   ]);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Difusión por tipo de medio ' + month + ' ' + this.props.year;
   var options = {
+    title: title,
     width:600,
     height:400,
     is3D: true,

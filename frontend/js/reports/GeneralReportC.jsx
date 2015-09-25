@@ -1,12 +1,13 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 function getFormattedData(data) {
   var chartRes = [], tableRes = [];
-  var months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  var months1 = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   for (var key in data) {
     var date = new Date(key);
-    var label = months[date.getMonth()] + ' ' + date.getFullYear();
+    var label = months1[date.getMonth()] + ' ' + date.getFullYear();
     chartRes.push([
       label,
       parseInt(data[key].positive, 10),
@@ -55,7 +56,10 @@ function drawChart(reportData) {
   data.addColumn('number', 'Neutro');
   data.addRows(reportData);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Tendencia histórica último trimestre';
   var options = {
+    title: title,
     width:600,
     height:400,
     legend: { position: 'top', maxLines: 3 },

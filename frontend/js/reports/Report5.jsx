@@ -1,5 +1,6 @@
 'use strict';
 var React = window.React;
+var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
 function getFormattedData(array) {
@@ -59,7 +60,10 @@ function drawChart(reportData) {
   data.addColumn('number', 'Noticias');
   data.addRows(reportData);
 
+  var month = months[parseInt(this.props.month, 10)];
+  var title = 'Comparación según fuente ' + month + ' ' + this.props.year;
   var options = {
+    title: title,
     width:600,
     height:400,
     is3D: true,
