@@ -11,7 +11,7 @@ class TopicController extends BaseController
             ->take($limit)
             ->get();
 
-        $paginator = Paginator::make($topics->all(), News::count(), $limit);
+        $paginator = Paginator::make($topics->all(), Topic::count(), $limit);
         return View::make('topics.index')
             ->with('topics', $paginator);
     }

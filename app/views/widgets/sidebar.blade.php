@@ -35,6 +35,12 @@
       </a>
     </li>
     <li>
+      <a href="{{url('dashboard/sources')}}">
+        <i class="fa fa-folder-o"></i>&nbsp;
+        Administrar Fuentes
+      </a>
+    </li>
+    <li>
       <a href="{{url('dashboard/reports')}}">
         <i class="fa fa-bar-chart-o"></i>&nbsp;
         Reportes

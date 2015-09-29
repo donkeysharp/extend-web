@@ -15,6 +15,7 @@ class SourceTable extends Migration {
 		Schema::create('sources', function($t) {
 			$t->increments('id');
 			$t->string('source');
+			$t->string('description', 500)->nullable();
 			$t->timestamps();
 		});
 		print_r(DB::getQueryLog());

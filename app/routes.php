@@ -22,8 +22,13 @@ Route::group(['before' => 'auth'], function() {
 });
 
 Route::group(['before' => 'auth'], function() {
+    Route::get('/dashboard/sources', ['uses' => 'SourceController@index']);
+    Route::get('/dashboard/sources/create', ['uses' => 'SourceController@create']);
+    Route::get('/dashboard/sources/{id}/edit', ['uses' => 'SourceController@edit']);
     Route::get('/sources', ['uses' => 'SourceController@index']);
     Route::post('/sources', ['uses' => 'SourceController@store']);
+    Route::put('/sources/{id}', ['uses' => 'SourceController@update']);
+    Route::delete('/sources/{id}', ['uses' => 'SourceController@destroy']);
 });
 
 Route::group(['before' => 'auth'], function(){
