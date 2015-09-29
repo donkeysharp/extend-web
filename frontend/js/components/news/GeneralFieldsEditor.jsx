@@ -60,6 +60,12 @@ function onSourceCreated(res) {
   this.setState({sources: sources});
 }
 
+function onTopicCreated(res) {
+  var topics = this.state.topics;
+  topics.push(res);
+  this.setState({topics: topics});
+}
+
 function onSubtitleCreated(res) {
   var subtitles = this.state.subtitles;
   subtitles.push(res);
@@ -160,6 +166,7 @@ function getMediaForms() {
       sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
       onSourceCreated={onSourceCreated.bind(this)}
+      onTopicCreated={onTopicCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.digital) {
@@ -172,6 +179,7 @@ function getMediaForms() {
       sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
       onSourceCreated={onSourceCreated.bind(this)}
+      onTopicCreated={onTopicCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.radio) {
@@ -184,6 +192,7 @@ function getMediaForms() {
       sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
       onSourceCreated={onSourceCreated.bind(this)}
+      onTopicCreated={onTopicCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType.tv) {
@@ -196,6 +205,7 @@ function getMediaForms() {
       sources={this.state.sources}
       onSubtitleCreated={onSubtitleCreated.bind(this)}
       onSourceCreated={onSourceCreated.bind(this)}
+      onTopicCreated={onTopicCreated.bind(this)}
       onMediaCreated={onMediaCreated.bind(this)} />);
   }
   if (mediaType['source']) {

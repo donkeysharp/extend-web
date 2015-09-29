@@ -1,7 +1,9 @@
 'use strict';
+var React = window.React;
 var ModalSubtitleCreateForm = require('../subtitles/ModalSubtitleCreateForm.jsx');
 var CreateMediaModal = require('../modals/CreateMediaModal.jsx');
 var CreateSourceModal = require('../modals/CreateSourceModal.jsx');
+var CreateTopicModal = require('../modals/CreateTopicModal.jsx');
 
 function displayModal() {
   this.refs.subtitleModal.showModal();
@@ -36,6 +38,17 @@ function onSourceCreated(res) {
     this.props.onSourceCreated(res);
   }
   this.refs.source.getDOMNode().value = res.source;
+}
+
+function displayTopicModal() {
+  this.refs.topicModal.showModal();
+}
+
+function onTopicCreated(res) {
+  if (this.props.onTopicCreated) {
+    this.props.onTopicCreated(res);
+  }
+  this.refs.topic.getDOMNode().value = res.id;
 }
 
 function onTendencyChange(e) {
@@ -117,6 +130,7 @@ var PrintedMediaForm = React.createClass({
           <ModalSubtitleCreateForm ref="subtitleModal" onSubtitleCreated={onSubtitleCreated.bind(this)} />
           <CreateMediaModal ref="mediaModal" onItemCreated={onItemCreated.bind(this)} />
           <CreateSourceModal ref="sourceModal" onSourceCreated={onSourceCreated.bind(this)} />
+          <CreateTopicModal ref="topicModal" onTopicCreated={onTopicCreated.bind(this)} />
           <div className="section-divider"><span>IMPRESO</span></div>
           <iframe src="/blank" className="hidden" name="printed_iframe" id="printed_iframe"></iframe>
           <form target="printed_iframe" action="/blank" method="POST" >
@@ -208,7 +222,7 @@ var PrintedMediaForm = React.createClass({
               </select>
             </div>
             <div className="col-md-1">
-              <a className="btn btn-light btn-add" href="/dashboard/topics/create">
+              <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displayTopicModal.bind(this)}>
                 <i className="fa fa-plus"></i>
               </a>
             </div>
