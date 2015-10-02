@@ -5,7 +5,7 @@ class CustomizeController extends BaseController
     public function subtitles()
     {
         $clients = Client::all()->lists('name', 'id');
-        $clients[''] = 'Seleccioar un cliente';
+        $clients[''] = 'Seleccionar un cliente';
 
         return View::make('customization.subtitles')
             ->with('clients', $clients);

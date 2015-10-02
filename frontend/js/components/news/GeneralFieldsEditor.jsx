@@ -108,11 +108,11 @@ function getToday() {
   var date = new Date();
   var day, month, year;
   day = date.getDate();
-  if (date.getDate() < 10) {
+  if (day < 10) {
     day = '0' + day;
   }
   month = date.getMonth() + 1;
-  if(date.getMonth() < 10) {
+  if(month < 10) {
     month = '0' + month;
   }
   year = date.getFullYear();
