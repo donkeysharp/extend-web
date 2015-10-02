@@ -5,7 +5,7 @@ class UserController extends BaseController
     {
         $limit = 10; $page = Input::get('page', 1);
 
-        $users = User::orderBy('id')
+        $users = User::orderBy('name')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();

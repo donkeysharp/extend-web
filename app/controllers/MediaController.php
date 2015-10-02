@@ -6,7 +6,7 @@ class MediaController extends BaseController
     {
         $limit = 10; $page = Input::get('page', 1);
 
-        $media = Media::orderBy('id')
+        $media = Media::orderBy('name')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();

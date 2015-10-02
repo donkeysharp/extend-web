@@ -11,7 +11,7 @@ class SourceController extends BaseController
 
         $limit = 10; $page = Input::get('page', 1);
 
-        $sources = Source::orderBy('id')
+        $sources = Source::orderBy('source')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();

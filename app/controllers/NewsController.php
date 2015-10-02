@@ -215,19 +215,19 @@ class NewsController extends BaseController
         $subtitles = [];
         $sources = [];
         if (Input::get('clients')) {
-            $clients = Client::all();
+            $clients = Client::orderBy('name')->get()->all();
         }
         if (Input::get('topics')) {
-            $topics = Topic::all();
+            $topics = Topic::orderBy('name')->get()->all();
         }
         if (Input::get('media')) {
-            $media = Media::all();
+            $media = Media::orderBy('name')->get()->all();
         }
         if (Input::get('subtitles')) {
-            $subtitles = Subtitle::all();
+            $subtitles = Subtitle::orderBy('subtitle')->get()->all();
         }
         if (Input::get('sources')) {
-            $sources = Source::all();
+            $sources = Source::orderBy('source')->get()->all();
         }
 
         return Response::json([

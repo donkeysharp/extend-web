@@ -6,7 +6,7 @@ class TopicController extends BaseController
     {
         $limit = 10; $page = Input::get('page', 1);
 
-        $topics = Topic::orderBy('id')
+        $topics = Topic::orderBy('name')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();

@@ -6,7 +6,7 @@ class ClientController extends BaseController
     {
         $limit = 10; $page = Input::get('page', 1);
 
-        $clients = Client::orderBy('id')
+        $clients = Client::orderBy('name')
             ->skip($limit * ($page - 1))
             ->take($limit)
             ->get();
@@ -18,7 +18,7 @@ class ClientController extends BaseController
 
     public function indexJson()
     {
-        $clients = Client::all();
+        $clients = Client::orderBy('name')->get()->all();
 
         return Response::json($clients, 200);
     }
