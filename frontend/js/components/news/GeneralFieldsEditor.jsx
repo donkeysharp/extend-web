@@ -308,7 +308,11 @@ var GeneralFieldsEditor = React.createClass({
       orientation: "top right",
       todayHighlight: true,
       autoclose: true
-    });
+    }).on('hide', function(e) {
+      if (e.dates.length === 0) {
+        this.refs.date.getDOMNode().value = getToday();
+      }
+    }.bind(this));
     this.refs.date.getDOMNode().value = getToday();
     getExtraData.call(this).then(function(extraData) {
       if(!this.props.id) {
