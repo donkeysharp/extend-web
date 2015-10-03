@@ -2,12 +2,16 @@
 var React = window.React;
 var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
+function getDateLabel(date) {
+  var items = date.split('-').map(function(item) { return parseInt(item, 10); });
+  return months[items[1]] + ' ' + (items[0] + '');
+}
+
 function getFormattedData(data) {
   var chartRes = [], tableRes = [];
-  var months1 = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
   for (var key in data) {
-    var date = new Date(key);
-    var label = months1[date.getMonth()] + ' ' + date.getFullYear();
+    var label = getDateLabel(key);
+
     chartRes.push([
       label,
       parseInt(data[key].positive, 10),
