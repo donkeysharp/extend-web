@@ -181,6 +181,7 @@
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
+            <th class="col-md-1"></th>
             <th></th>
           </thead>
           <tbody>
@@ -228,6 +229,11 @@
                 </a>
               </td>
               <td>
+                <a href="javascript:void(0)" class=" btn btn-info news-copy" data-id="{{$item->news_id}}" data-detail-id="{{$item->id}}" title="Copiar noticia">
+                  <i class="fa fa-copy"></i>
+                </a>
+              </td>
+              <td>
                 <input type="checkbox" name="news_detail_id_{{$item->id}}" value="{{$item->id}}" />
               </td>
             </tr>
@@ -256,6 +262,7 @@
     </div>
   </div>
 </div>
+<div id="clientModal"></div>
 @stop
 
 @section('scripts')
@@ -273,6 +280,34 @@ $(document).ready(function(){
       todayHighlight: true,
       autoclose: true
     });
+
+  var modalOptions = {
+    clients: [],
+    onNewsCopied: function(res) {
+      var messages = document.getElementById('messages');
+        messages.innerHTML =  '<div class="alert alert-info alert-dismissable">'+
+        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+        '&times;'+
+        '</button>'+
+        'Noticia copiada exitosamente.'+
+        '</div>';
+      setTimeout(function() {
+        window.location = '/dashboard/news/' + res.id + '/edit';
+      }, 500);
+    }
+  }
+
+  $http.get('/clients').then(function(res) {
+    var el = document.getElementById('clientModal');
+    modalOptions.clients = res;
+    var copyNewsModal = React.createElement(MyApp.CopyNewsModal, modalOptions);
+    var copyNewsModal = React.render(copyNewsModal, el);
+    $('.news-copy').on('click', function(e) {
+      var newsId = e.currentTarget.dataset.id;
+      copyNewsModal.showModal(newsId);
+    });
+  });
+
   $('.delete').on('click', function(e) {
    if(!confirm('Está seguro que desea eliminar este detalle de noticia?')) {return;}
     var newsDetailId = e.currentTarget.dataset.detailId;

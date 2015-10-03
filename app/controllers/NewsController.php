@@ -319,6 +319,75 @@ class NewsController extends BaseController
         ], 200);
     }
 
+    public function copyNews($id, $clientId)
+    {
+        // It gives an extra 'date2' column to avoid
+        // date parsing as News model accessor changes date format
+        $news = News::with('details')
+            ->with('urls')
+            ->with('uploads')
+            ->select(['news.*', 'date as date2'])
+            ->findOrFail($id);
+
+        $copiedObject = new News();
+        DB::beginTransaction();
+        try {
+            $copiedObject->press_note = $news->press_note;
+            $copiedObject->code = $news->code;
+            $copiedObject->clasification = $news->clasification;
+            $copiedObject->date = $news->date2;
+            $copiedObject->client_id = $clientId;
+            $copiedObject->save();
+
+            foreach ($news->details as $detail) {
+                $copiedDetail = new NewsDetail();
+                $copiedDetail->type = $detail->type;
+                $copiedDetail->title = $detail->title;
+                $copiedDetail->description = $detail->description;
+                $copiedDetail->tendency = $detail->tendency;
+                $copiedDetail->section = $detail->section;
+                $copiedDetail->page = $detail->page;
+                $copiedDetail->gender = $detail->gender;
+                $copiedDetail->web = $detail->web;
+                $copiedDetail->source = $detail->source;
+                $copiedDetail->alias = $detail->alias;
+                $copiedDetail->measure = $detail->measure;
+                $copiedDetail->cost = $detail->cost;
+                $copiedDetail->subtitle = $detail->subtitle;
+                $copiedDetail->communication_risk = $detail->communication_risk;
+                $copiedDetail->show = $detail->show;
+                $copiedDetail->news_id = $copiedObject->id;
+                $copiedDetail->topic_id = $detail->topic_id;
+                $copiedDetail->media_id = $detail->media_id;
+                $copiedDetail->save();
+            }
+
+            foreach ($news->uploads as $upload) {
+                $copiedUpload = new NewsUpload();
+                $copiedUpload->type = $upload->type;
+                $copiedUpload->file_name = $upload->file_name;
+                $copiedUpload->news_id = $copiedObject->id;
+                $copiedUpload->save();
+            }
+
+            foreach ($news->urls as $url) {
+                $copiedUrl = new NewsUrl();
+                $copiedUrl->url = $url->url;
+                $copiedUrl->news_id = $copiedObject->id;
+                $copiedUrl->save();
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
+            return Response::json([
+                'status' => $e->getMessage()
+            ], 500);
+        }
+
+        return Response::json($copiedObject, 200);
+
+    }
+
     public function destroyDetail($id, $detailId)
     {
         $news = News::findOrFail($id);

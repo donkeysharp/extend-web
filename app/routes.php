@@ -47,6 +47,7 @@ Route::group(['before' => 'auth'], function(){
     Route::delete('/news/{id}/details/{detailId}', ['uses' => 'NewsController@destroyDetail']);
     Route::post('/news/{id}/uploads', ['uses' => 'NewsController@upload']);
     Route::post('/news/{id}/urls', ['uses' => 'NewsController@addURL']);
+    Route::post('/news/{id}/copy/{clientId}', ['uses' => 'NewsController@copyNews']);
     Route::delete('/news/{id}/uploads/{uploadId}', ['uses' => 'NewsController@destroyUpload']);
     Route::delete('/news/{id}/urls/{urlId}', ['uses' => 'NewsController@destroyUrl']);
 
