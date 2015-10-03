@@ -17,7 +17,7 @@ function getTitle(key) {
 }
 
 function exportData(e) {
-  var newWin = window.open('', 'thePopup', 'width=1000,height=600');
+  var newWin = window.open('', 'thePopup', 'width=1000,height=600,scrollbars=yes');
   var tpl = '<html><head><title>Reportes</title>';
   tpl += '<link rel="stylesheet" type="text/css" href="/assets/vendors/css/bootstrap.min.css">';
   tpl += '<style type="text/css">';
