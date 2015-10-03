@@ -68,14 +68,14 @@ function pushReport(data, result, title, type, month, year) {
   var temporal = [];
   for (var key in data) {
     if (reportMap.hasOwnProperty(key)) {
-      if (Object.prototype.toString.call(data[key]) === '[object Array]') {
-        if (data[key].length <= 0) { continue; }
-      }
-      if (key === 'Report3') {
-        if (data[key].positive === '0' && data[key].negative === '0' && data[key].neutral === '0') {
-          continue;
-        }
-      }
+      // if (Object.prototype.toString.call(data[key]) === '[object Array]') {
+      //   if (data[key].length <= 0) { continue; }
+      // }
+      // if (key === 'Report3') {
+      //   if (data[key].positive === '0' && data[key].negative === '0' && data[key].neutral === '0') {
+      //     continue;
+      //   }
+      // }
       var Report = reportMap[key];
       var refKey = type + '_' + key;
       temporal.push(<Report ref={refKey} data={data[key]} type={type} month={month} year={year} />);

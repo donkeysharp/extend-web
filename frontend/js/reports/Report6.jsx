@@ -85,9 +85,9 @@ function exportToImage() {
 
 var Report6 = React.createClass({
   componentDidMount: function () {
-    if (this.props.data) {
+    // if (this.props.data) {
       generateReport.call(this);
-    }
+    // }
   },
   getExportData: function() {
     var table = this.refs.dataTable.getDOMNode().innerHTML;
