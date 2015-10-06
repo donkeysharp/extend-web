@@ -9,15 +9,13 @@ class NewsController extends BaseController
         $limit = 300;
         $query = $this->search();
 
-
-
         $newsColumns = ['news.date', 'news.press_note', 'news.code', 'news.clasification', 'news_details.*'];
         if (Input::get('export', false)) {
             $news = $query->get(['news_details.*']);
             return Excel::create(Carbon::now(), function($excel) use($news) {
                     $excel->sheet('Noticias', function($sheet) use($news) {
                         $clientId = Input::get('client_id', false);
-                        $client = Client::findOrFail($clientId);
+                        $client = Client::where('id', '=', $clientId)->get()->first();
                         $sheet->setAutoSize(false);
                         $sheet->getStyle('A2:N2' . $sheet->getHighestRow())
                                     ->getAlignment()->setWrapText(true);
@@ -33,7 +31,10 @@ class NewsController extends BaseController
                         });
                         $sheet->mergeCells('A1:N1');
 
-                        $sheet->row(1, [$client->name]);
+                        $sheet->row(1, ['']);
+                        if ($client) {
+                            $sheet->row(1, [$client->name]);
+                        }
 
                         $sheet->setWidth('A', 5);
                         $sheet->setWidth('B', 10);
@@ -56,10 +57,23 @@ class NewsController extends BaseController
                         ]);
                         $row = 3;
                         foreach ($news as $item) {
-                            $data = [
-                                $row-1, $item->news->date, $item->news->client->name,
-                                $item->news->clasification, $item->media->name,
-                                $item->title, $item->measure, $item->cost];
+                            $data = [];
+                            $data[] = $row-1;
+                            $data[] = $item->news->date;
+                            if ($item->news->client) {
+                                $data[] = $item->news->client->name;
+                            } else {
+                                $data[] = '';
+                            }
+                            $data[] = $item->news->clasification;
+                            if ($item->media) {
+                                $data[] = $item->media->name;
+                            } else {
+                                $data[] = '';
+                            }
+                            $data[] = $item->title;
+                            $data[] = $item->measure;
+                            $data[] = $item->cost;
                             if ($item->topic) {
                                 $data[] = $item->topic->name;
                             } else {
