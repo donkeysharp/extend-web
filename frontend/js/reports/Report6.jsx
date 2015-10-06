@@ -15,11 +15,39 @@ function getFormattedData(data) {
     ]);
     tableRes.push({
       media: key,
-      positive: data[key].positive,
-      negative: data[key].negative,
-      neutral: data[key].neutral
+      positive: parseInt(data[key].positive, 10),
+      negative: parseInt(data[key].negative, 10),
+      neutral: parseInt(data[key].neutral, 10)
     });
   }
+  // Descending sort
+  chartRes.sort(function(a, b) {
+    var totalA = a[1] + a[2] + a[3];
+    var totalB = b[1] + b[2] + b[3];
+    if (totalA < totalB) {
+      return 1;
+    } else if (totalA > totalB) {
+      return -1;
+    }
+    return 0;
+  });
+  tableRes.sort(function(a, b) {
+    var totalA = a.positive + a.negative + a.neutral;
+    var totalB = b.positive + b.negative + b.neutral;
+    if (totalA < totalB) {
+      return 1;
+    } else if (totalA > totalB) {
+      return -1;
+    }
+    return 0;
+  });
+
+  if (chartRes.length > 5 && tableRes.length > 5) {
+    chartRes.splice(5);
+    tableRes.splice(5);
+  }
+  console.log(chartRes);
+  console.log(tableRes);
 
   return {
     chartRes: chartRes,
