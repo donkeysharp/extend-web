@@ -24,8 +24,8 @@ class ReportGenerator
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
         $query = $this->getFilterByMediaQuery($query, $filterByMedia);
-        $result = $query->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+        $result = $query->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('m.name')
             ->orderBy('m.name')
             ->select(DB::raw('m.name, count(nd.id) as news'))
@@ -49,8 +49,8 @@ class ReportGenerator
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
         $query = $this->getFilterByMediaQuery($query, $filterByMedia);
-        $result = $query->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+        $result = $query->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('t.name')
             ->orderBy('t.name')
             ->select(DB::raw('t.name, count(nd.id) as news'))
@@ -66,8 +66,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
         $positiveNews = $q1->where('nd.tendency', '=', 1)
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->select(DB::raw('count(nd.id) as positive'))
             ->first();
 
@@ -76,8 +76,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
         $negativeNews = $q2->where('nd.tendency', '=', 2)
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->select(DB::raw('count(nd.id) as negative'))
             ->first();
 
@@ -86,8 +86,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
         $neutralNews = $q3->where('nd.tendency', '=', 3)
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->select(DB::raw('count(nd.id) as neutral'))
             ->first();
 
@@ -108,8 +108,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $query = $this->getFilterByMediaQuery($query, $filterByMedia);
         $result = $query->whereRaw('ifnull(length(nd.gender), 0) > 0')
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('nd.gender')
             ->select(DB::raw('nd.gender, count(nd.gender) as news'))
             ->get();
@@ -124,8 +124,8 @@ class ReportGenerator
             ->where('n.client_id', $clientId);
         $query = $this->getFilterByMediaQuery($query, $filterByMedia);
         $result = $query->whereRaw('ifnull(length(nd.source), 0) > 0')
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
             ->select(DB::raw('nd.source, count(nd.source) as news'))
             ->get();
@@ -141,8 +141,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
         $positiveNews = $q1->where('tendency', '=', 1)
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('m.name')
             ->orderBy('m.name')
             ->select(DB::raw('m.name, count(nd.id) as positive'))
@@ -154,8 +154,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
         $negativeNews = $q2->where('tendency', '=', 2)
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('m.name')
             ->orderBy('m.name')
             ->select(DB::raw('m.name, count(nd.id) as negative'))
@@ -167,8 +167,8 @@ class ReportGenerator
             ->where('n.client_id', '=', $clientId);
         $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
         $neutralNews = $q3->where('tendency', '=', 3)
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('m.name')
             ->orderBy('m.name')
             ->select(DB::raw('m.name, count(nd.id) as neutral'))
@@ -217,8 +217,8 @@ class ReportGenerator
         $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
         $positiveNews = $q1->where('nd.tendency', '=', 1)
             ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
             ->select(DB::raw('nd.source, count(nd.tendency) as positive'))
             ->get();
@@ -229,8 +229,8 @@ class ReportGenerator
         $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
         $negativeNews = $q2->where('nd.tendency', '=', 2)
             ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
             ->select(DB::raw('nd.source, count(nd.tendency) as negative'))
             ->get();
@@ -241,8 +241,8 @@ class ReportGenerator
         $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
         $neutralNews = $q3->where('nd.tendency', '=', 3)
             ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
-            ->where('nd.created_at', '>=', $from)
-            ->where('nd.created_at', '<=', $to)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
             ->select(DB::raw('nd.source, count(nd.tendency) as neutral'))
             ->get();
