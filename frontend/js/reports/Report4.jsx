@@ -50,7 +50,8 @@ function drawChart(reportData) {
   var title = 'Publicaciones según género ' + month + ' ' + this.props.year;
   var options = {
     title: title,
-    chartArea: {width: '50%'},
+    width:600,
+    height:400,
     hAxis: {
       title: 'Noticias',
       minValue: 0

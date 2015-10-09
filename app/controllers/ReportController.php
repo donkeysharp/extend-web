@@ -63,15 +63,12 @@ class ReportController extends BaseController
         foreach ($data as $key => $value) {
             $table = $value['table'];
             $image = $value['image'];
+            $image2 = isset($value['image2']) ? $value['image2'] : null;
             $subtitle = isset($value['subtitle']) ? $value['subtitle'] : null;
             if ($subtitle) {
                 \PhpOffice\PhpWord\Shared\Html::addHtml($section, "<h1>$subtitle</h1>");
             }
 
-            list($type, $image) = explode(';', $image);
-            list(, $image)      = explode(',', $image);
-            $image = base64_decode($image);
-            file_put_contents(public_path() . '/image' . $imageCounter . '.png', $image);
             $wordTable = $section->addTable();
             for ($i = 0; $i < count($table); ++$i) {
                 $wordTable->addRow();
@@ -79,16 +76,36 @@ class ReportController extends BaseController
                     $wordTable->addCell(1750)->addText($table[$i][$j]);
                 }
             }
-            $section->addImage(public_path() . '/image' . $imageCounter . '.png');
+
+            $filename = public_path() . '/image' . $imageCounter . '.png';
+            $this->saveBase64Image($image, $filename);
+            $section->addImage($filename);
+            if ($image2) {
+                $filename = public_path() . '/image' . $imageCounter . '.1.png';
+                $this->saveBase64Image($image2, $filename);
+                $section->addImage($filename);
+            }
             $imageCounter++;
         }
+        $phpWord->save(public_path() . '/reporte.docx');
+
         $imageCounter--;
         for ($i = $imageCounter; $i >= 0; $i--) {
             unlink(public_path() . '/image' . $i . '.png');
+            if ($i == 12 || $i == 17 || $i == 5) {
+                unlink(public_path() . '/image' . $i . '.1.png');
+            }
         }
-        $phpWord->save(public_path() . '/reporte.docx');
         return Response::json([
             'filename' => 'reporte.docx'
         ]);
+    }
+
+    private function saveBase64Image($image, $filename)
+    {
+        list($type, $image) = explode(';', $image);
+        list(, $image)      = explode(',', $image);
+        $image = base64_decode($image);
+        file_put_contents($filename, $image);
     }
 }

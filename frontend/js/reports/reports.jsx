@@ -72,7 +72,7 @@ function exportData2() {
       }
     }
   }
-  $http.post('/report2', data).then(function(res) {
+  $http.post('/reports/export', data).then(function(res) {
     window.location = '/' + res.filename;
   });
 }
