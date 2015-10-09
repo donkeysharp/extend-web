@@ -46,8 +46,6 @@ function getFormattedData(data) {
     chartRes.splice(5);
     tableRes.splice(5);
   }
-  console.log(chartRes);
-  console.log(tableRes);
 
   return {
     chartRes: chartRes,

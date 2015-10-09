@@ -53,6 +53,10 @@ function exportData(e) {
 
 function exportData2() {
   var refs = this.refs, reportData, key, currentTitle, lastTitle = '';
+
+  refs.exportButton.getDOMNode().disabled = true;
+  refs.exportSpinner.getDOMNode().setAttribute('class', 'fa fa-spin fa-spinner');
+
   var data = {};
   for (key in refs) {
     if (refs[key].getExportData) {
@@ -73,6 +77,8 @@ function exportData2() {
     }
   }
   $http.post('/reports/export', data).then(function(res) {
+    refs.exportButton.getDOMNode().removeAttribute('disabled');
+    refs.exportSpinner.getDOMNode().setAttribute('class', 'fa fa-print');
     window.location = '/' + res.filename;
   });
 }
@@ -173,7 +179,10 @@ var ReportView = React.createClass({
   render: function() {
     var report = '', exportButton = '';
     if (this.state.displayReport) {
-      exportButton = <button ref="export" className="btn btn-success" onClick={exportData2.bind(this)}><i className="fa fa-print"></i> Exportar Reporte</button>;
+      exportButton = <button ref="exportButton" className="btn btn-success"
+        onClick={exportData2.bind(this)}>
+          <i ref="exportSpinner" className="fa fa-print"></i> Exportar Reporte
+        </button>;
       report = getReports.call(this);
     }
     var clients = getClients.call(this);
