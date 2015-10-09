@@ -53,4 +53,42 @@ class ReportController extends BaseController
 
         return $result;
     }
+
+    public function exportReport()
+    {
+        $data = Input::all();
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $imageCounter = 0;
+        foreach ($data as $key => $value) {
+            $table = $value['table'];
+            $image = $value['image'];
+            $subtitle = isset($value['subtitle']) ? $value['subtitle'] : null;
+            if ($subtitle) {
+                \PhpOffice\PhpWord\Shared\Html::addHtml($section, "<h1>$subtitle</h1>");
+            }
+
+            list($type, $image) = explode(';', $image);
+            list(, $image)      = explode(',', $image);
+            $image = base64_decode($image);
+            file_put_contents(public_path() . '/image' . $imageCounter . '.png', $image);
+            $wordTable = $section->addTable();
+            for ($i = 0; $i < count($table); ++$i) {
+                $wordTable->addRow();
+                for ($j = 0; $j < count($table[$i]); ++$j) {
+                    $wordTable->addCell(1750)->addText($table[$i][$j]);
+                }
+            }
+            $section->addImage(public_path() . '/image' . $imageCounter . '.png');
+            $imageCounter++;
+        }
+        $imageCounter--;
+        for ($i = $imageCounter; $i >= 0; $i--) {
+            unlink(public_path() . '/image' . $i . '.png');
+        }
+        $phpWord->save(public_path() . '/reporte.docx');
+        return Response::json([
+            'filename' => 'reporte.docx'
+        ]);
+    }
 }

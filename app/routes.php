@@ -102,6 +102,7 @@ Route::group(['before' => 'auth'], function() {
 Route::group(['before' => 'auth'], function() {
     Route::get('dashboard/reports', ['uses' => 'ReportController@index']);
     Route::get('/reports', ['uses' => 'ReportController@getReport']);
+    Route::post('/reports/export', ['uses' => 'ReportController@exportReport']);
 });
 
 Route::group(['before' => 'auth'], function() {
@@ -124,69 +125,6 @@ Route::get('foo', function() {
     $a = new ReportGenerator();
     return $a->report5('2015-09-01', '2015-09-30', 101, 1);
 });
-
-Route::get('meg', function() {
-    $phpWord = new \PhpOffice\PhpWord\PhpWord();
-    $section = $phpWord->addSection();
-    $html = '<h1>Adding element via HTML</h1>';
-    $html .= '<p>Some well formed HTML snippet needs to be used</p>';
-    $html .= '<p>With for example <strong>some<sup>1</sup> <em>inline</em> formatting</strong><sub>1</sub></p>';
-    $html .= '<p>Unordered (bulleted) list:</p>';
-    $html .= '<ul><li>Item 1</li><li>Item 2</li><ul><li>Item 2.1</li><li>Item 2.1</li></ul></ul>';
-    $html .= '<p>Ordered (numbered) list:</p>';
-    \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
-    $section->addImage(public_path() . '/assets/img/logo.png');
-    $html = '<h1>meg</h1>';
-    $table = $section->addTable();
-    for ($r = 1; $r <= 8; $r++) {
-        $table->addRow();
-        for ($c = 1; $c <= 5; $c++) {
-            $table->addCell(1750)->addText(htmlspecialchars("Row {$r}, Cell {$c}", ENT_COMPAT, 'UTF-8'));
-        }
-    }
-    $section->addImage(public_path() . '/assets/img/user.png');
-    $phpWord->save('foobar.docx');
-
-    return Response::download('foobar.docx', 'foobar.docx');
-});
-
-Route::any('report2', function() {
-    $data = Input::all();
-    $phpWord = new \PhpOffice\PhpWord\PhpWord();
-    $section = $phpWord->addSection();
-    $imageCounter = 0;
-    foreach ($data as $key => $value) {
-        $table = $value['table'];
-        $image = $value['image'];
-        $subtitle = isset($value['subtitle']) ? $value['subtitle'] : null;
-        if ($subtitle) {
-            \PhpOffice\PhpWord\Shared\Html::addHtml($section, "<h1>$subtitle</h1>");
-        }
-
-        list($type, $image) = explode(';', $image);
-        list(, $image)      = explode(',', $image);
-        $image = base64_decode($image);
-        file_put_contents(public_path() . '/image' . $imageCounter . '.png', $image);
-        $wordTable = $section->addTable();
-        for ($i = 0; $i < count($table); ++$i) {
-            $wordTable->addRow();
-            for ($j = 0; $j < count($table[$i]); ++$j) {
-                $wordTable->addCell(1750)->addText($table[$i][$j]);
-            }
-        }
-        $section->addImage(public_path() . '/image' . $imageCounter . '.png');
-        $imageCounter++;
-    }
-    $imageCounter--;
-    for ($i = $imageCounter; $i >= 0; $i--) {
-        unlink(public_path() . '/image' . $i . '.png');
-    }
-    $phpWord->save(public_path() . '/reporte.docx');
-    return Response::json([
-        'filename' => 'reporte.docx'
-    ]);
-});
-
 
 Form::macro('mediaType', function($type) {
     if ($type == 1) {
