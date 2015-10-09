@@ -52,14 +52,24 @@ function exportData(e) {
 }
 
 function exportData2() {
-  var refs = this.refs, reportData, key;
+  var refs = this.refs, reportData, key, currentTitle, lastTitle = '';
   var data = {};
   for (key in refs) {
     if (refs[key].getExportData) {
-      reportData = refs[key].getExportData();
       data[key] = {};
-      data[key].table = '<table>' + reportData.table + '</table>';
+      currentTitle = getTitle(key);
+
+      if (lastTitle !== currentTitle) {
+        data[key].subtitle = currentTitle;
+        lastTitle = currentTitle;
+      }
+
+      reportData = refs[key].getExportData();
+      data[key].table = reportData.table;
       data[key].image = reportData.image;
+      if (reportData.image2) {
+        data[key].image2 = reportData.image2;
+      }
     }
   }
   $http.post('/report2', data).then(function(res) {

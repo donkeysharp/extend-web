@@ -113,27 +113,25 @@ var Report1 = React.createClass({
   },
   getExportData: function() {
     var table = this.refs.dataTable.getDOMNode();
-    var tHead = table.tHead;
-    var tBody = table.tBodies[0];
-    var tpl = '<table><tr>';
-    for (var j = 0; j < tHead.children[0].children.length; ++j) {
-      tpl += '<td><b>' + tHead.children[0].children[j].innerHTML + '</b></td>';
-    }
-    tpl += '</tr>';
-    for (var i = 0; i < tBody.children.length; ++i) {
-      tpl += '<tr>';
-      for (var j = 0; j < tBody.children[i].children.length; ++j) {
-        tpl += '<td>' + tBody.children[i].children[j].innerHTML + '</td>';
-      }
-      tpl += '</tr>';
-    }
-    tpl += '</table>';
+    var tHead = table.tHead, tBody = table.tBodies[0];
+    var data = [], tmp = [];
 
+    for (var j = 0; j < tHead.children[0].children.length; ++j) {
+      tmp.push(tHead.children[0].children[j].innerHTML);
+    }
+    data.push(tmp);
+
+    for (var i = 0; i < tBody.children.length; ++i) {
+      tmp = [];
+      for (var j = 0; j < tBody.children[i].children.length; ++j) {
+        tmp.push(tBody.children[i].children[j].innerHTML);
+      }
+      data.push(tmp);
+    }
     var image = this.chart.getImageURI();
-    // image = '<img src="' + image + '" style="width:600px; height:400px;" />';
 
     return {
-      table: table.innerHTML,
+      table: data,
       image: image
     }
   },
