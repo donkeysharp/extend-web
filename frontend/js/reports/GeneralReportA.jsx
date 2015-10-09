@@ -66,7 +66,7 @@ var GeneralReportA = React.createClass({
   getExportData: function() {
     var table = this.refs.dataTable.getDOMNode().innerHTML;
     var image = this.chart.getImageURI();
-    image = '<img src="' + image + '" style="width:600px; height:400px;" />';
+    // image = '<img src="' + image + '" style="width:600px; height:400px;" />';
 
     return {
       table: table,

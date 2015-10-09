@@ -29,7 +29,6 @@ function exportData(e) {
   var lastTitle = '';
   for (var key in refs) {
     if (refs[key].getExportData) {
-      console.log(key);
       var currentTitle = getTitle(key);
       if (lastTitle !== currentTitle) {
         tpl += '<h2>' + currentTitle + '</h2>';
@@ -50,6 +49,22 @@ function exportData(e) {
   }
   tpl += '</body></html>';
   newWin.document.write(tpl);
+}
+
+function exportData2() {
+  var refs = this.refs, reportData, key;
+  var data = {};
+  for (key in refs) {
+    if (refs[key].getExportData) {
+      reportData = refs[key].getExportData();
+      data[key] = {};
+      data[key].table = '<table>' + reportData.table + '</table>';
+      data[key].image = reportData.image;
+    }
+  }
+  $http.post('/report2', data).then(function(res) {
+    window.location = '/' + res.filename;
+  });
 }
 
 function onGenerateReport (e) {
@@ -148,7 +163,7 @@ var ReportView = React.createClass({
   render: function() {
     var report = '', exportButton = '';
     if (this.state.displayReport) {
-      exportButton = <button ref="export" className="btn btn-success" onClick={exportData.bind(this)}><i className="fa fa-print"></i> Exportar Reporte</button>;
+      exportButton = <button ref="export" className="btn btn-success" onClick={exportData2.bind(this)}><i className="fa fa-print"></i> Exportar Reporte</button>;
       report = getReports.call(this);
     }
     var clients = getClients.call(this);

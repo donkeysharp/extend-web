@@ -112,12 +112,28 @@ var Report1 = React.createClass({
     // }
   },
   getExportData: function() {
-    var table = this.refs.dataTable.getDOMNode().innerHTML;
+    var table = this.refs.dataTable.getDOMNode();
+    var tHead = table.tHead;
+    var tBody = table.tBodies[0];
+    var tpl = '<table><tr>';
+    for (var j = 0; j < tHead.children[0].children.length; ++j) {
+      tpl += '<td><b>' + tHead.children[0].children[j].innerHTML + '</b></td>';
+    }
+    tpl += '</tr>';
+    for (var i = 0; i < tBody.children.length; ++i) {
+      tpl += '<tr>';
+      for (var j = 0; j < tBody.children[i].children.length; ++j) {
+        tpl += '<td>' + tBody.children[i].children[j].innerHTML + '</td>';
+      }
+      tpl += '</tr>';
+    }
+    tpl += '</table>';
+
     var image = this.chart.getImageURI();
-    image = '<img src="' + image + '" style="width:600px; height:400px;" />';
+    // image = '<img src="' + image + '" style="width:600px; height:400px;" />';
 
     return {
-      table: table,
+      table: table.innerHTML,
       image: image
     }
   },
@@ -128,8 +144,10 @@ var Report1 = React.createClass({
           <div className="col-md-4 col-md-offset-4">
             <table ref="dataTable" className="table table-bordered">
               <thead>
-                <th>Medio</th>
-                <th>Número</th>
+                <tr>
+                  <th>Medio</th>
+                  <th>Número</th>
+                </tr>
               </thead>
               <tbody></tbody>
             </table>

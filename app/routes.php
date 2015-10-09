@@ -125,6 +125,54 @@ Route::get('foo', function() {
     return $a->report5('2015-09-01', '2015-09-30', 101, 1);
 });
 
+Route::get('meg', function() {
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+    $section = $phpWord->addSection();
+    $html = '<h1>Adding element via HTML</h1>';
+    $html .= '<p>Some well formed HTML snippet needs to be used</p>';
+    $html .= '<p>With for example <strong>some<sup>1</sup> <em>inline</em> formatting</strong><sub>1</sub></p>';
+    $html .= '<p>Unordered (bulleted) list:</p>';
+    $html .= '<ul><li>Item 1</li><li>Item 2</li><ul><li>Item 2.1</li><li>Item 2.1</li></ul></ul>';
+    $html .= '<p>Ordered (numbered) list:</p>';
+    \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
+    $section->addImage(public_path() . '/assets/img/logo.png');
+    $html = '<table><tr><td><b>Medio</b></td><td><b>Número</b></td></tr><tr><td>Otros</td><td>0</td></tr></table><h1>meg</h1>';
+    \PhpOffice\PhpWord\Shared\Html::addHtml($section, $html);
+    $section->addImage(public_path() . '/assets/img/user.png');
+    $phpWord->save('foobar.docx');
+
+    return Response::download('foobar.docx', 'foobar.docx');
+});
+
+Route::any('report2', function() {
+    $data = Input::all();
+    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+    $section = $phpWord->addSection();
+    $i = 0;
+    foreach ($data as $key => $value) {
+        $table = $value['table'];
+        $image = $value['image'];
+        list($type, $image) = explode(';', $image);
+        list(, $image)      = explode(',', $image);
+        $image = base64_decode($image);
+        file_put_contents(public_path() . '/image' . $i . '.png', $image);
+        \PhpOffice\PhpWord\Shared\Html::addHtml($section, $table);
+        $section->addImage(public_path() . '/image' . $i . '.png');
+        $i++;
+    }
+    $phpWord->save(public_path() . '/foobar.docx');
+    return Response::json([
+        'filename' => 'foobar.docx'
+    ]);
+    // return Response::download('foobar.docx', 'foobar.docx');
+
+    // list($type, $data) = explode(';', $data);
+    // list(, $data)      = explode(',', $data);
+    // $data = base64_decode($data);
+
+    // file_put_contents('/tmp/image.png', $data);
+});
+
 
 Form::macro('mediaType', function($type) {
     if ($type == 1) {
