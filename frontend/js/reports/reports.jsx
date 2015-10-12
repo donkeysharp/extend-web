@@ -88,7 +88,8 @@ function onGenerateReport (e) {
   var data = {
     client_id: this.refs.client.getDOMNode().value,
     month: this.refs.month.getDOMNode().value,
-    year: this.refs.year.getDOMNode().value
+    year: this.refs.year.getDOMNode().value,
+    clasification: this.refs.clasification.getDOMNode().value,
   };
   $http.get('/reports', data).then(function(res) {
     this.setState({data: res, displayReport: true});

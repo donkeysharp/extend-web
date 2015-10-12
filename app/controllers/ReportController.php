@@ -11,6 +11,7 @@ class ReportController extends BaseController
         $client = Client::findOrFail(Input::get('client_id'));
         $clientId = $client->id;
         $date = ReportGenerator::getDates(Input::get('month', 1), Input::get('year', 2015));
+        $clasification = Input::get('clasification', 'B');
         $from = $date[0];
         $to = $date[1];
         $pastDates = ReportGenerator::getPastDates(Input::get('month', 1), Input::get('year', 2015));
@@ -21,26 +22,26 @@ class ReportController extends BaseController
         $result['radio'] = [];
         $result['tv'] = [];
 
-        $result['press']['Report1'] = $reportGenerator->report1($from, $to, $client->id, ReportGenerator::PRESS);
-        $result['press']['Report2'] = $reportGenerator->report2($from, $to, $client->id, ReportGenerator::PRESS);
-        $result['press']['Report3'] = $reportGenerator->report3($from, $to, $client->id, ReportGenerator::PRESS);
-        $result['press']['Report4'] = $reportGenerator->report4($from, $to, $client->id, ReportGenerator::PRESS);
-        $result['press']['Report5'] = $reportGenerator->report5($from, $to, $client->id, ReportGenerator::PRESS);
+        $result['press']['Report1'] = $reportGenerator->report1($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
+        $result['press']['Report2'] = $reportGenerator->report2($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
+        $result['press']['Report3'] = $reportGenerator->report3($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
+        $result['press']['Report4'] = $reportGenerator->report4($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
+        $result['press']['Report5'] = $reportGenerator->report5($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
         $result['press']['Report8'] = $result['press']['Report3'];
-        $result['press']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::PRESS);
-        $result['press']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::PRESS);
+        $result['press']['Report6'] = $reportGenerator->report6($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
+        $result['press']['Report7'] = $reportGenerator->report7($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
 
-        $result['radio']['Report1'] = $reportGenerator->report1($from, $to, $client->id, ReportGenerator::RADIO);
-        $result['radio']['Report2'] = $reportGenerator->report2($from, $to, $client->id, ReportGenerator::RADIO);
-        $result['radio']['Report3'] = $reportGenerator->report3($from, $to, $client->id, ReportGenerator::RADIO);
-        $result['radio']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::RADIO);
-        $result['radio']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::RADIO);
+        $result['radio']['Report1'] = $reportGenerator->report1($from, $to, $clientId, $clasification, ReportGenerator::RADIO);
+        $result['radio']['Report2'] = $reportGenerator->report2($from, $to, $clientId, $clasification, ReportGenerator::RADIO);
+        $result['radio']['Report3'] = $reportGenerator->report3($from, $to, $clientId, $clasification, ReportGenerator::RADIO);
+        $result['radio']['Report7'] = $reportGenerator->report7($from, $to, $clientId, $clasification, ReportGenerator::RADIO);
+        $result['radio']['Report6'] = $reportGenerator->report6($from, $to, $clientId, $clasification, ReportGenerator::RADIO);
 
-        $result['tv']['Report1'] = $reportGenerator->report1($from, $to, $client->id, ReportGenerator::TV);
-        $result['tv']['Report2'] = $reportGenerator->report2($from, $to, $client->id, ReportGenerator::TV);
-        $result['tv']['Report3'] = $reportGenerator->report3($from, $to, $client->id, ReportGenerator::TV);
-        $result['tv']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::TV);
-        $result['tv']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::TV);
+        $result['tv']['Report1'] = $reportGenerator->report1($from, $to, $clientId, $clasification, ReportGenerator::TV);
+        $result['tv']['Report2'] = $reportGenerator->report2($from, $to, $clientId, $clasification, ReportGenerator::TV);
+        $result['tv']['Report3'] = $reportGenerator->report3($from, $to, $clientId, $clasification, ReportGenerator::TV);
+        $result['tv']['Report7'] = $reportGenerator->report7($from, $to, $clientId, $clasification, ReportGenerator::TV);
+        $result['tv']['Report6'] = $reportGenerator->report6($from, $to, $clientId, $clasification, ReportGenerator::TV);
 
         $result['general']['GeneralReportA'] = $reportGenerator->generalReportA(
                                                             $result['press']['Report1'],
@@ -50,7 +51,7 @@ class ReportController extends BaseController
                                                             $result['press']['Report3'],
                                                             $result['radio']['Report3'],
                                                             $result['tv']['Report3']);
-        $result['general']['GeneralReportC'] = $reportGenerator->generalReportC($pastDates, $client->id);
+        $result['general']['GeneralReportC'] = $reportGenerator->generalReportC($pastDates, $client->id, $clasification);
 
         return $result;
     }

@@ -9,21 +9,13 @@ class ReportGenerator
     const TV = 4;
     const SOURCE = 5;
 
-    /**
-     * [report1 description]
-     * @param  [type] $from          [description]
-     * @param  [type] $to            [description]
-     * @param  [type] $clientId      [description]
-     * @param  [type] $filterByMedia [description]
-     * @return [type]                [description]
-     */
-    public function report1($from, $to, $clientId, $filterByMedia)
+    public function report1($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $query = DB::table('media as m')
             ->join('news_details as nd', 'm.id', '=', 'nd.media_id')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $query = $this->getFilterByMediaQuery($query, $filterByMedia);
+        $query = $this->getExtraQuery($query, $filterByMedia, $clasification);
         $result = $query->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
             ->groupBy('m.name')
@@ -34,21 +26,13 @@ class ReportGenerator
         return $result;
     }
 
-    /**
-     * [report2 description]
-     * @param  [type] $from          [description]
-     * @param  [type] $to            [description]
-     * @param  [type] $clientId      [description]
-     * @param  [type] $filterByMedia [description]
-     * @return [type]                [description]
-     */
-    public function report2($from, $to, $clientId, $filterByMedia)
+    public function report2($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $query = DB::table('topics as t')
             ->join('news_details as nd', 't.id', '=', 'nd.topic_id')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $query = $this->getFilterByMediaQuery($query, $filterByMedia);
+        $query = $this->getExtraQuery($query, $filterByMedia, $clasification);
         $result = $query->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
             ->groupBy('t.name')
@@ -59,12 +43,12 @@ class ReportGenerator
         return $result;
     }
 
-    public function report3($from, $to, $clientId, $filterByMedia)
+    public function report3($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $q1 = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
+        $q1 = $this->getExtraQuery($q1, $filterByMedia, $clasification);
         $positiveNews = $q1->where('nd.tendency', '=', 1)
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -74,7 +58,7 @@ class ReportGenerator
         $q2 = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
+        $q2 = $this->getExtraQuery($q2, $filterByMedia, $clasification);
         $negativeNews = $q2->where('nd.tendency', '=', 2)
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -84,7 +68,7 @@ class ReportGenerator
         $q3 = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
+        $q3 = $this->getExtraQuery($q3, $filterByMedia, $clasification);
         $neutralNews = $q3->where('nd.tendency', '=', 3)
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -101,12 +85,12 @@ class ReportGenerator
         ];
     }
 
-    public function report4($from, $to, $clientId, $filterByMedia)
+    public function report4($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $query = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $query = $this->getFilterByMediaQuery($query, $filterByMedia);
+        $query = $this->getExtraQuery($query, $filterByMedia, $clasification);
         $result = $query->whereRaw('ifnull(length(nd.gender), 0) > 0')
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -117,12 +101,12 @@ class ReportGenerator
         return$result;
     }
 
-    public function report5($from, $to, $clientId, $filterByMedia)
+    public function report5($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $query = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', $clientId);
-        $query = $this->getFilterByMediaQuery($query, $filterByMedia);
+        $query = $this->getExtraQuery($query, $filterByMedia, $clasification);
         $result = $query->whereRaw('ifnull(length(nd.source), 0) > 0')
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -133,13 +117,13 @@ class ReportGenerator
         return$result;
     }
 
-    public function report6($from, $to, $clientId, $filterByMedia)
+    public function report6($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $q1 = DB::table('media as m')
             ->join('news_details as nd', 'm.id','=','nd.media_id')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
+        $q1 = $this->getExtraQuery($q1, $filterByMedia, $clasification);
         $positiveNews = $q1->where('tendency', '=', 1)
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -152,7 +136,7 @@ class ReportGenerator
             ->join('news_details as nd', 'm.id','=','nd.media_id')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
+        $q2 = $this->getExtraQuery($q2, $filterByMedia, $clasification);
         $negativeNews = $q2->where('tendency', '=', 2)
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -165,7 +149,7 @@ class ReportGenerator
             ->join('news_details as nd', 'm.id','=','nd.media_id')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
+        $q3 = $this->getExtraQuery($q3, $filterByMedia, $clasification);
         $neutralNews = $q3->where('tendency', '=', 3)
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
@@ -209,12 +193,12 @@ class ReportGenerator
         return $result;
     }
 
-    public function report7($from, $to, $clientId, $filterByMedia)
+    public function report7($from, $to, $clientId, $clasification, $filterByMedia)
     {
         $q1 = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q1 = $this->getFilterByMediaQuery($q1, $filterByMedia);
+        $q1 = $this->getExtraQuery($q1, $filterByMedia, $clasification);
         $positiveNews = $q1->where('nd.tendency', '=', 1)
             ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
             ->where('n.date', '>=', $from)
@@ -226,7 +210,7 @@ class ReportGenerator
         $q2 = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q2 = $this->getFilterByMediaQuery($q2, $filterByMedia);
+        $q2 = $this->getExtraQuery($q2, $filterByMedia, $clasification);
         $negativeNews = $q2->where('nd.tendency', '=', 2)
             ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
             ->where('n.date', '>=', $from)
@@ -238,7 +222,7 @@ class ReportGenerator
         $q3 = DB::table('news_details as nd')
             ->join('news as n', 'n.id', '=', 'nd.news_id')
             ->where('n.client_id', '=', $clientId);
-        $q3 = $this->getFilterByMediaQuery($q3, $filterByMedia);
+        $q3 = $this->getExtraQuery($q3, $filterByMedia, $clasification);
         $neutralNews = $q3->where('nd.tendency', '=', 3)
             ->whereRaw('not isnull(nd.source) and length(nd.source) > 0')
             ->where('n.date', '>=', $from)
@@ -325,17 +309,17 @@ class ReportGenerator
         return $result;
     }
 
-    public function getMonthReport($from, $to, $clientId)
+    public function getMonthReport($from, $to, $clientId, $clasification)
     {
-        $result = $this->report3($from, $to, $clientId, false);
+        $result = $this->report3($from, $to, $clientId, $clasification, false);
         return $result;
     }
 
-    public function generalReportC($dates, $clientId)
+    public function generalReportC($dates, $clientId, $clasification)
     {
-        $report1 = $this->getMonthReport($dates[0][0], $dates[0][1], $clientId);
-        $report2 = $this->getMonthReport($dates[1][0], $dates[1][1], $clientId);
-        $report3 = $this->getMonthReport($dates[2][0], $dates[2][1], $clientId);
+        $report1 = $this->getMonthReport($dates[0][0], $dates[0][1], $clientId, $clasification);
+        $report2 = $this->getMonthReport($dates[1][0], $dates[1][1], $clientId, $clasification);
+        $report3 = $this->getMonthReport($dates[2][0], $dates[2][1], $clientId, $clasification);
 
         $result = [
             $dates[0][0] => $report1,
@@ -346,22 +330,31 @@ class ReportGenerator
         return $result;
     }
 
-    private function getFilterByMediaQuery($query, $filterByMedia)
+    private function getExtraQuery($query, $mediaType, $clasification)
     {
-        if ($filterByMedia == self::PRINTED || $filterByMedia == self::DIGITAL) {
+        if ($mediaType == self::PRINTED || $mediaType == self::DIGITAL) {
             $query->where(function($q)
             {
                 $q->where('nd.type', '=', 1)
                     ->orWhere('nd.type', '=', 2);
             });
-        } else if ($filterByMedia == self::RADIO) {
+        } else if ($mediaType == self::RADIO) {
             $query->where('nd.type', '=', 3);
-        } else if ($filterByMedia == self::TV) {
+        } else if ($mediaType == self::TV) {
             $query->where('nd.type', '=', 4);
-        } else if ($filterByMedia == self::SOURCE) {
+        } else if ($mediaType == self::SOURCE) {
             $query->where('nd.type', '=', 5);
-        } else if ($filterByMedia == false) {
+        } else if ($mediaType == false) {
             $query->where('nd.type', '<>', 5);
+        }
+
+        if ($clasification == 'A') {
+            $query->where('n.clasification', '=', 'A');
+        } else if ($clasification == 'B') {
+            $query->where(function($q) {
+                $q->where('n.clasification', '=', 'B');
+                // $q->orWhere('n.clasification', '=', 'C');
+            });
         }
 
         return $query;
