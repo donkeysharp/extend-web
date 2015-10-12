@@ -20,6 +20,7 @@ module.exports = {
   Report5: Report5,
   Report6: Report6,
   Report7: Report7,
+  Report8: Report3,
   GeneralReportA: GeneralReportA,
   GeneralReportB: GeneralReportB,
   GeneralReportC: GeneralReportC,

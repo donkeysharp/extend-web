@@ -26,20 +26,21 @@ class ReportController extends BaseController
         $result['press']['Report3'] = $reportGenerator->report3($from, $to, $client->id, ReportGenerator::PRESS);
         $result['press']['Report4'] = $reportGenerator->report4($from, $to, $client->id, ReportGenerator::PRESS);
         $result['press']['Report5'] = $reportGenerator->report5($from, $to, $client->id, ReportGenerator::PRESS);
+        $result['press']['Report8'] = $result['press']['Report3'];
         $result['press']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::PRESS);
         $result['press']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::PRESS);
 
         $result['radio']['Report1'] = $reportGenerator->report1($from, $to, $client->id, ReportGenerator::RADIO);
         $result['radio']['Report2'] = $reportGenerator->report2($from, $to, $client->id, ReportGenerator::RADIO);
         $result['radio']['Report3'] = $reportGenerator->report3($from, $to, $client->id, ReportGenerator::RADIO);
-        $result['radio']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::RADIO);
         $result['radio']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::RADIO);
+        $result['radio']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::RADIO);
 
         $result['tv']['Report1'] = $reportGenerator->report1($from, $to, $client->id, ReportGenerator::TV);
         $result['tv']['Report2'] = $reportGenerator->report2($from, $to, $client->id, ReportGenerator::TV);
         $result['tv']['Report3'] = $reportGenerator->report3($from, $to, $client->id, ReportGenerator::TV);
-        $result['tv']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::TV);
         $result['tv']['Report7'] = $reportGenerator->report7($from, $to, $client->id, ReportGenerator::TV);
+        $result['tv']['Report6'] = $reportGenerator->report6($from, $to, $client->id, ReportGenerator::TV);
 
         $result['general']['GeneralReportA'] = $reportGenerator->generalReportA(
                                                             $result['press']['Report1'],
@@ -60,6 +61,7 @@ class ReportController extends BaseController
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $imageCounter = 0;
+        $filenames = [];
         foreach ($data as $key => $value) {
             $table = $value['table'];
             $image = $value['image'];
@@ -80,21 +82,20 @@ class ReportController extends BaseController
             $filename = public_path() . '/image' . $imageCounter . '.png';
             $this->saveBase64Image($image, $filename);
             $section->addImage($filename);
+            $filenames[] = $filename;
             if ($image2) {
                 $filename = public_path() . '/image' . $imageCounter . '.1.png';
                 $this->saveBase64Image($image2, $filename);
                 $section->addImage($filename);
+                $filenames[] = $filename;
             }
             $imageCounter++;
         }
         $phpWord->save(public_path() . '/reporte.docx');
 
-        $imageCounter--;
-        for ($i = $imageCounter; $i >= 0; $i--) {
-            unlink(public_path() . '/image' . $i . '.png');
-            if ($i == 12 || $i == 17 || $i == 5) {
-                unlink(public_path() . '/image' . $i . '.1.png');
-            }
+        // Delete generated charts
+        for ($i = 0; $i < count($filenames); $i++) {
+            unlink($filenames[$i]);
         }
         return Response::json([
             'filename' => 'reporte.docx'

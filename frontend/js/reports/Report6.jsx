@@ -41,6 +41,12 @@ function getFormattedData(data) {
     }
     return 0;
   });
+  for (var i = 0; i < chartRes.length; ++i) {
+    var total = chartRes[i][1] + chartRes[i][2] + chartRes[i][3];
+    chartRes[i][1] = chartRes[i][1] > 0 ? (chartRes[i][1] * 100) / total : 0;
+    chartRes[i][2] = chartRes[i][2] > 0 ? (chartRes[i][2] * 100) / total : 0;
+    chartRes[i][3] = chartRes[i][3] > 0 ? (chartRes[i][3] * 100) / total : 0;
+  }
 
   if (chartRes.length > 5 && tableRes.length > 5) {
     chartRes.splice(5);

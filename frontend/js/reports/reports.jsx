@@ -109,7 +109,7 @@ function pushReport(data, result, title, type, month, year) {
       // }
       var Report = reportMap[key];
       var refKey = type + '_' + key;
-      temporal.push(<Report ref={refKey} data={data[key]} type={type} month={month} year={year} />);
+      temporal.push(<Report ref={refKey} data={data[key]} reportName={key} type={type} month={month} year={year} />);
     }
   }
 
@@ -213,10 +213,19 @@ var ReportView = React.createClass({
                     </select>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-3">
                   <div className="form-group">
                     <label>Año</label>
                     <input type="text" className="form-control" ref="year" />
+                  </div>
+                </div>
+                <div className="col-md-3">
+                  <div className="form-group">
+                    <label>Clasificación</label>
+                    <select ref="clasification" className="form-control">
+                      <option value="B">B</option>
+                      <option value="A">A</option>
+                    </select>
                   </div>
                 </div>
               </div>

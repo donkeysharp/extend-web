@@ -37,7 +37,11 @@ function drawChart(reportData) {
     [ 'Neutro', parseInt(reportData.neutral, 10) ],
   ]);
   var month = months[parseInt(this.props.month, 10)];
-  var title = 'Tendencia noticiosa ' + month + ' ' + this.props.year;
+  var title = 'Tendencia noticiosa ';
+  if (this.props.reportName === 'Report8') {
+    title = 'Tendencia de la fuente ';
+  }
+  title += month + ' ' + this.props.year;
   var options1 = {
     title: title,
     width: 600,
