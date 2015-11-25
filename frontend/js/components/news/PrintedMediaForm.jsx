@@ -56,6 +56,11 @@ function onTendencyChange(e) {
   e.currentTarget.checked = true;
 }
 
+function onSourceTendencyChange(e) {
+  this.setState({ sourceTendency: e.currentTarget.value });
+  e.currentTarget.checked = true;
+}
+
 function initControls() {
   if (!this.props.model) return;
 
@@ -71,13 +76,17 @@ function initControls() {
   this.refs.description.getDOMNode().value = this.props.model.description;
   this.refs.source.getDOMNode().value = this.props.model.source || '';
   this.refs.alias.getDOMNode().value = this.props.model.alias;
-  this.setState({tendency: this.props.model.tendency});
+  this.setState({
+    tendency: this.props.model.tendency,
+    sourceTendency: this.props.model.sourceTendency
+  });
 }
 
 var PrintedMediaForm = React.createClass({
   getInitialState: function () {
     return {
-      tendency: '1'
+      tendency: '1',
+      sourceTendency: '1'
     };
   },
   componentDidMount: function () {
@@ -103,6 +112,7 @@ var PrintedMediaForm = React.createClass({
     data.description = this.refs.description.getDOMNode().value;
     data.source = this.refs.source.getDOMNode().value || null;
     data.alias = this.refs.alias.getDOMNode().value || null;
+    data.sourceTendency = this.state.sourceTendency;
 
     return data;
   },
@@ -192,11 +202,25 @@ var PrintedMediaForm = React.createClass({
             </div>
           </div>
           <div className="row">
+            <div className="col-md-7">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-search"></i>
+                  </div>
+                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
             <div className="col-md-5">
+              <div className="form-group">
                 <select ref="source" className="form-control">
                   <option value="">--- Seleccione una fuente ---</option>
                   {sources}
                 </select>
+              </div>
             </div>
             <div className="col-md-1">
               <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displaySourceModal.bind(this)}>
@@ -205,12 +229,27 @@ var PrintedMediaForm = React.createClass({
             </div>
             <div className="col-md-6">
               <div className="form-group">
-                <div className="input-group">
-                  <div className="input-group-addon">
-                    <i className="fa fa-search"></i>
-                  </div>
-                  <input type="text" ref="alias" name="alias" className="form-control" placeholder="Alias" />
-                </div>
+                Tendencia de Fuente <br/>
+                <label>
+                  <input type="radio" name="tendency_printed_source" value="1"
+                    onChange={onSourceTendencyChange.bind(this)}
+                    checked={this.state.sourceTendency === '1'} />
+                  Positiva
+                </label>
+                &nbsp;&nbsp;
+                <label>
+                  <input type="radio" name="tendency_printed_source" value="2"
+                    onChange={onSourceTendencyChange.bind(this)}
+                    checked={this.state.sourceTendency === '2'} />
+                  Negativa
+                </label>
+                &nbsp;&nbsp;
+                <label>
+                  <input type="radio" name="tendency_printed_source" value="3"
+                    onChange={onSourceTendencyChange.bind(this)}
+                    checked={this.state.sourceTendency === '3'} />
+                  Neutra
+                </label>
               </div>
             </div>
           </div>

@@ -99,6 +99,7 @@ class InitialTables extends Migration {
 			$t->string('gender')->nullable();
 			$t->string('web')->nullable();
 			$t->string('source')->nullable();
+			$t->string('sourceTendency')->nullable();
 			$t->string('alias')->nullable();
 			$t->integer('measure')->nullable();
 			$t->integer('cost')->nullable();
