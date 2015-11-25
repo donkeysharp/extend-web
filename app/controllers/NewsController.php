@@ -17,7 +17,7 @@ class NewsController extends BaseController
                         $clientId = Input::get('client_id', false);
                         $client = Client::where('id', '=', $clientId)->get()->first();
                         $sheet->setAutoSize(false);
-                        $sheet->getStyle('A2:N2' . $sheet->getHighestRow())
+                        $sheet->getStyle('A2:R2' . $sheet->getHighestRow())
                                     ->getAlignment()->setWrapText(true);
                         $sheet->setHeight(2, 46);
                         $sheet->row(2, function($row) {
@@ -53,7 +53,8 @@ class NewsController extends BaseController
                         $sheet->row(2, [
                             'N°', 'FECHA', 'CLIENTE', 'OJO', 'MEDIO', 'TÍTULO ARTÍCULO',
                             'Pixeles/ CM. COL', 'Equivalencia Publicitaria en dólares',
-                            'TEMA', 'TENDENCIA', 'TIPO', 'SECCIÓN', 'PÁG', 'CÓDIGO'
+                            'TEMA', 'TENDENCIA', 'TIPO', 'SECCIÓN', 'PÁG', 'CÓDIGO',
+                            'FUENTE', 'TENDENCIA', 'ALIAS', 'GÉNERO'
                         ]);
                         $row = 3;
                         foreach ($news as $item) {
@@ -93,6 +94,14 @@ class NewsController extends BaseController
                             $data[] = $item->section;
                             $data[] = $item->page;
                             $data[] = $item->code;
+                            $data[] = $item->source;
+                            $tendency = '';
+                            if ($item->sourceTendency == '1') { $tendency = 'Positivo'; }
+                            else if($item->sourceTendency == '2') { $tendency = 'Negativo'; }
+                            else if($item->sourceTendency == '3') {$tendency = 'Neutro'; }
+                            $data[] = $tendency;
+                            $data[] = $item->alias;
+                            $data[] = $item->gender;
                             $sheet->row($row++, $data);
                         }
                     });
