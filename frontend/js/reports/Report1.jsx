@@ -59,9 +59,12 @@ function drawTable(data) {
   var table = this.refs.dataTable.getDOMNode(),
     tbody = table.getElementsByTagName('tbody')[0];
   var tpl = '';
+  var total = 0;
   for (var i = 0; i < data.length; ++i) {
     tpl += '<tr><td>' + data[i].name + '</td><td>' + data[i].news + '</td></tr>';
+    total += parseInt(data[i].news, 10);
   }
+  tpl += '<tr style="background:#eee"><td><b>Total</b></td><td>' + total + '</td></tr>';
   tbody.innerHTML = tpl;
 }
 

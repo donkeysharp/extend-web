@@ -43,11 +43,18 @@ function drawTable(data) {
     table = this.refs.dataTable.getDOMNode(),
     tbody = table.getElementsByTagName('tbody')[0],
     tpl = '';
-
+  var totalPositive = 0, totalNegative = 0, totalNeutral = 0;
   for (var i = 0; i < data.length; ++i) {
     tpl += '<tr><td>' + data[i].source + '</td><td>' + data[i].positive + '</td>';
     tpl += '<td>' + data[i].negative + '</td><td>' + data[i].neutral + '</td></tr>';
+    totalPositive += parseInt(data[i].positive, 10);
+    totalNegative += parseInt(data[i].negative, 10);
+    totalNeutral += parseInt(data[i].neutral, 10);
   }
+  tpl += '<tr style="background:#eee"><td><b>Total</b></td>';
+  tpl += '<td>' + totalPositive + '</td>';
+  tpl += '<td>' + totalNegative + '</td>';
+  tpl += '<td>' + totalNeutral + '</td></tr>';
   tbody.innerHTML = tpl;
 }
 

@@ -21,10 +21,18 @@ function drawTable(data) {
     tbody = table.getElementsByTagName('tbody')[0],
     tpl = '';
 
+  var totalPositive = 0, totalNegative = 0, totalNeutral = 0;
   for (var key in data) {
     tpl += '<tr><td>' + parseToDisplay(key) + '</td><td>' + data[key].positive + '</td>';
     tpl += '<td>' + data[key].negative + '</td><td>' + data[key].neutral + '</td></tr>';
+    totalPositive += parseInt(data[key].positive, 10);
+    totalNegative += parseInt(data[key].negative, 10);
+    totalNeutral += parseInt(data[key].neutral, 10);
   }
+  tpl += '<tr style="background:#eee"><td><b>Total</b></td>';
+  tpl += '<td>' + totalPositive + '</td>';
+  tpl += '<td>' + totalNegative + '</td>';
+  tpl += '<td>' + totalNeutral + '</td></tr>';
   tbody.innerHTML = tpl;
 }
 

@@ -127,7 +127,7 @@ var Report3 = React.createClass({
                 <th>Cliente</th>
                 <th>Positivo</th>
                 <th>Negativo</th>
-                <th>Neutros</th>
+                <th>Neutro</th>
               </thead>
               <tbody></tbody>
             </table>

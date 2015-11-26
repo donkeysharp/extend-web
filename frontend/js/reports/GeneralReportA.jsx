@@ -15,6 +15,7 @@ function drawTable(data) {
   tpl += '<tr><td>Prensa</td><td>' + data.press + '</td></tr>';
   tpl += '<tr><td>Radio</td><td>' + data.radio + '</td></tr>';
   tpl += '<tr><td>Televisión</td><td>' + data.tv + '</td></tr>';
+  tpl += '<tr style="background: #eee"><td><b>Total</b></td><td>' + (data.press + data.radio + data.tv) + '</td></tr>';
   tbody.innerHTML = tpl;
 }
 
