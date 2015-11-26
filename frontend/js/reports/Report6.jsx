@@ -2,6 +2,15 @@
 var React = window.React;
 var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
+function getTitle(type, month, year) {
+  var title = 'Tendencia '
+  if (type === 'press') {
+    title += 'porcentual ';
+  }
+  title += 'por medio ' + month + ' ' + year;
+
+  return title;
+}
 
 function getFormattedData(data) {
   var chartRes = [], tableRes = [];
@@ -96,7 +105,8 @@ function drawChart(reportData) {
   data.addRows(reportData);
 
   var month = months[parseInt(this.props.month, 10)];
-  var title = 'Tendencia porcentual por medio ' + month + ' ' + this.props.year;
+  // var title = 'Tendencia porcentual por medio ' + month + ' ' + this.props.year;
+  var title = getTitle(this.props.type, month, this.props.year);
   var options = {
     title: title,
     width:600,
