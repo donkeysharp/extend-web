@@ -204,7 +204,7 @@ class ReportGenerator
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
-            ->select(DB::raw('nd.source, count(nd.tendency) as positive'))
+            ->select(DB::raw('nd.source, nd.alias, count(nd.tendency) as positive'))
             ->get();
 
         $q2 = DB::table('news_details as nd')
@@ -216,7 +216,7 @@ class ReportGenerator
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
-            ->select(DB::raw('nd.source, count(nd.tendency) as negative'))
+            ->select(DB::raw('nd.source, nd.alias, count(nd.tendency) as negative'))
             ->get();
 
         $q3 = DB::table('news_details as nd')
@@ -228,13 +228,14 @@ class ReportGenerator
             ->where('n.date', '>=', $from)
             ->where('n.date', '<=', $to)
             ->groupBy('nd.source')
-            ->select(DB::raw('nd.source, count(nd.tendency) as neutral'))
+            ->select(DB::raw('nd.source, nd.alias, count(nd.tendency) as neutral'))
             ->get();
 
         $result = [];
         foreach($positiveNews as $news) {
             if (!isset($result[$news->source])) {
                 $result[$news->source] = [];
+                $result[$news->source]['alias'] = $news->alias?: 'meg1';
                 $result[$news->source]['positive'] = $news->positive;
                 $result[$news->source]['negative'] = '0';
                 $result[$news->source]['neutral'] = '0';
@@ -245,6 +246,7 @@ class ReportGenerator
         foreach($negativeNews as $news) {
             if (!isset($result[$news->source])) {
                 $result[$news->source] = [];
+                $result[$news->source]['alias'] = $news->alias?: 'meg2';
                 $result[$news->source]['positive'] = '0';
                 $result[$news->source]['negative'] = $news->negative;
                 $result[$news->source]['neutral'] = '0';
@@ -255,6 +257,7 @@ class ReportGenerator
         foreach($neutralNews as $news) {
             if (!isset($result[$news->source])) {
                 $result[$news->source] = [];
+                $result[$news->source]['alias'] = $news->alias?: 'meg3';
                 $result[$news->source]['positive'] = '0';
                 $result[$news->source]['negative'] = '0';
                 $result[$news->source]['neutral'] = $news->neutral;
