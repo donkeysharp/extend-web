@@ -69,6 +69,13 @@ function drawChart(reportData) {
     width:600,
     height:400,
     is3D: true,
+    pieSliceText: 'none',
+    legend: {
+      position: 'labeled',
+      textStyle: {
+        fontSize: 9
+      }
+    },
     pieSliceTextStyle: {
       fontSize: 10
     },
