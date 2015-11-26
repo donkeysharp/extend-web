@@ -111,7 +111,17 @@ function drawChart(reportData) {
     title: title,
     width:600,
     height:400,
-    legend: { position: 'top', maxLines: 3 },
+    legend: {
+      position: 'top',
+      maxLines: 3,
+    },
+    hAxis: {
+      textStyle: {
+        fontSize: 10
+      },
+      slantedText: false,
+      showTextEvery: 1
+    },
     bar: { groupWidth: '75%' },
     isStacked: true,
   };
