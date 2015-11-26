@@ -11,12 +11,16 @@ function getFormattedData(data) {
   var chartRes = [], tableRes = [];
   for (var key in data) {
     var label = getDateLabel(key);
+    var positive = parseInt(data[key].positive, 10),
+      negative = parseInt(data[key].negative, 10),
+      neutral = parseInt(data[key].neutral, 10);
+    var total = positive + negative + neutral;
 
     chartRes.push([
       label,
-      parseInt(data[key].positive, 10),
-      parseInt(data[key].negative, 10),
-      parseInt(data[key].neutral, 10),
+      positive > 0 ? (positive * 100.0) / total : 0,
+      negative > 0 ? (negative * 100.0) / total : 0,
+      neutral > 0 ? (neutral * 100.0) / total : 0,
     ]);
     tableRes.push({
       date: label,

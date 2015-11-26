@@ -42,10 +42,40 @@ function drawChart(reportData) {
   data.addColumn('number', 'Positivo');
   data.addColumn('number', 'Negativo');
   data.addColumn('number', 'Neutro');
+  var pressPositive = parseInt(reportData.press.positive, 10);
+  var pressNegative = parseInt(reportData.press.negative, 10);
+  var pressNeutral = parseInt(reportData.press.neutral, 10);
+  var pressTotal = pressPositive + pressNegative + pressNeutral;
+
+  var radioPositive = parseInt(reportData.radio.positive, 10);
+  var radioNegative = parseInt(reportData.radio.negative, 10);
+  var radioNeutral = parseInt(reportData.radio.neutral, 10);
+  var radioTotal = radioPositive + radioNegative + radioNeutral;
+
+  var tvPositive = parseInt(reportData.tv.positive, 10);
+  var tvNegative = parseInt(reportData.tv.negative, 10);
+  var tvNeutral = parseInt(reportData.tv.neutral, 10);
+  var tvTotal = tvPositive + tvNegative + tvNeutral;
+
   data.addRows([
-    ['Prensa', parseInt(reportData.press.positive, 10), parseInt(reportData.press.negative, 10), parseInt(reportData.press.neutral, 10)],
-    ['Radio', parseInt(reportData.radio.positive, 10), parseInt(reportData.radio.negative, 10), parseInt(reportData.radio.neutral, 10)],
-    ['Televisión', parseInt(reportData.tv.positive, 10), parseInt(reportData.tv.negative, 10), parseInt(reportData.tv.neutral, 10)],
+    [
+      'Prensa',
+      pressPositive > 0 ? (pressPositive * 100.0) / pressTotal : 0,
+      pressNegative > 0 ? (pressNegative * 100.0) / pressTotal : 0,
+      pressNeutral > 0 ? (pressNeutral * 100.0) / pressTotal : 0,
+    ],
+    [
+      'Radio',
+      radioPositive > 0 ? (radioPositive * 100.0) / radioTotal : 0,
+      radioNegative > 0 ? (radioNegative * 100.0) / radioTotal : 0,
+      radioNeutral > 0 ? (radioNeutral * 100.0) / radioTotal : 0,
+    ],
+    [
+      'Televisión',
+      tvPositive > 0 ? (tvPositive * 100.0) / tvTotal : 0,
+      tvNegative > 0 ? (tvNegative * 100.0) / tvTotal : 0,
+      tvNeutral > 0 ? (tvNeutral * 100.0) / tvTotal : 0,
+    ],
   ]);
 
   var month = months[parseInt(this.props.month, 10)];
