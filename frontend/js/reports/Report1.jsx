@@ -30,17 +30,22 @@ function getFormattedData(array) {
     return 0;
   });
 
-  var chartRes = [], tableRes = [], i, othersTotal = 0;
+  var chartRes = [], tableRes = [], i;
+  // var othersTotal = 0;
   for (i = 0; i < array.length; ++i) {
     if (parseInt(array[i].news, 10) >= 2) {
       chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
-    } else {
-      othersTotal++;
     }
+    // else { othersTotal += parseInt(array[i].news, 10); }
   }
-  chartRes.push(['Otros', othersTotal]);
-  tableRes.push({name: 'Otros', news: othersTotal});
+  // chartRes.push(['Otros', othersTotal]);
+  // tableRes.push({name: 'Otros', news: othersTotal});
+
+  if (chartRes.length > 10 && tableRes.length > 10) {
+    chartRes.splice(10);
+    tableRes.splice(10);
+  }
 
   return {
     chartRes: chartRes,
