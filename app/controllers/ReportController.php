@@ -27,7 +27,8 @@ class ReportController extends BaseController
         $result['press']['Report3'] = $reportGenerator->report3($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
         $result['press']['Report4'] = $reportGenerator->report4($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
         $result['press']['Report5'] = $reportGenerator->report5($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
-        $result['press']['Report8'] = $result['press']['Report3'];
+        // $result['press']['Report8'] = $result['press']['Report3'];
+        $result['press']['Report8'] = $reportGenerator->report8($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
         $result['press']['Report6'] = $reportGenerator->report6($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
         $result['press']['Report7'] = $reportGenerator->report7($from, $to, $clientId, $clasification, ReportGenerator::PRESS);
 

@@ -235,7 +235,7 @@ class ReportGenerator
         foreach($positiveNews as $news) {
             if (!isset($result[$news->source])) {
                 $result[$news->source] = [];
-                $result[$news->source]['alias'] = $news->alias?: 'meg1';
+                $result[$news->source]['alias'] = $news->alias?: '';
                 $result[$news->source]['positive'] = $news->positive;
                 $result[$news->source]['negative'] = '0';
                 $result[$news->source]['neutral'] = '0';
@@ -246,7 +246,7 @@ class ReportGenerator
         foreach($negativeNews as $news) {
             if (!isset($result[$news->source])) {
                 $result[$news->source] = [];
-                $result[$news->source]['alias'] = $news->alias?: 'meg2';
+                $result[$news->source]['alias'] = $news->alias?: '';
                 $result[$news->source]['positive'] = '0';
                 $result[$news->source]['negative'] = $news->negative;
                 $result[$news->source]['neutral'] = '0';
@@ -257,7 +257,7 @@ class ReportGenerator
         foreach($neutralNews as $news) {
             if (!isset($result[$news->source])) {
                 $result[$news->source] = [];
-                $result[$news->source]['alias'] = $news->alias?: 'meg3';
+                $result[$news->source]['alias'] = $news->alias?: '';
                 $result[$news->source]['positive'] = '0';
                 $result[$news->source]['negative'] = '0';
                 $result[$news->source]['neutral'] = $news->neutral;
@@ -267,6 +267,48 @@ class ReportGenerator
         }
 
         return $result;
+    }
+
+    public function report8($from, $to, $clientId, $clasification, $filterByMedia)
+    {
+        $q1 = DB::table('news_details as nd')
+            ->join('news as n', 'n.id', '=', 'nd.news_id')
+            ->where('n.client_id', '=', $clientId);
+        $q1 = $this->getExtraQuery($q1, $filterByMedia, $clasification);
+        $positiveNews = $q1->where('nd.sourceTendency', '=', 1)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
+            ->select(DB::raw('count(nd.id) as positive'))
+            ->first();
+
+        $q2 = DB::table('news_details as nd')
+            ->join('news as n', 'n.id', '=', 'nd.news_id')
+            ->where('n.client_id', '=', $clientId);
+        $q2 = $this->getExtraQuery($q2, $filterByMedia, $clasification);
+        $negativeNews = $q2->where('nd.sourceTendency', '=', 2)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
+            ->select(DB::raw('count(nd.id) as negative'))
+            ->first();
+
+        $q3 = DB::table('news_details as nd')
+            ->join('news as n', 'n.id', '=', 'nd.news_id')
+            ->where('n.client_id', '=', $clientId);
+        $q3 = $this->getExtraQuery($q3, $filterByMedia, $clasification);
+        $neutralNews = $q3->where('nd.sourceTendency', '=', 3)
+            ->where('n.date', '>=', $from)
+            ->where('n.date', '<=', $to)
+            ->select(DB::raw('count(nd.id) as neutral'))
+            ->first();
+
+        $client = Client::findOrFail($clientId);
+
+        return [
+            'client' => $client->name,
+            'positive' => $positiveNews->positive,
+            'negative' => $negativeNews->negative,
+            'neutral' => $neutralNews->neutral,
+        ];
     }
 
     public function generalReportA($pressReport1, $radioReport1, $tvReport1)
