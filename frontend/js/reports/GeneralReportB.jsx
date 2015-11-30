@@ -23,16 +23,27 @@ function drawTable(data) {
 
   var totalPositive = 0, totalNegative = 0, totalNeutral = 0;
   for (var key in data) {
-    tpl += '<tr><td>' + parseToDisplay(key) + '</td><td>' + data[key].positive + '</td>';
-    tpl += '<td>' + data[key].negative + '</td><td>' + data[key].neutral + '</td></tr>';
     totalPositive += parseInt(data[key].positive, 10);
     totalNegative += parseInt(data[key].negative, 10);
     totalNeutral += parseInt(data[key].neutral, 10);
   }
-  tpl += '<tr style="background:#eee"><td><b>Total</b></td>';
+
+  tpl += '<tr>';
+  tpl += '<td>Positivo</td><td>' + data.press.positive + '</td>';
+  tpl += '<td>' + data.radio.positive + '</td><td>' + data.tv.positive + '</td>';
   tpl += '<td>' + totalPositive + '</td>';
+  tpl += '</tr>';
+  tpl += '<tr>';
+  tpl += '<td>Negativo</td><td>' + data.press.negative + '</td>';
+  tpl += '<td>' + data.radio.negative + '</td><td>' + data.tv.negative + '</td>';
   tpl += '<td>' + totalNegative + '</td>';
-  tpl += '<td>' + totalNeutral + '</td></tr>';
+  tpl += '</tr>';
+  tpl += '<tr>';
+  tpl += '<td>Neutro</td><td>' + data.press.neutral + '</td>';
+  tpl += '<td>' + data.radio.neutral + '</td><td>' + data.tv.neutral + '</td>';
+  tpl += '<td>' + totalNeutral + '</td>';
+  tpl += '</tr>';
+
   tbody.innerHTML = tpl;
 }
 
@@ -155,9 +166,10 @@ var GeneralReportB = React.createClass({
             <table ref="dataTable" className="table table-bordered">
               <thead>
                 <th>Tipo de Medio</th>
-                <th>Positivo</th>
-                <th>Negativo</th>
-                <th>Neutro</th>
+                <th>Prensa</th>
+                <th>Radio</th>
+                <th>Televisión</th>
+                <th>Total</th>
               </thead>
               <tbody></tbody>
             </table>
