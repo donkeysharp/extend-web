@@ -57,6 +57,11 @@ function drawChart(reportData) {
   var tvNeutral = parseInt(reportData.tv.neutral, 10);
   var tvTotal = tvPositive + tvNegative + tvNeutral;
 
+  var totalPositive = pressPositive + radioPositive + tvPositive;
+  var totalNegative = pressNegative + radioNegative + tvNegative;
+  var totalNeutral = pressNeutral + radioNeutral + tvNeutral;
+  var total = totalPositive + totalNegative + totalNeutral;
+
   data.addRows([
     [
       'Prensa',
@@ -76,6 +81,12 @@ function drawChart(reportData) {
       tvNegative > 0 ? (tvNegative * 100.0) / tvTotal : 0,
       tvNeutral > 0 ? (tvNeutral * 100.0) / tvTotal : 0,
     ],
+    [
+      'Total',
+      totalPositive > 0 ? (totalPositive * 100.0) / total : 0,
+      totalNegative > 0 ? (totalNegative * 100.0) / total : 0,
+      totalNeutral  > 0 ? (totalNeutral * 100.0) / total : 0,
+    ]
   ]);
 
   var month = months[parseInt(this.props.month, 10)];
