@@ -21,30 +21,31 @@ function getTitle(type, month, year) {
   return title + month + ' ' + year;
 }
 
-function getFormattedData(array) {
+function getFormattedData(array, mediaType) {
   array.sort(function(a, b) {
-    a = parseInt(a.news, 10);
-    b = parseInt(b.news, 10);
-    if (a < b) { return 1; }
-    if (a > b) { return -1; }
-    return 0;
+    var newsA = parseInt(a.news, 10);
+    var newsB = parseInt(b.news, 10);
+    if (newsA < newsB) { return 1; }
+    if (newsA > newsB) { return -1; }
+
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
   });
 
   var chartRes = [], tableRes = [], i;
-  // var othersTotal = 0;
+  var othersTotal = 0;
   for (i = 0; i < array.length; ++i) {
-    if (parseInt(array[i].news, 10) >= 2) {
+    if (mediaType !== 'press') {
+      chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
+      tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
+    } else if (parseInt(array[i].news, 10) >= 2 && i < 10) {
       chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     }
-    // else { othersTotal += parseInt(array[i].news, 10); }
+    else { othersTotal += parseInt(array[i].news, 10); }
   }
-  // chartRes.push(['Otros', othersTotal]);
-  // tableRes.push({name: 'Otros', news: othersTotal});
-
-  if (chartRes.length > 10 && tableRes.length > 10) {
-    chartRes.splice(10);
-    tableRes.splice(10);
+  if (mediaType === 'press') {
+    chartRes.push(['Otros', othersTotal]);
+    tableRes.push({name: 'Otros', news: othersTotal});
   }
 
   return {
@@ -54,7 +55,7 @@ function getFormattedData(array) {
 }
 
 function generateReport() {
-  var reportData = getFormattedData(this.props.data)
+  var reportData = getFormattedData(this.props.data, this.props.type);
 
   drawChart.call(this, reportData.chartRes);
   drawTable.call(this, reportData.tableRes);

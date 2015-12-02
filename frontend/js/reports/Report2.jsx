@@ -12,23 +12,23 @@ function getFormattedData(array) {
   });
 
   var chartRes = [], tableRes = [], i;
-  if (array.length > 5) {
-    for (i = 0; i < 5; ++i) {
-      chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
-      tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
-    }
-    var othersTotal = 0;
-    for (i = 5 ; i < array.length; ++i) {
-      othersTotal += parseInt(array[i].news, 10);
-    }
-    chartRes.push(['Otros', othersTotal]);
-    tableRes.push({name: 'Otros', news: othersTotal});
-  } else {
+  // if (array.length > 5) {
+  //   for (i = 0; i < 5; ++i) {
+  //     chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
+  //     tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
+  //   }
+  //   var othersTotal = 0;
+  //   for (i = 5 ; i < array.length; ++i) {
+  //     othersTotal += parseInt(array[i].news, 10);
+  //   }
+  //   chartRes.push(['Otros', othersTotal]);
+  //   tableRes.push({name: 'Otros', news: othersTotal});
+  // } else {
     for (i = 0; i < array.length; ++i) {
       chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     }
-  }
+  // }
 
   return {
     chartRes: chartRes,
