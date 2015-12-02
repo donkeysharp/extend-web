@@ -36,6 +36,14 @@ function getFormattedData(data) {
     });
   }
 
+  chartRes.sort(function(item1, item2) {
+    return item1[0].localeCompare(item2[0]);
+  });
+
+  tableRes.sort(function(item1, item2) {
+    return item1.alias.localeCompare(item2.alias);
+  });
+
   return {
     chartRes: chartRes,
     tableRes: tableRes
