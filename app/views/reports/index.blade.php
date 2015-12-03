@@ -7,6 +7,7 @@
 @section('scripts')
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script src="{{asset('assets/vendors/js/react.js')}}"></script>
+<script src="{{asset('assets/vendors/js/md5.js')}}"></script>
 <script src="{{asset('assets/js/build.min.js')}}"></script>
 <script type="text/javascript">
   // Load the Visualization API and the piechart package.

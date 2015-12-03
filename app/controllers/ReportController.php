@@ -57,9 +57,39 @@ class ReportController extends BaseController
         return $result;
     }
 
+    // public function checkReport()
+    // {
+    //     $md5 = Input::get('md5', '');
+    //     $cacheRecord = DB::table('report_cache')
+    //         ->where('md5', '=', $md5)
+    //         ->get(['md5']);
+
+    //     if ($cacheRecord) {
+    //         return Response::json([
+    //             'reportExist' => true
+    //         ]);
+    //     }
+    //     return Response::json([
+    //         'reportExist' => false
+    //     ]);
+    // }
+
     public function exportReport()
     {
         $data = Input::all();
+        // if (isset($data['md5'])) {
+        //     $data = DB::table('report_cache')
+        //         ->where('md5', '=', $data['md5'])
+        //         ->get()[0];
+        //     $data = json_decode($data->data, true);
+        //     unset($data['checksum']);
+        // } else {
+        //     DB::table('report_cache')->insert([
+        //         'md5' => $data['checksum'],
+        //         'data' => json_encode($data)
+        //     ]);
+        //     unset($data['checksum']);
+        // }
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
         $imageCounter = 0;
@@ -73,7 +103,10 @@ class ReportController extends BaseController
                 \PhpOffice\PhpWord\Shared\Html::addHtml($section, "<h1>$subtitle</h1>");
             }
 
-            $wordTable = $section->addTable();
+            $tableStyle = new \PhpOffice\PhpWord\Style\Table();
+            $tableStyle->setBorderSize(1);
+
+            $wordTable = $section->addTable($tableStyle);
             for ($i = 0; $i < count($table); ++$i) {
                 $wordTable->addRow();
                 for ($j = 0; $j < count($table[$i]); ++$j) {

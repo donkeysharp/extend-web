@@ -76,6 +76,23 @@ function exportData2() {
       }
     }
   }
+
+  // var dataHashSum = CryptoJS.MD5(JSON.stringify(data)).toString();
+
+  // $http.get('/reports/export/check', { md5: dataHashSum }).then(function(res) {
+  //   if (res.reportExist) {
+  //     data = { md5: dataHashSum };
+  //   } else {
+  //     data.checksum = dataHashSum;
+  //   }
+
+  //   $http.post('/reports/export', data).then(function(res) {
+  //     refs.exportButton.getDOMNode().removeAttribute('disabled');
+  //     refs.exportSpinner.getDOMNode().setAttribute('class', 'fa fa-print');
+  //     window.location = '/' + res.filename;
+  //   });
+  // });
+
   $http.post('/reports/export', data).then(function(res) {
     refs.exportButton.getDOMNode().removeAttribute('disabled');
     refs.exportSpinner.getDOMNode().setAttribute('class', 'fa fa-print');

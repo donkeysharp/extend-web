@@ -72,7 +72,7 @@ function drawTable(data) {
     totalNegative += parseInt(data[i].negative, 10);
     totalNeutral += parseInt(data[i].neutral, 10);
   }
-  tpl += '<tr style="background:#eee"><td><b>Total</b></td><td></td>';
+  tpl += '<tr style="background:#eee;font-weight:bolder;"><td>Total</td><td></td>';
   tpl += '<td>' + totalPositive + '</td>';
   tpl += '<td>' + totalNegative + '</td>';
   tpl += '<td>' + totalNeutral + '</td></tr>';

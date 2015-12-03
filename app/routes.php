@@ -103,6 +103,7 @@ Route::group(['before' => 'auth'], function() {
     Route::get('dashboard/reports', ['uses' => 'ReportController@index']);
     Route::get('/reports', ['uses' => 'ReportController@getReport']);
     Route::post('/reports/export', ['uses' => 'ReportController@exportReport']);
+    // Route::get('/reports/export/check', ['uses' => 'ReportController@checkReport']);
 });
 
 Route::group(['before' => 'auth'], function() {

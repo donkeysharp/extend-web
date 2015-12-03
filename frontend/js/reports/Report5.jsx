@@ -53,7 +53,7 @@ function drawTable(data) {
     tpl += '<tr><td>' + data[i].source + '</td><td>' + data[i].news + '</td></tr>';
     total += parseInt(data[i].news, 10);
   }
-  tpl += '<tr style="background:#eee"><td><b>Total</b></td><td>' + total + '</td></tr>';
+  tpl += '<tr style="background:#eee;font-weight:bolder;"><td>Total</td><td>' + total + '</td></tr>';
   tbody.innerHTML = tpl;
 }
 
