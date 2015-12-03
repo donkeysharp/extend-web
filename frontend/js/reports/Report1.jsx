@@ -1,6 +1,7 @@
 'use strict';
 var React = window.React;
 var $http = require('../http');
+var labelify = require('../helpers').labelify;
 
 var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 function getTitle(type, month, year) {
@@ -35,10 +36,10 @@ function getFormattedData(array, mediaType) {
   var othersTotal = 0;
   for (i = 0; i < array.length; ++i) {
     if (mediaType !== 'press') {
-      chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
+      chartRes.push([labelify(array[i].name, 14), parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     } else if (parseInt(array[i].news, 10) >= 2 && i < 10) {
-      chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
+      chartRes.push([labelify(array[i].name, 14), parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     }
     else { othersTotal += parseInt(array[i].news, 10); }
@@ -82,18 +83,20 @@ function drawChart(reportData) {
 
   var options = {
     title: getTitle(this.props.type, this.props.month, this.props.year),
-    width:600,
+    width:700,
     height:400,
     is3D: true,
     pieSliceText: 'none',
+    pieStartAngle: 90,
     legend: {
       position: 'labeled',
+      maxLines: 20,
       textStyle: {
         fontSize: 9
       }
     },
     pieSliceTextStyle: {
-      fontSize: 10
+      fontSize: 1
     },
     // sliceVisibilityThreshold: 0.05,
     // pieResidueSliceLabel: 'Otros'

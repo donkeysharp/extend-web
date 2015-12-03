@@ -1,5 +1,6 @@
 'use strict';
 var React = window.React;
+var labelify = require('../helpers').labelify;
 var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
 
@@ -24,9 +25,9 @@ function drawChart(reportData) {
   data.addColumn('string', 'Tipo de Medio');
   data.addColumn('number', 'Noticias');
   data.addRows([
-    ['Prensa', reportData.press],
-    ['Radio', reportData.radio],
-    ['Televisión', reportData.tv]
+    [labelify('Prensa', 6), reportData.press],
+    [labelify('Radio', 6), reportData.radio],
+    [labelify('Televisión', 6), reportData.tv]
   ]);
 
   var month = months[parseInt(this.props.month, 10)];
