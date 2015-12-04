@@ -45,7 +45,7 @@ function getFormattedData(array, mediaType) {
     else { othersTotal += parseInt(array[i].news, 10); }
   }
   if (mediaType === 'press') {
-    chartRes.push(['Otros', othersTotal]);
+    // chartRes.push(['Otros', othersTotal]);
     tableRes.push({name: 'Otros', news: othersTotal});
   }
 
@@ -87,7 +87,7 @@ function drawChart(reportData) {
     height:400,
     is3D: true,
     pieSliceText: 'none',
-    pieStartAngle: 90,
+    // pieStartAngle: 90,
     legend: {
       position: 'labeled',
       maxLines: 20,
