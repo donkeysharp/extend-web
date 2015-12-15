@@ -26,7 +26,8 @@ function getFormattedData(array) {
   //   tableRes.push({name: 'Otros', news: othersTotal});
   // } else {
     for (i = 0; i < array.length; ++i) {
-      chartRes.push([labelify(array[i].name, 9), parseInt(array[i].news, 10)]);
+      // chartRes.push([labelify(array[i].name, 9), parseInt(array[i].news, 10)]);
+      chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     }
   // }
@@ -70,17 +71,17 @@ function drawChart(reportData) {
     width:600,
     height:400,
     is3D: true,
-    pieSliceText: 'none',
+    pieSliceText: 'percentage',
     legend: {
       maxLines: reportData.length,
-      position: 'labeled',
+      // position: 'labeled',
       textStyle: {
-        fontName: 'monospace',
+        // fontName: 'monospace',
         fontSize: 9
       }
     },
     pieSliceTextStyle: {
-      fontSize: 10
+      fontSize: 8
     },
     // sliceVisibilityThreshold: 0.05,
     // pieResidueSliceLabel: 'Otros'

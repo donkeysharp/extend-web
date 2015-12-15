@@ -92,7 +92,8 @@ function drawChart(reportData) {
       position: 'labeled',
       maxLines: 20,
       textStyle: {
-        fontSize: 9
+        fontSize: 9,
+        fontName: 'monospace'
       }
     },
     pieSliceTextStyle: {
