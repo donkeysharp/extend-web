@@ -3,7 +3,7 @@ var React = window.React;
 var $http = require('../http');
 var labelify = require('../helpers').labelify;
 
-var months = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+var months = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 function getTitle(type, month, year) {
   if (typeof month !== 'number') {
     month = parseInt(month, 10);
