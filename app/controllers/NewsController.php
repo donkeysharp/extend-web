@@ -17,7 +17,7 @@ class NewsController extends BaseController
                         $clientId = Input::get('client_id', false);
                         $client = Client::where('id', '=', $clientId)->get()->first();
                         $sheet->setAutoSize(false);
-                        $sheet->getStyle('A2:R2' . $sheet->getHighestRow())
+                        $sheet->getStyle('A2:S2' . $sheet->getHighestRow())
                                     ->getAlignment()->setWrapText(true);
                         $sheet->setHeight(2, 46);
                         $sheet->row(2, function($row) {
@@ -50,11 +50,12 @@ class NewsController extends BaseController
                         $sheet->setWidth('L', 12.14);
                         $sheet->setWidth('M', 12.14);
                         $sheet->setWidth('N', 12.14);
+                        $sheet->setWidth('S', 12.14);
                         $sheet->row(2, [
                             'N°', 'FECHA', 'CLIENTE', 'OJO', 'MEDIO', 'TÍTULO ARTÍCULO',
                             'Pixeles/ CM. COL', 'Equivalencia Publicitaria en dólares',
                             'TEMA', 'TENDENCIA', 'TIPO', 'SECCIÓN', 'PÁG', 'CÓDIGO',
-                            'FUENTE', 'TENDENCIA', 'ALIAS', 'GÉNERO'
+                            'FUENTE', 'TENDENCIA', 'ALIAS', 'GÉNERO', 'SUBTÍTULO'
                         ]);
                         $row = 3;
                         foreach ($news as $item) {
@@ -102,6 +103,7 @@ class NewsController extends BaseController
                             $data[] = $tendency;
                             $data[] = $item->alias;
                             $data[] = $item->gender;
+                            $data[] = $item->subtitle;
                             $sheet->row($row++, $data);
                         }
                     });
