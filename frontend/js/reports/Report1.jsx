@@ -2,6 +2,7 @@
 var React = window.React;
 var $http = require('../http');
 var labelify = require('../helpers').labelify;
+var parseLabel = require('../helpers').parseLabel;
 
 var months = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 function getTitle(type, month, year) {
@@ -33,20 +34,30 @@ function getFormattedData(array, mediaType) {
   });
 
   var chartRes = [], tableRes = [], i;
-  var othersTotal = 0;
+  var othersTotal = 0, total = 0;
   for (i = 0; i < array.length; ++i) {
     if (mediaType !== 'press') {
-      chartRes.push([labelify(array[i].name, 14), parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     } else if (parseInt(array[i].news, 10) >= 2 && i < 10) {
-      chartRes.push([labelify(array[i].name, 14), parseInt(array[i].news, 10)]);
       tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
     }
     else { othersTotal += parseInt(array[i].news, 10); }
+    total += parseInt(array[i].news, 10);
   }
+  total -= othersTotal;
   if (mediaType === 'press') {
     // chartRes.push(['Otros', othersTotal]);
     tableRes.push({name: 'Otros', news: othersTotal});
+  }
+
+  for (i = 0; i < array.length; ++i) {
+    var value = parseInt(array[i].news, 10);
+    var label = parseLabel((value * 100.0) / total, array[i].name, 1);
+    if (mediaType !== 'press') {
+      chartRes.push([label, value]);
+    } else if (parseInt(array[i].news, 10) >= 2 && i < 10) {
+      chartRes.push([label, value]);
+    }
   }
 
   return {
@@ -86,18 +97,18 @@ function drawChart(reportData) {
     width:700,
     height:400,
     is3D: true,
-    pieSliceText: 'none',
+    pieSliceText: 'percentage',
     // pieStartAngle: 90,
     legend: {
-      position: 'labeled',
+      // position: 'labeled',
       maxLines: 20,
       textStyle: {
-        fontSize: 9,
-        fontName: 'monospace'
+        fontSize: 10,
+        // fontName: 'monospace'
       }
     },
     pieSliceTextStyle: {
-      fontSize: 1
+      fontSize: 8
     },
     // sliceVisibilityThreshold: 0.05,
     // pieResidueSliceLabel: 'Otros'

@@ -1,6 +1,7 @@
 'use strict';
 var React = window.React;
 var labelify = require('../helpers').labelify;
+var parseLabel = require('../helpers').parseLabel;
 var months = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
 function getFormattedData(array) {
@@ -13,24 +14,18 @@ function getFormattedData(array) {
   });
 
   var chartRes = [], tableRes = [], i;
-  // if (array.length > 5) {
-  //   for (i = 0; i < 5; ++i) {
-  //     chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
-  //     tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
-  //   }
-  //   var othersTotal = 0;
-  //   for (i = 5 ; i < array.length; ++i) {
-  //     othersTotal += parseInt(array[i].news, 10);
-  //   }
-  //   chartRes.push(['Otros', othersTotal]);
-  //   tableRes.push({name: 'Otros', news: othersTotal});
-  // } else {
-    for (i = 0; i < array.length; ++i) {
-      // chartRes.push([labelify(array[i].name, 9), parseInt(array[i].news, 10)]);
-      chartRes.push([array[i].name, parseInt(array[i].news, 10)]);
-      tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
-    }
-  // }
+  var total = 0;
+
+  for (i = 0; i < array.length; ++i) {
+    // chartRes.push([labelify(array[i].name, 9), parseInt(array[i].news, 10)]);
+    tableRes.push({name: array[i].name, news: parseInt(array[i].news, 10)});
+    total += parseInt(array[i].news, 10);
+  }
+  for (i = 0; i < array.length; ++i) {
+    var value = parseInt(array[i].news, 10);
+    var label = parseLabel((value * 100.0) / total, array[i].name, 1);
+    chartRes.push([label, value]);
+  }
 
   return {
     chartRes: chartRes,
@@ -77,7 +72,7 @@ function drawChart(reportData) {
       // position: 'labeled',
       textStyle: {
         // fontName: 'monospace',
-        fontSize: 9
+        fontSize: 10
       }
     },
     pieSliceTextStyle: {

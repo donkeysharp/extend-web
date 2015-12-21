@@ -1,6 +1,7 @@
 'use strict';
 var React = window.React;
 var labelify = require('../helpers').labelify;
+var parseLabel = require('../helpers').parseLabel;
 var months = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
 
@@ -22,12 +23,13 @@ function drawTable(data) {
 
 function drawChart(reportData) {
   var data = new google.visualization.DataTable();
+  var total = reportData.press + reportData.radio + reportData.tv;
   data.addColumn('string', 'Tipo de Medio');
   data.addColumn('number', 'Noticias');
   data.addRows([
-    [labelify('Prensa', 6), reportData.press],
-    [labelify('Radio', 6), reportData.radio],
-    [labelify('Televisión', 6), reportData.tv]
+    [parseLabel((reportData.press * 100.0) / total, 'Prensa', 1), reportData.press],
+    [parseLabel((reportData.radio * 100.0) / total, 'Radio', 1), reportData.radio],
+    [parseLabel((reportData.tv * 100.0) / total, 'Televisión', 1), reportData.tv]
   ]);
 
   var month = months[parseInt(this.props.month, 10)];
@@ -37,9 +39,9 @@ function drawChart(reportData) {
     width:600,
     height:400,
     is3D: true,
-    pieSliceText: 'none',
+    pieSliceText: 'percentage',
     legend: {
-      position: 'labeled'
+      // position: 'labeled'
     },
     pieSliceTextStyle: {
       fontSize: 10

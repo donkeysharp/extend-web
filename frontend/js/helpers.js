@@ -46,5 +46,15 @@ module.exports = {
     }
 
     return res;
+  },
+  parseLabel: function(percentage, text, decimals) {
+    if (!decimals) {
+      decimals = 1;
+    }
+    var result = '';
+    result += parseFloat(percentage).toFixed(decimals);
+    result += '% - ' + text;
+
+    return result;
   }
 };

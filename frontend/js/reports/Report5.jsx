@@ -1,6 +1,7 @@
 'use strict';
 var React = window.React;
 var labelify = require('../helpers').labelify;
+var parseLabel = require('../helpers').parseLabel;
 var months = ['', 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
 function getFormattedData(array) {
@@ -13,23 +14,42 @@ function getFormattedData(array) {
   });
 
   var chartRes = [], tableRes = [], i;
+  var total = 0;
   if (array.length > 5) {
     for (i = 0; i < 5; ++i) {
-      // chartRes.push([labelify(array[i].source, 10), parseInt(array[i].news, 10)]);
-      chartRes.push([array[i].source, parseInt(array[i].news, 10)]);
       tableRes.push({source: array[i].source, news: parseInt(array[i].news, 10)});
+      total += parseInt(array[i].news, 10);
     }
     var othersTotal = 0;
     for (i = 5 ; i < array.length; ++i) {
       othersTotal += parseInt(array[i].news, 10);
     }
-    chartRes.push(['Otros', othersTotal]);
+    total += othersTotal;
     tableRes.push({source: 'Otros', news: othersTotal});
   } else {
     for (i = 0; i < array.length; ++i) {
-      // chartRes.push([labelify(array[i].source, 10), parseInt(array[i].news, 10)]);
-      chartRes.push([array[i].source, parseInt(array[i].news, 10)]);
       tableRes.push({source: array[i].source, news: parseInt(array[i].news, 10)});
+      total += parseInt(array[i].news, 10);
+    }
+  }
+
+  if (array.length > 5) {
+    for (i = 0; i < 5; ++i) {
+      var value = parseInt(array[i].news, 10);
+      var label = parseLabel((value * 100.0) / total, array[i].source, 1);
+      chartRes.push([label, value]);
+    }
+    var othersTotal = 0;
+    for (i = 5 ; i < array.length; ++i) {
+      othersTotal += parseInt(array[i].news, 10);
+    }
+    var label = parseLabel((othersTotal * 100.0) / total, 'Otros', 1);
+    chartRes.push([label, othersTotal]);
+  } else {
+    for (i = 0; i < array.length; ++i) {
+      var value = parseInt(array[i].news, 10);
+      var label = parseLabel((value * 100.0) / total, array[i].source, 1);
+      chartRes.push([label, value]);
     }
   }
 
