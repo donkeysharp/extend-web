@@ -36,7 +36,7 @@
           <img  src="{{asset('uploads/' . $firstPicture->file_name)}}" style="width: 300px;height: 155px;margin: 5px;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;float:left;padding-right:10px;" align="left" height="155" width="300" padding="10">
         </a>
       @endif
-      {{{$item->description}}}
+      {{$item->description}}
       </p>
       @if($item->web)
         <a href="{{$item->web}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:14px">
