@@ -26,6 +26,11 @@
         </h2>
         <?php $displayed = true; ?>
       @endif
+      @if($item->extra_title)
+        <h3 class="null" style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 24px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;text-align: left;color: #404040 !important;">
+        {{$item->extra_title}}
+        </h3>
+      @endif
       <h2 class="null" style="margin: 0;padding: 0;display: block;font-family: Helvetica;font-size: 26px;font-style: normal;font-weight: bold;line-height: 125%;letter-spacing: -.75px;text-align: left;color: #404040 !important;">
       {{$item->title}}
       </h2>
@@ -38,6 +43,11 @@
       @endif
       {{$item->description}}
       </p>
+      @if($item->observations)
+      <p style="margin: 1em 0;padding: 0;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;color: #606060;font-family: Helvetica;font-size: 12px;line-height: 150%;text-align: left;">
+        {{$item->observations}}
+      </p>
+      @endif
       @if($item->web)
         <a href="{{$item->web}}" target="_blank" style="color:#0082a4;font-family:Helvetica;sans-serif;font-size:14px">
           <img style="width: 25px; height: 25px;" src="{{asset('assets/img/bulletin/url.png')}}" height="25" width="25" >
