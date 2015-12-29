@@ -384,6 +384,9 @@ class NewsController extends BaseController
                 $copiedDetail->news_id = $copiedObject->id;
                 $copiedDetail->topic_id = $detail->topic_id;
                 $copiedDetail->media_id = $detail->media_id;
+                $copiedObject->extra_title = $detail->extra_title;
+                $copiedObject->observations = $detail->observations;
+
                 $copiedDetail->save();
             }
 

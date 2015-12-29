@@ -75,6 +75,8 @@ function initControls() {
   this.refs.measure.getDOMNode().value = this.props.model.measure;
   this.refs.cost.getDOMNode().value = this.props.model.cost;
   this.refs.description.getDOMNode().value = this.props.model.description;
+  this.refs.extra_title.getDOMNode().value = this.props.model.extra_title;
+  this.refs.observations.getDOMNode().value = this.props.model.observations;
   this.setState({
     tendency: this.props.model.tendency,
     sourceTendency: this.props.model.sourceTendency
@@ -111,6 +113,8 @@ var RadioMediaForm = React.createClass({
     data.source = this.refs.source.getDOMNode().value || null;
     data.alias = this.refs.alias.getDOMNode().value || null;
     data.sourceTendency = this.state.sourceTendency;
+    data.extra_title = this.refs.extra_title.getDOMNode().value || null;
+    data.observations = this.refs.observations.getDOMNode().value || null;
 
     return data;
   },
@@ -179,6 +183,36 @@ var RadioMediaForm = React.createClass({
               <a className="btn btn-light btn-add" href="javascript:void(0)" onClick={displayModal.bind(this)}>
                 <i className="fa fa-plus"></i>
               </a>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-user"></i>
+                  </div>
+                  <input
+                    className="form-control" type="text"
+                    name="extra_title" ref="extra_title"
+                    placeholder="Título extra"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <div className="input-group">
+                  <div className="input-group-addon">
+                    <i className="fa fa-eye"></i>
+                  </div>
+                  <input
+                    className="form-control" type="text"
+                    name="observations" ref="observations"
+                    placeholder="Observaciones"
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <div className="row">
