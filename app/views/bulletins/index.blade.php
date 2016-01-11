@@ -11,7 +11,7 @@
             <th class="col-md-3">Fecha de Creación</th>
             <th class="col-md-4">Cliente</th>
             <th class="col-md-2"># de Noticias</th>
-            <th class="col-md-1"></th>
+            <th class="col-md-2"></th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
             <th class="col-md-1"></th>
@@ -30,10 +30,28 @@
               <td>
                 {{count($item->details)}}
               </td>
-              <td>
+              {{-- <td>
                 <a href="/public/bulletins/{{$item->id}}" class="btn btn-success" title="Ver Boletín" target="_blank">
                   <i class="fa fa-eye"></i>
                 </a>
+              </td> --}}
+              <td>
+                <div class="btn-group">
+                  <a href="/public/bulletins/{{$item->id}}" class="btn btn-success" title="Ver Boletín" target="_blank">
+                    <i class="fa fa-eye"></i>
+                  </a>
+                  <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Ver más acciones</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a href="/dashboard/bulletins/{{$item->id}}/order">
+                        Editar orden
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </td>
               <td>
                 <a href="javascript:void(0)" class="btn btn-light send" data-id="{{$item->id}}" title="Enviar Boletín">

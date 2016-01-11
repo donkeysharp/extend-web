@@ -4,7 +4,7 @@ class BulletinController extends BaseController
 {
     public function index()
     {
-        $limit = 10; $page = Input::get('page', 1);
+        $limit = 30; $page = Input::get('page', 1);
 
         $bulletins = Bulletin::orderBy('created_at', 'desc')
             ->with('client')
@@ -13,9 +13,51 @@ class BulletinController extends BaseController
             ->take($limit)
             ->get();
 
-        $paginator = Paginator::make($bulletins->all(), Client::count(), $limit);
+        $paginator = Paginator::make($bulletins->all(), Bulletin::count(), $limit);
         return View::make('bulletins.index')
             ->with('bulletins', $paginator);
+    }
+
+    public function newsOrder($id)
+    {
+        $bulletin = Bulletin::findOrFail($id);
+        // $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
+        $details = $bulletin->details()
+            ->with(['news' => function($q) {
+                $q->with('client');
+                $q->with('urls')->with('uploads');
+        },])->with('media')
+            ->orderBy('news_order')
+            ->get();
+
+        $clientId = $bulletin->client_id;
+        $client = Client::findOrFail($clientId);
+        $subtitles = $client->customSubtitles()->orderBy('custom_subtitles.id')->get();
+        if (count($subtitles) === 0) {
+            $subtitles = Subtitle::orderBy('id')->get();
+        }
+
+        return View::make('bulletins.order')
+            ->with('bulletinId', $bulletin->id)
+            ->with('date', Carbon\Carbon::now())
+            ->with('details', $details)
+            ->with('subtitles', $subtitles)
+            ->with('client', $client);
+    }
+
+    public function saveNewsOrder($id)
+    {
+
+        $bulletin = Bulletin::findOrFail($id);
+        $details = $bulletin->details()->get();
+
+        $inputDetails = Input::get('details', []);
+        $inputDetails = $this->parseDetails($inputDetails, $details);
+        $bulletin->details()->sync($inputDetails);
+
+        return Response::json([
+            'status' => 'ok'
+        ], 200);
     }
 
     public function sendToClients($id)
@@ -25,7 +67,9 @@ class BulletinController extends BaseController
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
-        }])->with('media')->get();
+        }])->with('media')
+            ->orderBy('news_order')
+            ->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
 
@@ -60,7 +104,9 @@ class BulletinController extends BaseController
         $details = $bulletin->details()->with(['news' => function($q) {
             $q->with('client');
             $q->with('urls')->with('uploads');
-        }])->with('media')->get();
+        }])->with('media')
+            ->orderBy('news_order')
+            ->get();
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
         $subtitles = $client->customSubtitles()->orderBy('custom_subtitles.id')->get();
@@ -97,10 +143,13 @@ class BulletinController extends BaseController
     {
         $bulletin = Bulletin::findOrFail($id);
         // $subtitles = DB::table('news_details')->distinct()->get(['subtitle']);
-        $details = $bulletin->details()->with(['news' => function($q) {
-            $q->with('client');
-            $q->with('urls')->with('uploads');
-        },])->with('media')->get();
+        $details = $bulletin->details()
+            ->with(['news' => function($q) {
+                $q->with('client');
+                $q->with('urls')->with('uploads');
+            },])->with('media')
+                ->orderBy('news_order', 'asc')
+                ->get();
 
         $clientId = $bulletin->client_id;
         $client = Client::findOrFail($clientId);
@@ -135,6 +184,7 @@ class BulletinController extends BaseController
                 ->with('error', 'Cliente no especificado.');
         }
 
+        $bulletin = null;
         DB::beginTransaction();
         try {
             $bulletin = new Bulletin();
@@ -151,7 +201,7 @@ class BulletinController extends BaseController
         }
         DB::commit();
 
-        return Redirect::to('dashboard/bulletins')
+        return Redirect::to('dashboard/bulletins/' . $bulletin->id . '/order')
             ->with('message', 'Boletín creado exitosamente');
     }
 
@@ -163,5 +213,22 @@ class BulletinController extends BaseController
         return Response::json([
             'status' => 'ok'
         ], 200);
+    }
+
+    private function parseDetails(array $inputDetails, $details)
+    {
+        $result = [];
+        foreach ($inputDetails as $inputDetail) {
+            foreach ($details as $detail) {
+                if ($inputDetail['news_id'] == $detail->id) {
+                    $result[$inputDetail['news_id']] = [
+                        'news_order' => $inputDetail['news_order']
+                    ];
+                    break;
+                }
+            }
+        }
+
+        return $result;
     }
 }
